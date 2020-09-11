@@ -1,4 +1,4 @@
-FROM node:13.12.0-alpine
+FROM node:13.12.0-alpine as development
 
 WORKDIR /frontend
 
@@ -12,5 +12,3 @@ RUN npm install react-scripts@3.4.3 -g --silent
 COPY . ./
 
 EXPOSE 3000
-
-CMD ["npm", "start"]
