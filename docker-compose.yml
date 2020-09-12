@@ -14,3 +14,26 @@ services:
     environment:  
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
+
+  backend:
+    build: 
+      context: ./backend
+    entrypoint: ["java","-jar","/app.jar"]
+    ports:
+      - "8080:8080"
+
+  postgres:
+    image: postgres
+    volumes:
+      - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/tmp
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
