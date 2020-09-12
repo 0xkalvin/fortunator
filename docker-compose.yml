@@ -4,6 +4,7 @@ services:
   frontend:
     build: 
       context: ./frontend
+      dockerfile: local.Dockerfile
       target: development
     entrypoint: npm start
     volumes:
