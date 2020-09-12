@@ -33,6 +33,7 @@ export default function UserRegister() {
                />
                <input
                    placeholder="Senha"
+                   type="password"
                    value={password}
                    onChange={e => { setPassword(e.target.value) }}
                />
