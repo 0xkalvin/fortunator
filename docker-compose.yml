@@ -18,7 +18,7 @@ services:
   backend:
     build: 
       context: ./backend
-    entrypoint: ["java","-jar","/app.jar"]
+    entrypoint: ["java","-jar","/usr/local/lib/*.jar"]
     ports:
       - "8080:8080"
 
