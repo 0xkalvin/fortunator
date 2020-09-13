@@ -3,8 +3,8 @@
 FRONTEND=fortunator-frontend
 BACKEND=fortunator-backend
 
-IS_BACKEND=$(git log --no-merges --name-only -p -2 origin/master | cut -d/ -f1 | grep back | head -1)
-IS_FRONTEND=$(git log --no-merges --name-only -p -2 origin/master | cut -d/ -f1 | grep front | head -1)
+IS_BACKEND=$(git log --no-merges --name-only -p -1 origin/master | cut -d/ -f1 | grep back | head -1)
+IS_FRONTEND=$(git log --no-merges --name-only -p -1 origin/master | cut -d/ -f1 | grep front | head -1)
 
 
 if [[ "$IS_BACKEND" = "backend" ]]  ; then
