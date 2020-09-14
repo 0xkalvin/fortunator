@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
+import finger from '../../assets/finger.gif'
 
 export default function UserRegister() {
         const [name, setName] = useState('');
@@ -27,7 +28,11 @@ export default function UserRegister() {
 
         return (
         <div>
-           <h1>Cadastro de Usuário</h1>
+            <div class="div-gif">
+                <img src={finger} height="55px" />
+                <h1 class="title-gif">Cadastro de Usuário</h1>
+            </div>
+           
            <p class="sub-title">Preencha os campos para se cadastrar.</p>
 
            <form>
