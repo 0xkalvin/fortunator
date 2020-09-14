@@ -6,6 +6,7 @@ export default function UserRegister() {
         const [name, setName] = useState('');
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
+        const [confirmPassword, setConfirmPassword] = useState('');
 
         async function userRegister(){
             try{
@@ -18,7 +19,7 @@ export default function UserRegister() {
         return (
         <div>
            <h1>Cadastro de Usuário</h1>
-           <p>Preencha os campos para se cadastrar.</p>
+           <p class="sub-title">Preencha os campos para se cadastrar.</p>
 
            <form onSubmit>
                <input
@@ -36,6 +37,12 @@ export default function UserRegister() {
                    type="password"
                    value={password}
                    onChange={e => { setPassword(e.target.value) }}
+               />
+               <input
+                   placeholder="Confirmar senha"
+                   type="password"
+                   value={confirmPassword}
+                   onChange={e => { setConfirmPassword(e.target.value) }}
                />
                <button className="button-intern" type="submit">Enviar</button>
            </form>
