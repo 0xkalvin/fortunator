@@ -15,7 +15,6 @@ export default function UserRegister() {
         const [passwordMisMatched, setPasswordMisMatched] = useState('');
         const [eye, setEye] = useState('close');
 
-
         async function userRegister(){
             if (password === confirmPassword){
                 try{
@@ -29,10 +28,8 @@ export default function UserRegister() {
                 }  
             }else{
                 setPasswordMisMatched(true);
-            }
-                
+            }             
         }
-
         function closeEye(){
             setEye("close");
             document.getElementById("senha").type = "password";
@@ -41,15 +38,13 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-
-       
+   
         return (
         <div>
             <Link className="back-link" to="/login">
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
-            
             <div class="div-gif">
                 <img src={registerGif} height="120px" />
                 <div>
@@ -75,7 +70,9 @@ export default function UserRegister() {
                    type="password"
                    value={password}
                    onChange={e => { setPassword(e.target.value) }}
-               />{(function () {
+               />
+               
+               {(function () {
                     if(eye === "open"){
                         return(
                             <button type="button" class="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
