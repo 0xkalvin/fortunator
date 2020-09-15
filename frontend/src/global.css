@@ -147,6 +147,12 @@ body {
   margin: 30px;
 }
 
+.invisible-button{
+    background: transparent;
+    border: none;
+    color: transparent;
+}
+
 
 @media (max-width: 767px){
     *{
