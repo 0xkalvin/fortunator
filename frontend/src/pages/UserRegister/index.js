@@ -20,7 +20,6 @@ export default function UserRegister() {
             if (password === confirmPassword){
 
                 try{
-                    console.log("entroyu");
                     await api.post('/users')
                 }catch(err){
                     alert(err);
@@ -73,7 +72,9 @@ export default function UserRegister() {
                    type="password"
                    value={password}
                    onChange={e => { setPassword(e.target.value) }}
-               />{(function () {
+               />
+               
+               {(function () {
                     if(eye === "open"){
                         return(
                             <button type="button" class="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
