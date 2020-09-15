@@ -15,14 +15,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
 
-  backend:
-    build: 
-      context: ./backend
-      dockerfile: local.Dockerfile
-    entrypoint: ["java","-jar","/app.jar"]
-    ports:
-      - "8080:8080"
-
   postgres:
     image: postgres
     volumes:
@@ -30,7 +22,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=fortunator
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - PGDATA=/tmp
     healthcheck:
@@ -38,3 +31,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: local.Dockerfile
+    entrypoint: ["java","-jar","/app.jar"]
+    ports:
+      - "8080:8080"
