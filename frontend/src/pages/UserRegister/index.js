@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, state, count } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
 import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
@@ -12,6 +13,8 @@ export default function UserRegister() {
         const [password, setPassword] = useState('');
         const [confirmPassword, setConfirmPassword] = useState('');
         const [passwordMisMatched, setPasswordMisMatched] = useState('');
+        const [eye, setEye] = useState('close');
+
 
         async function userRegister(){
             if (password === confirmPassword){
@@ -28,9 +31,18 @@ export default function UserRegister() {
                 
         }
 
+        function closeEye(){
+            setEye("close");
+            document.getElementById("senha").type = "password";
+        }
+        function openEye(){
+            setEye("open");
+            document.getElementById("senha").type = "text";
+        }
+
+       
         return (
         <div>
-            
             <Link className="back-link" to="/login">
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
@@ -57,10 +69,22 @@ export default function UserRegister() {
                />
                <input
                    placeholder="Senha"
+                   id="senha"
                    type="password"
                    value={password}
                    onChange={e => { setPassword(e.target.value) }}
-               />
+               />{(function () {
+                    if(eye === "open"){
+                        return(
+                            <button type="button" class="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
+                        )
+                    }if(eye === "close"){
+                        return(
+                            <button type="button" class="invisible-button" onClick={openEye}><AiOutlineEyeInvisible size={22} color="#00a8a0" /></button>
+                        )
+                    } 
+               })()}
+
                {(function () {
                    if(passwordMisMatched === true){
                     return(<p class="password-mismatched">Senha não correspondente</p>)
