@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
-import finger from '../../assets/finger.gif'
+import registerGif from '../../assets/register.gif'
 
 export default function UserRegister() {
         const [name, setName] = useState('');
@@ -28,12 +30,19 @@ export default function UserRegister() {
 
         return (
         <div>
+            
+            <Link className="back-link" to="/login">
+                    <FiArrowLeft size={22} color="#00a8a0" />
+                    Voltar
+            </Link>
+            
             <div class="div-gif">
-                <img src={finger} height="55px" />
-                <h1 class="title-gif">Cadastro de Usuário</h1>
+                <img src={registerGif} height="120px" />
+                <div>
+                    <h1 class="register-title-gif">Cadastro de Usuário</h1>
+                    <p class="sub-title">Preencha os campos para se cadastrar.</p>
+                </div>
             </div>
-           
-           <p class="sub-title">Preencha os campos para se cadastrar.</p>
 
            <form>
                <input
