@@ -39,18 +39,18 @@ export default function Login() {
 
         return (
         <div>
-            <div class="div-logo">
+            <div className="div-logo">
                 <Logo />
-                <div class="div-logo-description">
+                <div className="div-logo-description">
                     <h2>Fortunator</h2>
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
-            <div class="div-gif">
-                <img src={finger} height="55px" />
+            <div className="div-gif">
+                <img src={finger} height="55px" alt="finger-gif" />
                 <div>
-                     <h1 class="title-gif">Login</h1>
-                     <p class="sub-title">Preencha os campos com suas credenciais para entrar.</p>
+                     <h1 className="title-gif">Login</h1>
+                     <p className="sub-title">Preencha os campos com suas credenciais para entrar.</p>
                 </div>     
             </div>
            
@@ -71,17 +71,17 @@ export default function Login() {
                 {(function () {
                     if(eye === "open"){
                         return(
-                            <button type="button" class="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
+                            <button type="button" className="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
                         )
                     }if(eye === "close"){
                         return(
-                            <button type="button" class="invisible-button" onClick={openEye}><AiOutlineEyeInvisible size={22} color="#00a8a0" /></button>
+                            <button type="button" className="invisible-button" onClick={openEye}><AiOutlineEyeInvisible size={22} color="#00a8a0" /></button>
                         )
                     } 
                })()}
                <button className="button-intern" type="button" onClick={userLogin}>Entrar</button>
            </form>
-           <Link class="sign-up-link" to="/register">Ainda não é usuário? Inscrever-se</Link>
+           <Link className="sign-up-link" to="/register">Ainda não é usuário? Inscrever-se</Link>
        </div>
         )
 

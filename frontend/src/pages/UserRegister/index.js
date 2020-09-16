@@ -1,4 +1,4 @@
-import React, { useState, state, count } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
@@ -36,8 +36,9 @@ export default function UserRegister() {
                 }  
             }else{
                 setPasswordMisMatched(true);
-            }             
+            }
         }
+        
         function closeEye(){
             setEye("close");
             document.getElementById("senha").type = "password";
@@ -49,20 +50,19 @@ export default function UserRegister() {
         console.log(process.env.REACT_APP_API_URL);
         return (
         <div>
-            <div class="div-logo">
+            <div className="div-logo">
                 <Logo />
-                <div class="div-logo-description">
+                <div className="div-logo-description">
                     <h2>Fortunator</h2>
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
-          
-            <div class="div-gif">
-                <img className="pen-gif" src={registerGif} height="120px" />
+            
+            <div className="div-gif">
+                <img className="pen-gif" src={registerGif} alt="pen-gif" height="120px" />
                 <div className="user-register-description">
-
-                    <h1 class="register-title-gif">Cadastro de Usuário</h1>
-                    <p class="sub-title">Preencha os campos para se cadastrar.</p>
+                    <h1 className="register-title-gif">Cadastro de Usuário</h1>
+                    <p className="sub-title">Preencha os campos para se cadastrar.</p>
                 </div>
             </div>
             <Link className="back-link" to="/login">
@@ -91,18 +91,18 @@ export default function UserRegister() {
                {(function () {
                     if(eye === "open"){
                         return(
-                            <button type="button" class="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
+                            <button type="button" className="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
                         )
                     }if(eye === "close"){
                         return(
-                            <button type="button" class="invisible-button" onClick={openEye}><AiOutlineEyeInvisible size={22} color="#00a8a0" /></button>
+                            <button type="button" className="invisible-button" onClick={openEye}><AiOutlineEyeInvisible size={22} color="#00a8a0" /></button>
                         )
                     } 
                })()}
 
                {(function () {
                    if(passwordMisMatched === true){
-                    return(<p class="password-mismatched">Senha não correspondente</p>)
+                    return(<p className="password-mismatched">Senha não correspondente</p>)
                    }
                })()}
                
