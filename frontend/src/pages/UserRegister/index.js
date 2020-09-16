@@ -55,7 +55,7 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-
+        console.log(process.env.REACT_APP_API_URL);
         return (
         <div>
             {(function () {
@@ -81,6 +81,7 @@ export default function UserRegister() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
+            
            <form>
                <input
                    placeholder="Nome"

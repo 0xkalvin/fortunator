@@ -155,6 +155,7 @@ body {
 
 }
 
+<<<<<<< HEAD
 div#root {
     padding-left: 32%;
 }
@@ -164,6 +165,8 @@ p.sub-title {
     padding-bottom: 5%;
 }
 
+=======
+>>>>>>> front: add Logo svg animation
 @media (max-width: 767px){
     div#root {
         padding-left: 1%;
