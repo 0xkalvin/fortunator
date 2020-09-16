@@ -75,7 +75,8 @@ form textarea{
 .back-link{
     display: flex;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 0;
+    margin-bottom: 2%;
     color: #000000;
     font-size: 18px;
     text-decoration: none;
@@ -215,7 +216,6 @@ p.sub-title {
 
 div#root {
     padding-left: 32%;
-    padding-top: 12%;
 }
 
 a.tooltip {

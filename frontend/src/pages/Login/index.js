@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
 import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
+import Logo from '../../components/Logo'
 import finger from '../../assets/finger.gif'
 
 export default function Login() {
@@ -38,6 +39,13 @@ export default function Login() {
 
         return (
         <div>
+            <div class="div-logo">
+                <Logo />
+                <div class="div-logo-description">
+                    <h2>Fortunator</h2>
+                    <h3>Controle Financeiro</h3>
+                </div>
+            </div>
             <div class="div-gif">
                 <img src={finger} height="55px" />
                 <div>
