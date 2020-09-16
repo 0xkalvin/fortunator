@@ -50,20 +50,19 @@ export default function UserRegister() {
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
-            <Link className="back-link" to="/login">
-                    <FiArrowLeft size={22} color="#00a8a0" />
-                    Voltar
-            </Link>
+            
             
             <div class="div-gif">
-                <img src={registerGif} height="120px" />
-                
-                <div>
+                <img className="pen-gif" src={registerGif} height="120px" />
+                <div className="user-register-description">
                     <h1 class="register-title-gif">Cadastro de Usuário</h1>
                     <p class="sub-title">Preencha os campos para se cadastrar.</p>
                 </div>
             </div>
-
+            <Link className="back-link" to="/login">
+                    <FiArrowLeft size={22} color="#00a8a0" />
+                    Voltar
+            </Link>
            <form>
                <input
                    placeholder="Nome"
