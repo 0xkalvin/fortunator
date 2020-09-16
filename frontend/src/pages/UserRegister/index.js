@@ -56,7 +56,7 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-        
+
         return (
         <div>
 <<<<<<< HEAD
