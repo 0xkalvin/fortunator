@@ -91,7 +91,7 @@ export default function UserRegister() {
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
-            
+        
             <div className="div-gif">
                 <img className="pen-gif" src={registerGif} alt="pen-gif" height="120px" />
                 <div className="user-register-description">

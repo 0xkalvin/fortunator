@@ -44,16 +44,14 @@ export default function Login() {
         return (         
         <div>
             <Hamburguer/>
-            <div>
-                
-            </div>    
-            <div className="div-logo">
+            <div class="div-logo">
                 <Logo />
-                <div className="div-logo-description">
+                <div class="div-logo-description">
                     <h2>Fortunator</h2>
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
+
             <div className="div-gif">
                 <img src={finger} height="55px" alt="finger-gif" />
                 <div>
