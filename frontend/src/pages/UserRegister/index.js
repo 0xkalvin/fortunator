@@ -3,6 +3,7 @@ import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
 import finger from '../../assets/finger.gif'
+import Logo from '../../components/Logo'
 
 export default function UserRegister() {
         const [name, setName] = useState('');
@@ -25,9 +26,17 @@ export default function UserRegister() {
             }
                 
         }
-
+        console.log(process.env.REACT_APP_API_URL);
         return (
         <div>
+            <div class="div-logo">
+                <Logo />
+                <div class="div-logo-description">
+                    <h2>Fortunator</h2>
+                    <h3>Controle Financeiro</h3>
+                </div>
+            </div>
+
             <div class="div-gif">
                 <img src={finger} height="55px" />
                 <h1 class="title-gif">Cadastro de Usuário</h1>

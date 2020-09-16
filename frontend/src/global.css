@@ -147,6 +147,10 @@ body {
   margin: 30px;
 }
 
+svg#Layer_1 {
+    width: 300px;
+}
+
 
 @media (max-width: 767px){
     *{
