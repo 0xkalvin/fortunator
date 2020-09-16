@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, state, count } from 'react';
+import { Link } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
+import { AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
 import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
-import finger from '../../assets/finger.gif'
 import Logo from '../../components/Logo'
+import registerGif from '../../assets/register.gif'
+
 
 export default function UserRegister() {
         const [name, setName] = useState('');
@@ -11,12 +15,12 @@ export default function UserRegister() {
         const [password, setPassword] = useState('');
         const [confirmPassword, setConfirmPassword] = useState('');
         const [passwordMisMatched, setPasswordMisMatched] = useState('');
+        const [eye, setEye] = useState('close');
 
         async function userRegister(){
             if (password === confirmPassword){
 
                 try{
-                    console.log("entroyu");
                     await api.post('/users')
                 }catch(err){
                     alert(err);
@@ -26,7 +30,17 @@ export default function UserRegister() {
             }
                 
         }
-        console.log(process.env.REACT_APP_API_URL);
+
+        function closeEye(){
+            setEye("close");
+            document.getElementById("senha").type = "password";
+        }
+        function openEye(){
+            setEye("open");
+            document.getElementById("senha").type = "text";
+        }
+
+       
         return (
         <div>
             <div class="div-logo">
@@ -36,13 +50,19 @@ export default function UserRegister() {
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
-
+            <Link className="back-link" to="/login">
+                    <FiArrowLeft size={22} color="#00a8a0" />
+                    Voltar
+            </Link>
+            
             <div class="div-gif">
-                <img src={finger} height="55px" />
-                <h1 class="title-gif">Cadastro de Usuário</h1>
+                <img src={registerGif} height="120px" />
+                
+                <div>
+                    <h1 class="register-title-gif">Cadastro de Usuário</h1>
+                    <p class="sub-title">Preencha os campos para se cadastrar.</p>
+                </div>
             </div>
-           
-           <p class="sub-title">Preencha os campos para se cadastrar.</p>
 
            <form>
                <input
@@ -57,10 +77,24 @@ export default function UserRegister() {
                />
                <input
                    placeholder="Senha"
+                   id="senha"
                    type="password"
                    value={password}
                    onChange={e => { setPassword(e.target.value) }}
                />
+               
+               {(function () {
+                    if(eye === "open"){
+                        return(
+                            <button type="button" class="invisible-button" onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
+                        )
+                    }if(eye === "close"){
+                        return(
+                            <button type="button" class="invisible-button" onClick={openEye}><AiOutlineEyeInvisible size={22} color="#00a8a0" /></button>
+                        )
+                    } 
+               })()}
+
                {(function () {
                    if(passwordMisMatched === true){
                     return(<p class="password-mismatched">Senha não correspondente</p>)
