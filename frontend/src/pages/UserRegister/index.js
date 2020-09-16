@@ -6,6 +6,8 @@ import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
 import registerGif from '../../assets/register.gif'
+import Logo from '../../components/Logo'
+
 
 export default function UserRegister() {
         const [name, setName] = useState('');
@@ -44,13 +46,22 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-
+        console.log(process.env.REACT_APP_API_URL);
         return (
         <div>
             <Link className="back-link" to="/login">
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
+            
+            <div class="div-logo">
+                <Logo />
+                <div class="div-logo-description">
+                    <h2>Fortunator</h2>
+                    <h3>Controle Financeiro</h3>
+                </div>
+            </div>
+
             <div class="div-gif">
                 <img src={registerGif} height="120px" />
                 <div>
