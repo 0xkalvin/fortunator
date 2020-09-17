@@ -22,7 +22,7 @@ export default function UserRegister() {
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    await api.post('/users', data, headers)  
+                    await api.post('/users', data, headers)
                 }catch(err){
                     alert(err);
                 }  

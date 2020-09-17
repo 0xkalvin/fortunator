@@ -7,15 +7,17 @@ import api from '../../service/api';
 import finger from '../../assets/finger.gif'
 
 export default function Login() {
-        const [name, setName] = useState('');
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         const [eye, setEye] = useState('close');
 
         async function userLogin(){
                 try{
-                    console.log("entroyu");
-                    await api.post('/users')
+                    const data = {email: email, password: password}
+                    const headers = {
+                        "Content-Type": "application/json"
+                    }
+                    await api.post('/login', data, headers)
                 }catch(err){
                     alert(err);
                 }  
