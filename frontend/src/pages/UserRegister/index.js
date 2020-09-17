@@ -46,7 +46,7 @@ export default function UserRegister() {
                 setPasswordMisMatched(true);
             }
         }
-        
+
         function closeEye(){
             setEye("close");
             document.getElementById("senha").type = "password";
@@ -55,7 +55,7 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-        console.log(process.env.REACT_APP_API_URL);
+        
         return (
         <div>
             {(function () {
