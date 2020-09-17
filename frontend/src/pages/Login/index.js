@@ -19,7 +19,11 @@ export default function Login() {
                     }
                     await api.post('/login', data, headers)
                 }catch(err){
-                    alert(err);
+                    if(err.response.status >= 500){
+                        alert("Serviço indisponível.");
+                    }else{
+                        alert(err);
+                    }    
                 }  
         }
         
