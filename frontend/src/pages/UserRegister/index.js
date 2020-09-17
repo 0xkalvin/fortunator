@@ -26,6 +26,8 @@ export default function UserRegister() {
                 }catch(err){
                     if(err.response.status === 409){
                         alert("Usuário já cadastrado.");
+                    }if(err.response.status >= 500){
+                        alert("Serviço indisponível.");
                     }else{
                         alert(err);
                     }                                                          
