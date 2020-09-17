@@ -24,7 +24,11 @@ export default function UserRegister() {
                     }
                     await api.post('/users', data, headers)
                 }catch(err){
-                    alert(err);
+                    if(err.response.status === 409){
+                        alert("Usuário já cadastrado.");
+                    }else{
+                        alert(err);
+                    }                                                          
                 }  
             }else{
                 setPasswordMisMatched(true);
@@ -100,5 +104,4 @@ export default function UserRegister() {
            </form>
        </div>
         )
-
 }
