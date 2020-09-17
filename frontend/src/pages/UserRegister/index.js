@@ -13,10 +13,13 @@ export default function UserRegister() {
 
         async function userRegister(){
             if (password === confirmPassword){
-
                 try{
-                    console.log("entroyu");
-                    await api.post('/users')
+                    const data = {name: name, email: email, password: password}
+                    const headers = {
+                        "Content-Type": "application/json"
+                    }
+                    console.log(data);
+                    await api.post('/users', data, headers)  
                 }catch(err){
                     alert(err);
                 }  
