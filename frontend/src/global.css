@@ -59,7 +59,7 @@ form textarea{
     font-weight: 700;
     margin-top: 16px;
     margin-right: 2%;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     display: inline-block;
     text-align: center;
     text-decoration: none;
@@ -95,7 +95,7 @@ form textarea{
     display: flex;
 }
 .title-gif {
-    padding-top: 3.5%;
+    padding-top: 2%;
 }
 
 .input-style{
@@ -145,6 +145,12 @@ th, td{
 
 body {
   margin: 30px;
+}
+
+.invisible-button{
+    background: transparent;
+    border: none;
+    color: transparent;
 }
 
 
@@ -205,8 +211,7 @@ body {
 
 p.sub-title {
     padding-top: 1%;
-    padding-bottom: 2%;
-    padding-left: 7%;
+    padding-bottom: 5%;
 }
 
 div#root {
