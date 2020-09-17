@@ -42,7 +42,7 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-   
+
         return (
         <div>
             <Link className="back-link" to="/login">
