@@ -3,11 +3,10 @@
 FRONTEND=fortunator-frontend
 BACKEND=fortunator-backend
 
-IS_BACKEND=$(git log --no-merges --name-only -p -1 origin/master | cut -d/ -f1 | grep back | head -1)
-IS_FRONTEND=$(git log --no-merges --name-only -p -1 origin/master | cut -d/ -f1 | grep front | head -1)
+PROJECT=$(git log --name-only --oneline --no-merges -1 | sed 1d | grep '/' | cut -d "/" -f1 | head -1)
 
 
-if [[ "$IS_BACKEND" = "backend" ]]  ; then
+if [[ "$PROJECT" = "backend" ]]  ; then
     echo "Starting backend deploy..."
 
     cd backend
@@ -17,7 +16,7 @@ if [[ "$IS_BACKEND" = "backend" ]]  ; then
     heroku container:release web --app=$BACKEND
     
 
-elif [[ "$IS_FRONTEND" = "frontend" ]]  ; then
+elif [[ "$PROJECT" = "frontend" ]]  ; then
     echo "Starting frontend deploy..."
 
     cd frontend
@@ -27,5 +26,3 @@ elif [[ "$IS_FRONTEND" = "frontend" ]]  ; then
     heroku container:release web --app=$FRONTEND
 
 fi
-
-
