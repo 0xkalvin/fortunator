@@ -70,3 +70,12 @@ svg#Layer_1 {
 .st12{font-family:'COCOGOOSE-UltraLight';}
 .st13{font-size:92.9485px;}
 svg{enable-background:new 0 0 2829.8 2614.4;}
+
+@media (max-width: 767px){
+    .div-logo h2{
+        font-size: 24px;
+    }
+    .div-logo h3{
+        font-size: 14px;
+    }
+}
