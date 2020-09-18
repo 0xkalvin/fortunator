@@ -17,8 +17,12 @@ export default function UserRegister() {
         const [confirmPassword, setConfirmPassword] = useState('');
         const [passwordMisMatched, setPasswordMisMatched] = useState('');
         const [eye, setEye] = useState('close');
+<<<<<<< HEAD
         const [goToLogin, setGoToLogin] = useState(false);
 
+=======
+        const [registerSucces, setRegisterSuccess] = useState(false);
+>>>>>>> front: add registerSucces page
 
         async function userRegister(){
             if (password === confirmPassword){
@@ -29,7 +33,11 @@ export default function UserRegister() {
                     }
                     await api.post('/users', data, headers).then(function(response){
                         if(response.status === 200){
+<<<<<<< HEAD
                             setGoToLogin(true);
+=======
+                            setRegisterSuccess(true);
+>>>>>>> front: add registerSucces page
                         }
                     })
                 }catch(err){
@@ -66,9 +74,16 @@ export default function UserRegister() {
 
 =======
             <Hamburguer/>
+<<<<<<< HEAD
                 <div>
     </div>
 >>>>>>> add hamburguer list in login and register menu
+=======
+            {(function () {
+                    if(registerSucces === true){ return <Redirect to="/register-success"/> }
+               })()}
+
+>>>>>>> front: add registerSucces page
             <div className="div-logo">
                 <Logo />
                 <div className="div-logo-description">
