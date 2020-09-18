@@ -9,7 +9,6 @@ import api from '../../service/api';
 import registerGif from '../../assets/register.gif'
 import Logo from '../../components/Logo'
 
-
 export default function UserRegister() {
         const [name, setName] = useState('');
         const [email, setEmail] = useState('');
@@ -18,6 +17,7 @@ export default function UserRegister() {
         const [passwordMisMatched, setPasswordMisMatched] = useState('');
         const [eye, setEye] = useState('close');
         const [goToLogin, setGoToLogin] = useState(false);
+
 
         async function userRegister(){
             if (password === confirmPassword){
@@ -62,9 +62,9 @@ export default function UserRegister() {
                     if(goToLogin === true){ return <Redirect to="/register-success"/> }
                })()}
 
-            <div className="div-logo">
+            <div class="div-logo">
                 <Logo />
-                <div className="div-logo-description">
+                <div class="div-logo-description">
                     <h2>Fortunator</h2>
                     <h3>Controle Financeiro</h3>
                 </div>
