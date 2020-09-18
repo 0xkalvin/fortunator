@@ -2,7 +2,6 @@ package com.fortunator.api.controller.exceptions;
 
 import java.time.Instant;
 
-import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;

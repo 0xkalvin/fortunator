@@ -2,9 +2,6 @@ package com.fortunator.api.dto;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 public class LoginDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
