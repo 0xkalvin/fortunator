@@ -26,13 +26,15 @@ export default function UserRegister() {
                     }
                     await api.post('/users', data, headers)
                 }catch(err){
-                    if(err.response.status === 409){
-                        alert("Usuário já cadastrado.");
-                    }if(err.response.status >= 500){
-                        alert("Serviço indisponível.");
+                    if(err.response === undefined){
+                        alert("Algo deu errado :(");
                     }else{
-                        alert(err);
-                    }                                                          
+                        if(err.response.status === 409){
+                            alert("Usuário já cadastrado.");
+                        }if(err.response.status >= 500){
+                            alert("Serviço indisponível.");
+                        }
+                    }                                            
                 }  
             }else{
                 setPasswordMisMatched(true);
@@ -47,7 +49,7 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-        console.log(process.env.REACT_APP_API_URL);
+
         return (
         <div>
             <div className="div-logo">
