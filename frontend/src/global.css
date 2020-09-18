@@ -159,14 +159,26 @@ div#root {
     padding-left: 32%;
 }
 
+<<<<<<< HEAD
+=======
+div#root {
+    padding-left: 32%;
+}
+
+>>>>>>> front: Remove test env vars
 p.sub-title {
     padding-top: 1%;
     padding-bottom: 5%;
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> front: add Logo svg animation
 @media (max-width: 767px){
+=======
+@media (max-width: 767px){
+    
+>>>>>>> front: Remove test env vars
     div#root {
         padding-left: 1%;
     }
@@ -178,9 +190,15 @@ p.sub-title {
         box-sizing: border-box;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> front: Init home
+=======
+=======
+
+>>>>>>> front: Remove test env vars
+>>>>>>> front: Remove test env vars
     .button{
         width: 90%;
         height: 60px;
