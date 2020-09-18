@@ -155,22 +155,28 @@ body {
 
 }
 
+div#root {
+    padding-left: 32%;
+}
+
+p.sub-title {
+    padding-top: 1%;
+    padding-bottom: 5%;
+}
+
 @media (max-width: 767px){
+    
+    div#root {
+        padding-left: 1%;
+    }
+
     *{
         margin: 0;
         padding: 0;
         outline: 0;
         box-sizing: border-box;
     }
-    .covid-check-logo{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
-    }
-    .covid-check-logo h2{
-        padding-top: 0px;
-    }
+
     .button{
         width: 90%;
         height: 60px;
@@ -208,15 +214,6 @@ body {
         margin: 5px;
         box-sizing: border-box;
       }
-}
-
-p.sub-title {
-    padding-top: 1%;
-    padding-bottom: 5%;
-}
-
-div#root {
-    padding-left: 32%;
 }
 
 a.tooltip {
