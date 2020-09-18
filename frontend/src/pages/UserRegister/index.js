@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
+import { Redirect } from 'react-router'
 import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
@@ -16,6 +17,7 @@ export default function UserRegister() {
         const [confirmPassword, setConfirmPassword] = useState('');
         const [passwordMisMatched, setPasswordMisMatched] = useState('');
         const [eye, setEye] = useState('close');
+        const [goToLogin, setGoToLogin] = useState(false);
 
         async function userRegister(){
             if (password === confirmPassword){
@@ -24,7 +26,11 @@ export default function UserRegister() {
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    await api.post('/users', data, headers)
+                    await api.post('/users', data, headers).then(function(response){
+                        if(response.status === 200){
+                            setGoToLogin(true);
+                        }
+                    })
                 }catch(err){
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
@@ -52,6 +58,10 @@ export default function UserRegister() {
 
         return (
         <div>
+            {(function () {
+                    if(goToLogin === true){ return <Redirect to="/register-success"/> }
+               })()}
+
             <div className="div-logo">
                 <Logo />
                 <div className="div-logo-description">
