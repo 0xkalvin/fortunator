@@ -1,3 +1,5 @@
+![](/frontend/src/assets/logo-md.gif)
+
 # Fortunator
 
 Fortunator é uma aplicação web de controle financeiro que permite o usuário ter uma maior visualização de seus gastos e movimentações financeiras do dia-a-dia.

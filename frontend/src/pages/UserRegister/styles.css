@@ -3,8 +3,14 @@
     padding-bottom: 0.5%;
     color: red;
 }
-
 .register-title-gif{
     padding-top: 10%;
     padding-left: 0%;
+}
+.pen-gif{
+    transform: translateX(-34%);
+}
+
+.user-register-description{
+    transform: translateX(-23%);
 }
