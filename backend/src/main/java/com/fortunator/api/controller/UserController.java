@@ -1,5 +1,7 @@
 package com.fortunator.api.controller;
 
+import javax.security.auth.login.LoginException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +33,11 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<Void> doLogin(@RequestBody LoginDTO login) {
-		User user = userService.doLogin(login.getEmail(), login.getPassword());
-		if(user.getId() == null) {
+		try {
+			userService.doLogin(login.getEmail(), login.getPassword());
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (LoginException e) {
 			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
-		} 
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		}
 	}
 }

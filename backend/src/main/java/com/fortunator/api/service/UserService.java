@@ -2,6 +2,8 @@ package com.fortunator.api.service;
 
 import java.util.Optional;
 
+import javax.security.auth.login.LoginException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class UserService {
 		return userRepository.findByEmail(email);
 	}
 	
-	public User doLogin(String email, String password) {
+	public User doLogin(String email, String password) throws LoginException {
 		User user = findByEmail(email)
 				.orElseThrow(() -> new UserNotFoundException("Email not registered for any user")
 		);
@@ -36,6 +38,6 @@ public class UserService {
 		if(user.getPassword().equals(String.valueOf(password.hashCode()))){
 			return user;
 		}
-		return new User();
+		throw new LoginException("Password is incorrect.");
 	}
 }
