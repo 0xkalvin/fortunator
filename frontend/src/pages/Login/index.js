@@ -13,6 +13,8 @@ export default function Login() {
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         const [eye, setEye] = useState('close');
+        const [registerSucces, setRegisterSuccess] = useState(false);
+
 
         async function userLogin(){
                 try{
@@ -20,7 +22,13 @@ export default function Login() {
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    await api.post('/login', data, headers)
+                    await api.post('users/login', data, headers).then(function(response){
+                        if(response.status === 200){
+                            setRegisterSuccess(true);
+                            localStorage.setItem('auth', 'true');
+                            window.location.reload(false);
+                        }
+                    })
                 }catch(err){
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
@@ -31,7 +39,7 @@ export default function Login() {
                     }  
                 }  
         }
-        
+       
         function closeEye(){
             setEye("close");
             document.getElementById("senha").type = "password";
@@ -43,6 +51,7 @@ export default function Login() {
 
         return (         
         <div>
+           
             <Hamburguer/>
             <div class="div-logo">
                 <Logo />

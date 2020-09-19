@@ -6,36 +6,22 @@ import './styles.css'
 import api from '../../service/api';
 import Logo from '../../components/Logo'
 import finger from '../../assets/finger.gif'
+import { Redirect } from 'react-router'
 
 
 export default function Home() {
-        const [email, setEmail] = useState('');
-        const [password, setPassword] = useState('');
-        const [eye, setEye] = useState('close');
+    const [goLogout, setGoLogout] = useState(false);
 
-        async function userLogin(){
-                try{
-                    const data = {email: email, password: password}
-                    const headers = {
-                        "Content-Type": "application/json"
-                    }
-                    await api.post('/login', data, headers)
-                }catch(err){
-                    alert(err);
-                }  
-        }
-        
-        function closeEye(){
-            setEye("close");
-            document.getElementById("senha").type = "password";
-        }
-        function openEye(){
-            setEye("open");
-            document.getElementById("senha").type = "text";
-        }
+    function logout(){
+        localStorage.setItem('auth','false');
+        setGoLogout(true);
+    }
 
         return (
         <div>
+            {(function () {
+                    if(goLogout === true){ return <Redirect to="/login"/> }
+            })()}
              <nav role="navigation" className="navigation">
             <div id="menuToggle">
 
@@ -43,8 +29,9 @@ export default function Home() {
                 <span></span>
                 <span></span>
                 <span></span> 
-
+                
                 <ul id="menu">
+                <button type="button" onClick={e => { logout()}}>Teste</button>
                 <a href="#"><li>Home</li></a>
                 <a href="#"><li>About</li></a>
                 <a href="#"><li>Info</li></a>

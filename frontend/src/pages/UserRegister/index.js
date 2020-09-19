@@ -64,7 +64,7 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-        console.log(process.env.REACT_APP_API_URL);
+        
         return (
         <div>
 <<<<<<< HEAD
