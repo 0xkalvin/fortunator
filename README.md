@@ -18,7 +18,7 @@ Tecnologias usadas na construção da aplicação
 - Java
 - Postgres
 
-## Tabelas usadas
+## Tabelas
 
 Users
 
