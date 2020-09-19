@@ -21,7 +21,7 @@ elif [[ "$PROJECT" = "frontend" ]]  ; then
 
     cd frontend
 
-    heroku container:push web --app=$FRONTEND
+    heroku container:push web --arg REACT_APP_API_URL=$REACT_APP_API_URL --app=$FRONTEND 
 
     heroku container:release web --app=$FRONTEND
 

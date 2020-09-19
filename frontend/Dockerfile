@@ -1,6 +1,8 @@
 # Build stage
 FROM node:13.12.0-alpine as builder
 
+ARG REACT_APP_API_URL
+
 WORKDIR /frontend
 
 ENV PATH /frontend/node_modules/.bin:$PATH
