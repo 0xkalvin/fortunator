@@ -47,5 +47,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - PROFILE_ACTIVE=dev
+      - PORT=8080
     depends_on:
       - postgres
