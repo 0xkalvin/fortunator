@@ -1,4 +1,4 @@
-.PHONY: default all build down
+.PHONY: default all build down test
 
 default: all
 
@@ -10,3 +10,6 @@ all:
 
 down:
 	@docker-compose down --rmi all --remove-orphans
+
+test:
+	@docker-compose up test-backend

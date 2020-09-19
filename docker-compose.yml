@@ -50,3 +50,17 @@ services:
       - PORT=8080
     depends_on:
       - postgres
+
+  test-backend:
+    build: 
+      context: ./backend
+      target: build
+    entrypoint: ["mvn", "-f", "/home/app/pom.xml", "test"]
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/fortunator
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - PROFILE_ACTIVE=dev
+      - PORT=8080
+    depends_on:
+      - postgres
