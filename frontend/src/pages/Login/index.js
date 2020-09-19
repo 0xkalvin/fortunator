@@ -6,6 +6,8 @@ import './styles.css'
 import api from '../../service/api';
 import Logo from '../../components/Logo'
 import finger from '../../assets/finger.gif'
+import Hamburguer from '../../components/Hamburguer'
+
 
 export default function Login() {
         const [email, setEmail] = useState('');
@@ -39,8 +41,12 @@ export default function Login() {
             document.getElementById("senha").type = "text";
         }
 
-        return (
+        return (         
         <div>
+            <Hamburguer/>
+            <div>
+                
+            </div>    
             <div className="div-logo">
                 <Logo />
                 <div className="div-logo-description">
@@ -55,7 +61,7 @@ export default function Login() {
                      <p className="sub-title">Preencha os campos com suas credenciais para entrar.</p>
                 </div>     
             </div>
-           
+
            <form>
                <input
                    placeholder="E-mail"
