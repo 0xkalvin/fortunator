@@ -1,6 +1,7 @@
 package com.fortunator.api.controller;
 
 import javax.security.auth.login.LoginException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,12 +28,13 @@ public class UserController {
 	@CrossOrigin
 	@PostMapping
 	@ResponseStatus(HttpStatus.OK)
-	public User registerUser(@RequestBody User user) {
+	public User registerUser(@Valid @RequestBody User user) {
 		return userService.registerUser(user);
 	}
 	
+	@CrossOrigin
 	@PostMapping("/login")
-	public ResponseEntity<Void> doLogin(@RequestBody LoginDTO login) {
+	public ResponseEntity<Void> doLogin(@Valid @RequestBody LoginDTO login) {
 		try {
 			userService.doLogin(login.getEmail(), login.getPassword());
 			return new ResponseEntity<Void>(HttpStatus.OK);

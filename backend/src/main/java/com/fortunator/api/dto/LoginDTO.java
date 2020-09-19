@@ -2,12 +2,21 @@ package com.fortunator.api.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class LoginDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@NotBlank
+	@Email
+	@Size(max = 255)
 	private String email;
 
+	@NotBlank
+	@Size(max = 32)
 	private String password;
 	
 	public LoginDTO(String email, String password) {
