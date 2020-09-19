@@ -2,9 +2,13 @@ package com.fortunator.api.controller.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_NULL)
 public class StandardError implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +19,7 @@ public class StandardError implements Serializable {
 	private String error;
 	private String message;
 	private String path;
+	private List<Field> fields;
 	
 	public StandardError () {
 	}
@@ -65,5 +70,13 @@ public class StandardError implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
-	}	
+	}
+
+	public List<Field> getFields() {
+		return fields;
+	}
+
+	public void setFields(List<Field> fields) {
+		this.fields = fields;
+	}		
 }
