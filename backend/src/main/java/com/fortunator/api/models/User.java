@@ -9,10 +9,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 @Table(name = "users")
 public class User {
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
