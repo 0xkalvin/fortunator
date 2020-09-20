@@ -13,7 +13,7 @@ export default function Login() {
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         const [eye, setEye] = useState('close');
-        const [registerSucces, setRegisterSuccess] = useState(false);
+        const [unauthorized, setUnauthorized] = useState('');
 
 
         async function userLogin(){
@@ -24,7 +24,6 @@ export default function Login() {
                     }
                     await api.post('users/login', data, headers).then(function(response){
                         if(response.status === 200){
-                            setRegisterSuccess(true);
                             localStorage.setItem('auth', 'true');
                             window.location.reload(false);
                         }
@@ -33,6 +32,9 @@ export default function Login() {
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
                     }else{
+                        if(err.response.status === 401 || err.response.status === 404){
+                            setUnauthorized(true);
+                        }
                         if(err.response.status >= 500){
                             alert("Serviço indisponível.");
                         }
@@ -48,7 +50,7 @@ export default function Login() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-
+        
         return (         
         <div>
            
@@ -75,6 +77,11 @@ export default function Login() {
                    value={email}
                    onChange={e => { setEmail(e.target.value) }}
                />
+               {(function () {
+                   if(unauthorized === true){
+                    return(<p className="password-mismatched">Usuário e senha não correspondem</p>)
+                   }
+               })()}
                <input
                    placeholder="Senha"
                    id="senha"
