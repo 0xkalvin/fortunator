@@ -18,3 +18,12 @@ Tecnologias usadas na construção da aplicação
 - Java
 - Postgres
 
+## Tabelas
+
+Users
+
+| Campos | Tipo | Obrigatório | Descrição |
+| ------------- |:-------------:| -----:|-------:|
+|  name | String | True |  |
+| email    | String   |   True |  |
+| password | String |   True |  |
