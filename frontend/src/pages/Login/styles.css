@@ -4,3 +4,8 @@
     text-decoration: none;
     padding-left: 13%;
 }
+.password-mismatched {
+    padding-top: 1%;
+    padding-bottom: 0.5%;
+    color: red;
+}
