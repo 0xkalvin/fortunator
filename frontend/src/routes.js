@@ -18,13 +18,17 @@ export default function Routes(){
         )}/>
     )
     const LoginRoute = ({ component: Component, ...rest }) => (
-        <Route {...rest} render={props => (
-            isAuthenticated() === 'false'? (
-                <Component {...props}/>
-            ):(
-                <Redirect to={{ pathname: '/home', state: { from: props.location }}}/>
-            )
-        )}/>
+        <Route {...rest} render={props => {
+            
+            const authenticated = isAuthenticated()
+
+            if( authenticated == null || authenticated === 'false' ) {
+                return <Component {...props}/>
+            }
+            else{
+                return <Redirect to={{ pathname: '/home', state: { from: props.location }}}/>
+            }
+    }}/>
     )
 
     return(
