@@ -3,8 +3,6 @@ package com.fortunator.api.swagger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.Data;
-
 @Configuration("swaggerConfigProperties")
 public class SwaggerConfigProperties {
     @Value("${api.version}")
