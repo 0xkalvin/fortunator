@@ -57,9 +57,9 @@ export default function Login() {
         <div>
            
             <NoLoginHamburguer/>
-            <div class="div-logo">
+            <div className="div-logo">
                 <Logo />
-                <div class="div-logo-description">
+                <div className="div-logo-description">
                     <h2>Fortunator</h2>
                     <h3>Controle Financeiro</h3>
                 </div>
