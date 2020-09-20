@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React from 'react';
-=======
-import React, { useState } from 'react';
->>>>>>> front: add registerSucces page
-=======
-import React from 'react';
->>>>>>> front: Remove test env vars
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import '../../global.css';
