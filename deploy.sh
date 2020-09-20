@@ -3,26 +3,37 @@
 FRONTEND=fortunator-frontend
 BACKEND=fortunator-backend
 
-PROJECT=$(git log --name-only --oneline --no-merges -1 | sed 1d | grep '/' | cut -d "/" -f1 | head -1)
+was_backend_already_deployed=0
+was_frontend_already_deployed=0
 
+for PROJECT in $(git log --name-only --oneline -m -1 | sed 1d | grep '/' | cut -d "/" -f1); do
+    echo "Modified folder -> $PROJECT"
 
-if [[ "$PROJECT" = "backend" ]]  ; then
-    echo "Starting backend deploy..."
+    if [[ "$PROJECT" = "backend" ]] && [[ $was_backend_already_deployed -eq 0 ]] ; then
+        echo "Starting backend deploy..."
 
-    cd backend
-    
-    heroku container:push web --app=$BACKEND
+        cd backend
+        
+        heroku container:push web --app=$BACKEND
 
-    heroku container:release web --app=$BACKEND
-    
+        heroku container:release web --app=$BACKEND
 
-elif [[ "$PROJECT" = "frontend" ]]  ; then
-    echo "Starting frontend deploy..."
+        was_backend_already_deployed=1
 
-    cd frontend
+        cd ..
 
-    heroku container:push web --arg REACT_APP_API_URL=$REACT_APP_API_URL --app=$FRONTEND 
+    elif [[ "$PROJECT" = "frontend" ]] && [[ $was_frontend_already_deployed -eq 0 ]]  ; then
+        echo "Starting frontend deploy..."
 
-    heroku container:release web --app=$FRONTEND
+        cd frontend
 
-fi
+        heroku container:push web --arg REACT_APP_API_URL=$REACT_APP_API_URL --app=$FRONTEND 
+
+        heroku container:release web --app=$FRONTEND
+
+        was_frontend_already_deployed=1
+
+        cd ..
+    fi
+
+done

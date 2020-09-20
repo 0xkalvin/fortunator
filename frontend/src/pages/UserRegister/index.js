@@ -8,6 +8,7 @@ import './styles.css'
 import api from '../../service/api';
 import registerGif from '../../assets/register.gif'
 import Logo from '../../components/Logo'
+import NoLoginHamburguer from '../../components/NoLoginHamburguer'
 
 export default function UserRegister() {
         const [name, setName] = useState('');
@@ -16,8 +17,7 @@ export default function UserRegister() {
         const [confirmPassword, setConfirmPassword] = useState('');
         const [passwordMisMatched, setPasswordMisMatched] = useState('');
         const [eye, setEye] = useState('close');
-        const [goToLogin, setGoToLogin] = useState(false);
-
+        const [registerSucces, setRegisterSuccess] = useState(false);
 
         async function userRegister(){
             if (password === confirmPassword){
@@ -27,15 +27,17 @@ export default function UserRegister() {
                         "Content-Type": "application/json"
                     }
                     await api.post('/users', data, headers).then(function(response){
-                        if(response.status === 200){
-                            setGoToLogin(true);
+                        if(response.status === 201){
+                            setRegisterSuccess(true);
                         }
                     })
                 }catch(err){
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
                     }else{
-                        if(err.response.status === 409){
+                        if(err.response.status === 400){
+                            alert("Verifique se os campos foram preenchidos corretamente.");
+                        }if(err.response.status === 409){
                             alert("Usuário já cadastrado.");
                         }if(err.response.status >= 500){
                             alert("Serviço indisponível.");
@@ -46,7 +48,7 @@ export default function UserRegister() {
                 setPasswordMisMatched(true);
             }
         }
-        
+
         function closeEye(){
             setEye("close");
             document.getElementById("senha").type = "password";
@@ -55,11 +57,12 @@ export default function UserRegister() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-
+        
         return (
         <div>
+            <NoLoginHamburguer/>
             {(function () {
-                    if(goToLogin === true){ return <Redirect to="/register-success"/> }
+                    if(registerSucces === true){ return <Redirect to="/register-success"/> }
                })()}
 
             <div className="div-logo">
@@ -69,7 +72,7 @@ export default function UserRegister() {
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
-            
+        
             <div className="div-gif">
                 <img className="pen-gif" src={registerGif} alt="pen-gif" height="120px" />
                 <div className="user-register-description">
@@ -81,6 +84,7 @@ export default function UserRegister() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
+            
            <form>
                <input
                    placeholder="Nome"

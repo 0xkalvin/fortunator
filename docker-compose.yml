@@ -16,6 +16,8 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - REACT_APP_API_URL=http://localhost:8080
     stdin_open: true
+    depends_on:
+      - backend
 
   postgres:
     image: postgres

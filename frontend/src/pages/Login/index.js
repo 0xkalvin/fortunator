@@ -6,11 +6,15 @@ import './styles.css'
 import api from '../../service/api';
 import Logo from '../../components/Logo'
 import finger from '../../assets/finger.gif'
+import NoLoginHamburguer from '../../components/NoLoginHamburguer'
+
 
 export default function Login() {
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         const [eye, setEye] = useState('close');
+        const [unauthorized, setUnauthorized] = useState('');
+
 
         async function userLogin(){
                 try{
@@ -18,18 +22,28 @@ export default function Login() {
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    await api.post('/login', data, headers)
+                    await api.post('users/login', data, headers).then(function(response){
+                        if(response.status === 200){
+                            localStorage.setItem('auth', 'true');
+                            window.location.reload(false);
+                        }
+                    })
                 }catch(err){
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
                     }else{
+                        if(err.response.status === 401 || err.response.status === 404){
+                            setUnauthorized(true);
+                        }if(err.response.status === 400){
+                            alert("Verifique se os campos foram preenchidos corretamente.");
+                        }
                         if(err.response.status >= 500){
                             alert("Serviço indisponível.");
                         }
                     }  
                 }  
         }
-        
+       
         function closeEye(){
             setEye("close");
             document.getElementById("senha").type = "password";
@@ -38,16 +52,19 @@ export default function Login() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
-
-        return (
+        
+        return (         
         <div>
-            <div className="div-logo">
+           
+            <NoLoginHamburguer/>
+            <div class="div-logo">
                 <Logo />
-                <div className="div-logo-description">
+                <div class="div-logo-description">
                     <h2>Fortunator</h2>
                     <h3>Controle Financeiro</h3>
                 </div>
             </div>
+
             <div className="div-gif">
                 <img src={finger} height="55px" alt="finger-gif" />
                 <div>
@@ -55,13 +72,18 @@ export default function Login() {
                      <p className="sub-title">Preencha os campos com suas credenciais para entrar.</p>
                 </div>     
             </div>
-           
+
            <form>
                <input
                    placeholder="E-mail"
                    value={email}
                    onChange={e => { setEmail(e.target.value) }}
                />
+               {(function () {
+                   if(unauthorized === true){
+                    return(<p className="password-mismatched">Usuário e senha não correspondem</p>)
+                   }
+               })()}
                <input
                    placeholder="Senha"
                    id="senha"
