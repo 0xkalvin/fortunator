@@ -34,6 +34,8 @@ export default function Login() {
                     }else{
                         if(err.response.status === 401 || err.response.status === 404){
                             setUnauthorized(true);
+                        }if(err.response.status === 400){
+                            alert("Verifique se os campos foram preenchidos corretamente.");
                         }
                         if(err.response.status >= 500){
                             alert("Serviço indisponível.");

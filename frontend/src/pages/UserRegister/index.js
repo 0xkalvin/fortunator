@@ -27,7 +27,7 @@ export default function UserRegister() {
                         "Content-Type": "application/json"
                     }
                     await api.post('/users', data, headers).then(function(response){
-                        if(response.status === 200){
+                        if(response.status === 201){
                             setRegisterSuccess(true);
                         }
                     })
@@ -35,7 +35,9 @@ export default function UserRegister() {
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
                     }else{
-                        if(err.response.status === 409){
+                        if(err.response.status === 400){
+                            alert("Verifique se os campos foram preenchidos corretamente.");
+                        }if(err.response.status === 409){
                             alert("Usuário já cadastrado.");
                         }if(err.response.status >= 500){
                             alert("Serviço indisponível.");
