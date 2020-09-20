@@ -8,7 +8,7 @@ import './styles.css'
 import api from '../../service/api';
 import registerGif from '../../assets/register.gif'
 import Logo from '../../components/Logo'
-import Hamburguer from '../../components/Hamburguer'
+import NoLoginHamburguer from '../../components/NoLoginHamburguer'
 
 export default function UserRegister() {
         const [name, setName] = useState('');
@@ -68,6 +68,7 @@ export default function UserRegister() {
         return (
         <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
             {(function () {
                     if(goToLogin === true){ return <Redirect to="/register-success"/> }
                })()}
@@ -79,6 +80,9 @@ export default function UserRegister() {
     </div>
 >>>>>>> add hamburguer list in login and register menu
 =======
+=======
+            <NoLoginHamburguer/>
+>>>>>>> front: menu with and withoud login
             {(function () {
                     if(registerSucces === true){ return <Redirect to="/register-success"/> }
                })()}

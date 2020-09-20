@@ -18,14 +18,14 @@
 #menuToggle a
 {
   text-decoration: none;
-  color: #232323;
+  color: #f0f0f5;
   
   transition: color 0.3s ease;
 }
 
 #menuToggle a:hover
 {
-  color: tomato;
+  color: #FFE500;
 }
 
 
@@ -57,7 +57,7 @@
   margin-bottom: 5px;
   position: relative;
   
-  background: #cdcdcd;
+  background: #00a8a0;
   border-radius: 3px;
   
   z-index: 1;
@@ -87,7 +87,7 @@
 {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
+  background: #f0f0f5;
 }
 
 /*
@@ -119,7 +119,7 @@
   padding: 50px;
   padding-top: 125px;
   
-  background: #ededed;
+  background: #00a8a0;
   list-style-type: none;
   -webkit-font-smoothing: antialiased;
   /* to stop flickering of text in safari */

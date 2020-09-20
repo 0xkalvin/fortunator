@@ -6,7 +6,7 @@ import './styles.css'
 import api from '../../service/api';
 import Logo from '../../components/Logo'
 import finger from '../../assets/finger.gif'
-import Hamburguer from '../../components/Hamburguer'
+import NoLoginHamburguer from '../../components/NoLoginHamburguer'
 
 
 export default function Login() {
@@ -52,7 +52,7 @@ export default function Login() {
         return (         
         <div>
            
-            <Hamburguer/>
+            <NoLoginHamburguer/>
             <div class="div-logo">
                 <Logo />
                 <div class="div-logo-description">
