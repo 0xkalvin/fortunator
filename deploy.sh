@@ -6,7 +6,7 @@ BACKEND=fortunator-backend
 was_backend_already_deployed=0
 was_frontend_already_deployed=0
 
-for PROJECT in $(git log --name-only --oneline --no-merges -1 | sed 1d | grep '/' | cut -d "/" -f1); do
+for PROJECT in $(git log --name-only --oneline -m -1 | sed 1d | grep '/' | cut -d "/" -f1); do
     echo "Modified folder -> $PROJECT"
 
     if [[ "$PROJECT" = "backend" ]] && [[ $was_backend_already_deployed -eq 0 ]] ; then
