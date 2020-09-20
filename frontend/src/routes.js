@@ -10,7 +10,7 @@ import RegisterSuccess from './pages/RegisterSuccess'
 export default function Routes(){
     const PrivateRoute = ({ component: Component, ...rest }) => (
         <Route {...rest} render={props => (
-            isAuthenticated() == 'true'? (
+            isAuthenticated() === 'true'? (
                 <Component {...props}/>
             ):(
                 <Redirect to={{ pathname: '/login', state: { from: props.location }}}/>
@@ -19,7 +19,7 @@ export default function Routes(){
     )
     const LoginRoute = ({ component: Component, ...rest }) => (
         <Route {...rest} render={props => (
-            isAuthenticated() == 'false'? (
+            isAuthenticated() === 'false'? (
                 <Component {...props}/>
             ):(
                 <Redirect to={{ pathname: '/home', state: { from: props.location }}}/>
@@ -31,10 +31,10 @@ export default function Routes(){
         <BrowserRouter>
             <Switch>
                 <LoginRoute path="/login" exact component={Login}/>
+                <LoginRoute path="/" exact component={Login}/>
                 <PrivateRoute path="/home" component={Home}/>
                 <Route path="/register" component={UserRegister}/>
-                <Route path="/register-success" component={RegisterSuccess}/>
-                <Route path="/" component={Login}/>
+                <Route path="/register-success" component={RegisterSuccess}/>       
             </Switch>
         </BrowserRouter>
     )

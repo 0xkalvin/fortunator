@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../global.css';
 import './styles.css'
 import Logo from '../../components/Logo'
@@ -20,7 +20,7 @@ export default function Home() {
             <div className="div-gif">
                 <img src={finger} height="55px" alt="finger-gif" />
                 <div>
-                     <h1 className="title-gif">Olá, Kaique</h1>
+                     <h1 className="title-gif">Olá</h1>
                      <p className="sub-title">Bem-Vindo ao Fortunator.</p>
                 </div>     
             </div>
