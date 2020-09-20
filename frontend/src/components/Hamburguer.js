@@ -29,7 +29,7 @@ const Hamburguer=()=> {
                     <span></span> 
 
                     <ul id="menu">
-                    <a href="#" class="tooltip" data-title="Logout"><button type="button" className="invisible-button" onClick={e => { logout()}}><AiOutlinePoweroff size={22} color="#f0f0f5" /></button></a>
+                    <a href="#" className="tooltip" data-title="Logout"><button type="button" className="invisible-button" onClick={e => { logout()}}><AiOutlinePoweroff size={22} color="#f0f0f5" /></button></a>
                     <a href="#"><li><BsHouseDoor size={22} color="#f0f0f5" /> Home</li></a>
                     <a href="#"><li><RiCoinsLine size={22} color="#f0f0f5" /> Transações</li></a>
                     <a href="#"><li><IoMdPaper size={22} color="#f0f0f5" /> Extrato</li></a>
