@@ -36,8 +36,14 @@ Tecnologias usadas na construção da aplicação
 | email    | String |        True |
 | password | String |        True |
 
+## Diagrama de infraestrutura
+
+<p align="center">
+<img src="docs/cloudCraft.png" alt="cloudCraft" width="500" height="500"/>
+</p>
+
 ## Autores
 
-| [ <img src="https://github.com/joaozerwes.png" width="130px;"/><br /><sub>**João Zerwes**</sub>](https://github.com/joaozerwes)<br /> | [<img src="https://github.com/KaiqueJuvencio.png" width="130px;"/><br /><sub>**Kaique Juvêncio**</sub>](https://github.com/KaiqueJuvencio)<br /> | [ <img src="https://github.com/0xkalvin.png" width="130px;"/><br/><sub>**Kalvin Vasconcellos**</sub>](https://github.com/0xkalvin)<br /> |
+| [ <img src="https://github.com/joaozerwes.png" width="130px;"/><br /><sub>**João Zerwes**</sub>](https://github.com/joaozerwes)<br /> | [<img src="https://github.com/KaiqueJuvencio.png" width="130px;"/><br /><sub>**Kaique Juvencio**</sub>](https://github.com/KaiqueJuvencio)<br /> | [ <img src="https://github.com/0xkalvin.png" width="130px;"/><br/><sub>**Kalvin Vasconcellos**</sub>](https://github.com/0xkalvin)<br /> |
 | :-----------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
 |    [<img src="https://github.com/Rothero.png" width="130px;"/><br /><sub>**Roger Rojas**</sub>](https://github.com/Rothero)<br />     |         [ <img src="https://github.com/wkinho.png" width="130px;"/><br /><sub>**Wendel Sergio**</sub>](https://github.com/wkinho)<br />          |
