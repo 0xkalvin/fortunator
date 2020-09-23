@@ -39,7 +39,7 @@ Tecnologias usadas na construção da aplicação
 ## Diagrama de infraestrutura
 
 <p align="center">
-<img src="docs/cloudCraft.png" alt="cloudCraft" width="500" height="500"/>
+<img src="docs/cloudCraft.png" alt="cloudCraft" width="850" height="500"/>
 </p>
 
 ## Autores
