@@ -8,11 +8,13 @@ import api from '../../service/api';
 import walletGif from '../../assets/wallet.gif'
 import Logo from '../../components/Logo'
 import Hamburguer from '../../components/Hamburguer'
+import { mask, unMask } from 'remask'
 
 export default function RegisterTransaction() {
         const [description, setDescription] = useState('');
         const [date, setDate] = useState('');
         const [amount, setAmount] = useState('');
+        const [amountMasked, setAmountMasked] = useState('');
         const [type, setType] = useState('');
         const [categorie, setCategorie] = useState('');
 
@@ -43,7 +45,13 @@ export default function RegisterTransaction() {
                 }  
             }
         }
-        
+
+        const onChangeRealMask = ev => {         
+            setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
+            setAmount(unMask(amountMasked));
+        }
+        console.log(amount);
+
         return (
         <div>
             <Hamburguer/>  
@@ -63,9 +71,12 @@ export default function RegisterTransaction() {
                     <div className="div-input-transacao-esquerda">
                         <label for="DateTransaction"><h2 className="h2-label">Valor</h2></label>
                         <input
+                            type="text"
+                            
                             className="input-maior"
                             placeholder="R$ 0,00"
-                            onChange={e => { setAmount(e.target.value) }}
+                            onChange={onChangeRealMask}
+                            value={amountMasked}
                         />
                     </div>
                     <div className="div-input-transacao-direita">
