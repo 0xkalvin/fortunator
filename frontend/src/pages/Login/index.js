@@ -15,7 +15,6 @@ export default function Login() {
         const [eye, setEye] = useState('close');
         const [unauthorized, setUnauthorized] = useState('');
 
-
         async function userLogin(){
                 try{
                     const data = {email: email, password: password}
