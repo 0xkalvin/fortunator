@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/categories")
+@RequestMapping(value = "/transactions/categories")
 public class TransactionCategoryController {
 
 	private static final int SC_OK = 200;
@@ -43,13 +44,13 @@ public class TransactionCategoryController {
 		return transactionCategoryService.createCategory(transactionCategory);
 	}
 
+	@CrossOrigin
 	@ApiOperation(value = "Get all categories")
 	@ApiResponses(value = { @ApiResponse(code = SC_OK, message = "ok"),
 			@ApiResponse(code = NO_CONTENT, message = "When has no categories.") })
-	@CrossOrigin
-	@GetMapping("/categories")
-	public ResponseEntity<List<TransactionCategory>> getAllCategories() {
-		List<TransactionCategory> categories =transactionCategoryService.getAllCategories();
+	@GetMapping("/{userId}")
+	public ResponseEntity<List<TransactionCategory>> getCategoriesByUser(@PathVariable Long userId) {
+		List<TransactionCategory> categories = transactionCategoryService.getCategoriesByUserId(userId);
 		if(categories.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

@@ -1,9 +1,11 @@
-CREATE TABLE TRANSACTION_CATEGORIES (
+CREATE TABLE transaction_categories (
 	id INT GENERATED ALWAYS AS IDENTITY,
+	user_id INT NOT NULL,
 	name varchar(255) NOT NULL,
-	description varchar(255),
+	description varchar(255) NOT NULL,
+
 	primary key (id)
 );
 
-INSERT INTO TRANSACTION_CATEGORIES (name, description) VALUES ('Salário', 'Salário mensal');
-INSERT INTO TRANSACTION_CATEGORIES (name, description) VALUES ('Contas', 'Contas da casa');
+alter table transaction_categories add constraint fk_user
+foreign key (user_id) references users (id);

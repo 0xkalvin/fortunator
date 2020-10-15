@@ -4,20 +4,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "transaction_categories")
 public class TransactionCategory {
 	
-	@JsonProperty(access = Access.READ_ONLY)
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -29,13 +24,17 @@ public class TransactionCategory {
 	@Size(max = 255)
 	private String description;
 	
+	@ManyToOne
+	private User user;
+	
 	public TransactionCategory() {
 	}
 
-	public TransactionCategory(Long id, String name, String description) {
+	public TransactionCategory(Long id, String name, String description, User user) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -60,5 +59,13 @@ public class TransactionCategory {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
