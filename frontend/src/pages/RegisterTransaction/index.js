@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { Redirect } from 'react-router'
 import '../../global.css';
 import './styles.css'
 import api from '../../service/api';
 import walletGif from '../../assets/wallet.gif'
-import Logo from '../../components/Logo'
 import Hamburguer from '../../components/Hamburguer'
 import { mask, unMask } from 'remask'
+import { BsPlusSquare } from 'react-icons/bs';
 
 export default function RegisterTransaction() {
         const [description, setDescription] = useState('');
@@ -16,14 +15,14 @@ export default function RegisterTransaction() {
         const [amount, setAmount] = useState('');
         const [amountMasked, setAmountMasked] = useState('');
         const [type, setType] = useState('');
-        const [categorie, setCategorie] = useState('');
+        const [category, setCategory] = useState('');
 
         async function trasactionRegister(){
             if(type==="" || type==="Nenhum"){
                 alert("Selecione um tipo para a transação. ");
             }else{
                 try{
-                    const data = {description:description, date:date, amount:amount, type:type, categorie:categorie}
+                    const data = {description:description, date:date, amount:amount, type:type, category:category}
                     const headers = {
                         "Content-Type": "application/json"
                     }
@@ -49,11 +48,10 @@ export default function RegisterTransaction() {
         const onChangeRealMask = ev => {         
             setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
             setAmount(unMask(amountMasked));
-        }
-        console.log(amount);
+        }  
 
         return (
-        <div>
+        <div>    
             <Hamburguer/>  
             <div className="div-gif">
                 <img className="wallet-gif" src={walletGif} alt="wallet-gif" height="170px" />
@@ -71,8 +69,7 @@ export default function RegisterTransaction() {
                     <div className="div-input-transacao-esquerda">
                         <label for="DateTransaction"><h2 className="h2-label">Valor</h2></label>
                         <input
-                            type="text"
-                            
+                            type="text"                           
                             className="input-maior"
                             placeholder="R$ 0,00"
                             onChange={onChangeRealMask}
@@ -99,7 +96,7 @@ export default function RegisterTransaction() {
                 <div className="div-trasaction">
                     <div className="div-input-transacao-esquerda">
                         <label for="TypeTransaction"><h2 className="h2-label">Categoria</h2></label>
-                        <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategorie(e.target.value)}}>
+                        <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>
                             <option value="Nenhuma">Nenhuma</option>
                             <option value="Alimentacao">Alimentação</option>
                             <option value="Casa">Casa</option>
@@ -107,8 +104,9 @@ export default function RegisterTransaction() {
                             <option value="Lazer">Lazer</option>
                             <option value="Saude">Saúde</option>
                             <option value="Transporte">Transporte</option>
-                            <option value="AnimalEstimacao">Animal de Estimação</option>
+                            <option value="AnimalEstimacao">Animal de Estimação</option>                        
                         </select>
+                        <a href="register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></a>
                     </div>
                     <div className="div-input-transacao-direita">
                         <label for="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>
