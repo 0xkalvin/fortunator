@@ -8,11 +8,12 @@ import walletGif from '../../assets/wallet.gif'
 import Hamburguer from '../../components/Hamburguer'
 
 export default function RegisterCategory() {
-        const [title, setTitle] = useState('');
+        const [name, setName] = useState('');
+        const [description, setDescription] = useState('');
 
         async function categoryRegister(){
             try{
-                const data = {title:title}
+                const data = {name:name, description:description}
                 const headers = {
                     "Content-Type": "application/json"
                 }                    
@@ -49,10 +50,15 @@ export default function RegisterCategory() {
             </Link>
            <form>
                <input
-                   placeholder="Título da Categoria"
-                   value={title}
-                   onChange={e => { setTitle(e.target.value) }}
-               />          
+                   placeholder="Nome"
+                   value={name}
+                   onChange={e => { setName(e.target.value) }}
+               />   
+               <input
+                   placeholder="Descrição"
+                   value={description}
+                   onChange={e => { setDescription(e.target.value) }}
+               />         
                <button className="button-intern" type="button" onClick={categoryRegister}>Salvar</button>
            </form>
        </div>
