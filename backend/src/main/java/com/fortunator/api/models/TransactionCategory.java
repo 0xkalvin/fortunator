@@ -4,17 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "transaction_categories")
+public class TransactionCategory {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,23 +21,20 @@ public class User {
 	@Size(max = 60)
 	private String name;
 	
-	@NotBlank
-	@Email
 	@Size(max = 255)
-	private String email;
+	private String description;
 	
-	@NotBlank
-	@Size(max = 32)
-	private String password;
+	@ManyToOne
+	private User user;
 	
-	public User() {
+	public TransactionCategory() {
 	}
 
-	public User(Long id, String name, String email, String password) {
+	public TransactionCategory(Long id, String name, String description, User user) {
 		this.id = id;
 		this.name = name;
-		this.email = email;
-		this.password = password;
+		this.description = description;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -59,19 +53,19 @@ public class User {
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getPassword() {
-		return password;
+	public User getUser() {
+		return user;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
