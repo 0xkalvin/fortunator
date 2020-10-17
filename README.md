@@ -36,16 +36,6 @@ Tecnologias usadas na construção da aplicação
 | email    | String |        True |
 | password | String |        True |
 
-### Transactions
-
-| Campos | Tipo | Obrigatório | Descrição |
-| ------------- |:-------------:| -----:|-------:|
-|  amount| Float | True | |
-| type| String|   True | |
-| description | String |   False|  |
-| TransactionCategoriesId | String | True | FK  |
-| user_id | String | True | FK  |
-| date| Date | True | |
 
 ### Transaction Categories
 
@@ -53,7 +43,7 @@ Tecnologias usadas na construção da aplicação
 | ------------- |:-------------:| -----:|-------:|
 | id   | Int   | True  | |
 | user_id  | Int  | True | |
-|  name| String | True | |
+|  name | String | True | |
 | description | String | True | |
 
 
