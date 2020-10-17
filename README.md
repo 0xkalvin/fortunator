@@ -47,6 +47,13 @@ Tecnologias usadas na construção da aplicação
 | UserId | String | True | FK  |
 | Date| date | True | |
 
+### Transaction Categories
+
+| Campos | Tipo | Obrigatório | Descrição |
+| ------------- |:-------------:| -----:|-------:|
+|  Name| String | True | |
+| Description | String | False | |
+
 
 ## Diagrama de infraestrutura
 
