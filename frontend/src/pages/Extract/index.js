@@ -10,6 +10,7 @@ import axios from 'axios';
 
 export default function Extract() {
         const [extract, setExtract] = useState([]);
+        const [date, setDate] = useState('');
 
         function HandleExtract(props){
             useEffect(()=>{
@@ -27,14 +28,14 @@ export default function Extract() {
         const ExtractComponent = (note) => {
             return (                  
                 <div className="timeline">  
-                    {extract.map(receiver => (                           
+                    {extract.map(extract => (                           
                         <div className="container right">
                             <div className="content">
                                 <div className="div-date">
-                                    <h3>{receiver.name}</h3>
-                                    <p>{receiver.pushed_at}</p>
+                                    <h3>{extract.name}</h3>
+                                    <p>{extract.pushed_at}</p>
                                 </div>
-                                <p>{receiver.language}</p>
+                                <p>{extract.language}</p>
                                 <p>R$ 700,00</p>
                             </div>
                         </div>                          
@@ -58,6 +59,13 @@ export default function Extract() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
+            <input
+                className="input-maior"
+                id="date"
+                type="month"
+                value={date}
+                onChange={e => { setDate(e.target.value) }}
+            />
             <ExtractComponent/>
        </div>   
         )

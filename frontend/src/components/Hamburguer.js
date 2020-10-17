@@ -32,7 +32,7 @@ const Hamburguer=()=> {
                     <a href="#" className="tooltip" data-title="Logout"><button type="button" className="invisible-button" onClick={e => { logout()}}><AiOutlinePoweroff size={22} color="#f0f0f5" /></button></a>
                     <a href="home"><li><BsHouseDoor size={22} color="#f0f0f5" /> Home</li></a>
                     <a href="register-transaction"><li><RiCoinsLine size={22} color="#f0f0f5" /> Transações</li></a>
-                    <a href="#"><li><IoMdPaper size={22} color="#f0f0f5" /> Extrato</li></a>
+                    <a href="extract"><li><IoMdPaper size={22} color="#f0f0f5" /> Extrato</li></a>
                     <a href="#"><li><BsAlarm size={22} color="#f0f0f5" /> Lembretes</li></a>
                     <a href="#"><li><FaTasks size={22} color="#f0f0f5" /> Metas</li></a>
                     <a href="#"><li><AiOutlineInfoCircle size={22} color="#f0f0f5" /> Sobre os devs</li></a>
