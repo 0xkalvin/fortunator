@@ -40,19 +40,21 @@ Tecnologias usadas na construção da aplicação
 
 | Campos | Tipo | Obrigatório | Descrição |
 | ------------- |:-------------:| -----:|-------:|
-|  Amount| Float | True | |
-| Type| String|   True | |
-| Description | String |   False|  |
+|  amount| Float | True | |
+| type| String|   True | |
+| description | String |   False|  |
 | TransactionCategoriesId | String | True | FK  |
-| UserId | String | True | FK  |
-| Date| date | True | |
+| user_id | String | True | FK  |
+| date| Date | True | |
 
 ### Transaction Categories
 
 | Campos | Tipo | Obrigatório | Descrição |
 | ------------- |:-------------:| -----:|-------:|
-|  Name| String | True | |
-| Description | String | False | |
+| id   | Int   | True  | |
+| user_id  | Int  | True | |
+|  name| String | True | |
+| description | String | True | |
 
 
 ## Diagrama de infraestrutura
