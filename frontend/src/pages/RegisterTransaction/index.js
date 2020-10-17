@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import '../../global.css';
@@ -8,6 +8,7 @@ import walletGif from '../../assets/wallet.gif'
 import Hamburguer from '../../components/Hamburguer'
 import { mask, unMask } from 'remask'
 import { BsPlusSquare } from 'react-icons/bs';
+import axios from 'axios';
 
 export default function RegisterTransaction() {
         const [description, setDescription] = useState('');
@@ -16,10 +17,13 @@ export default function RegisterTransaction() {
         const [amountMasked, setAmountMasked] = useState('');
         const [type, setType] = useState('');
         const [category, setCategory] = useState('');
+        const [categoryOptions, setCategoryOptions] = useState([]);
 
         async function trasactionRegister(){
             if(type==="" || type==="Nenhum"){
                 alert("Selecione um tipo para a transação. ");
+            }if(categoryOptions==="" || categoryOptions==="Nenhum"){
+                alert("Selecione uma categoria para a transação. ");
             }else{
                 try{
                     const data = {description:description, date:date, amount:amount, type:type, category:category}
@@ -45,13 +49,38 @@ export default function RegisterTransaction() {
             }
         }
 
+        function HandleCategory(props){
+            useEffect(()=>{
+                try {
+                    axios.get('https://api.github.com/users/KaiqueJuvencio/repos').then(res => {
+                        setCategoryOptions(res.data);
+                        console.log(categoryOptions);
+                    });
+                } catch (err) {
+                    alert(err);
+                }
+            }, []) // <-- empty dependency array
+            return <div></div>
+        }      
+        
+        const CategoryComponent = (note) => {
+            return (                  
+                <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>                                  
+                    {categoryOptions.map(category => (                                                      
+                        <option value={category.name}>{category.name}</option>       
+                    ))}
+                </select>
+            )              
+        }
+
         const onChangeRealMask = ev => {         
             setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
             setAmount(unMask(amountMasked));
-        }  
+        } 
 
         return (
-        <div>    
+        <div>  
+            {HandleCategory()}
             <Hamburguer/>  
             <div className="div-gif">
                 <img className="wallet-gif" src={walletGif} alt="wallet-gif" height="170px" />
@@ -96,16 +125,7 @@ export default function RegisterTransaction() {
                 <div className="div-trasaction">
                     <div className="div-input-transacao-esquerda">
                         <label for="TypeTransaction"><h2 className="h2-label">Categoria</h2></label>
-                        <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>
-                            <option value="Nenhuma">Nenhuma</option>
-                            <option value="Alimentacao">Alimentação</option>
-                            <option value="Casa">Casa</option>
-                            <option value="Educacao">Educação</option>
-                            <option value="Lazer">Lazer</option>
-                            <option value="Saude">Saúde</option>
-                            <option value="Transporte">Transporte</option>
-                            <option value="AnimalEstimacao">Animal de Estimação</option>                        
-                        </select>
+                        <CategoryComponent/>
                         <a href="register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></a>
                     </div>
                     <div className="div-input-transacao-direita">
