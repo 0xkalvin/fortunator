@@ -8,6 +8,7 @@ import walletGif from '../../assets/wallet.gif'
 import Hamburguer from '../../components/Hamburguer'
 import { mask, unMask } from 'remask'
 import { BsPlusSquare } from 'react-icons/bs';
+import { Timeline } from 'rsuite';
 
 export default function Extract() {
         const [description, setDescription] = useState('');
@@ -45,11 +46,6 @@ export default function Extract() {
             }
         }
 
-        const onChangeRealMask = ev => {         
-            setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
-            setAmount(unMask(amountMasked));
-        }  
-
         return (
         <div>    
             <Hamburguer/>  
@@ -64,62 +60,28 @@ export default function Extract() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
-           <form>
-           <div className="div-trasaction"> 
-                    <div className="div-input-transacao-esquerda">
-                        <label for="DateTransaction"><h2 className="h2-label">Valor</h2></label>
-                        <input
-                            type="text"                           
-                            className="input-maior"
-                            placeholder="R$ 0,00"
-                            onChange={onChangeRealMask}
-                            value={amountMasked}
-                        />
-                    </div>
-                    <div className="div-input-transacao-direita">
-                        <label for="DateTransaction"><h2 className="h2-label">Data da Transação</h2></label>
-                        <input
-                            className="input-maior"
-                            id="date"
-                            type="date"
-                            value={date}
-                            onChange={e => { setDate(e.target.value) }}
-                        />
-                    </div>   
+            <div class="timeline">
+            <div class="container right">
+                <div class="content">
+                <div className="div-date">
+                    <h3>Mercado</h3>
+                    <p>18/10/2020</p>
                 </div>
-
-               <input
-                   placeholder="Descrição da Transação"
-                   value={description}
-                   onChange={e => { setDescription(e.target.value) }}
-               />
-                <div className="div-trasaction">
-                    <div className="div-input-transacao-esquerda">
-                        <label for="TypeTransaction"><h2 className="h2-label">Categoria</h2></label>
-                        <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>
-                            <option value="Nenhuma">Nenhuma</option>
-                            <option value="Alimentacao">Alimentação</option>
-                            <option value="Casa">Casa</option>
-                            <option value="Educacao">Educação</option>
-                            <option value="Lazer">Lazer</option>
-                            <option value="Saude">Saúde</option>
-                            <option value="Transporte">Transporte</option>
-                            <option value="AnimalEstimacao">Animal de Estimação</option>                        
-                        </select>
-                        <a href="register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></a>
-                    </div>
-                    <div className="div-input-transacao-direita">
-                        <label for="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>
-                        <select description="Transaction" id="Transac" className="input-maior" onChange={e => {setType(e.target.value)}}>
-                            <option value="Nenhum">Nenhum</option>
-                            <option value="Receita">Receita</option>
-                            <option value="Despesas">Despesa</option>
-                        </select>
-                    </div>       
-                </div>               
-
-               <button className="button-intern" type="button" onClick={trasactionRegister}>Salvar</button>
-           </form>
+                <p>Compra do mês</p>
+                <p>R$ 700,00</p>
+                </div>
+            </div>
+            <div class="container right">
+                <div class="content">
+                <div className="div-date">
+                    <h3>Saúde</h3>
+                    <p>16/10/2020</p>
+                </div>
+                <p>Whey</p>
+                <p>R$ 120,00</p>
+                </div>
+            </div>
+            </div>
        </div>
         )
 }
