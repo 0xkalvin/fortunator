@@ -22,7 +22,7 @@ public class TransactionCategoryService {
 	
 	public TransactionCategory createCategory(TransactionCategory transactionCategory) {
 		User user = userRepository.findById(transactionCategory.getUser().getId())
-				.orElseThrow(() -> new UserNotFoundException("User not exists"));
+				.orElseThrow(() -> new UserNotFoundException("User does not exist"));
 		
 		transactionCategory.setUser(user);
 		transactionCategory.setName(transactionCategory.getName().replaceAll(" ", "_").toLowerCase());
