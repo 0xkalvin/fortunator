@@ -52,9 +52,8 @@ export default function RegisterTransaction() {
         function HandleCategory(props){
             useEffect(()=>{
                 try {
-                    axios.get('https://api.github.com/users/KaiqueJuvencio/repos').then(res => {
+                    api.get('/transactions/categories/' + localStorage.getItem('userId')).then(res => {
                         setCategoryOptions(res.data);
-                        console.log(categoryOptions);
                     });
                 } catch (err) {
                     alert(err);
@@ -64,14 +63,25 @@ export default function RegisterTransaction() {
         }      
         
         const CategoryComponent = (note) => {
+            if(categoryOptions.length != 0){
             return (                  
-                <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>                                  
+                <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>                                                  
                     {categoryOptions.map(category => (                                                      
                         <option value={category.name}>{category.name}</option>       
                     ))}
                 </select>
-            )              
-        }
+            )
+            }else{
+                return (                  
+                    <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>                                                                                                                            
+                        <option value="Alimentacao">Alimentação</option>
+                        <option value="Educacao">Educação</option>
+                        <option value="Lazer">Lazer</option>              
+                        <option value="Saude">Saúde</option>              
+                    </select>
+                )
+            } 
+            }   
 
         const onChangeRealMask = ev => {         
             setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));

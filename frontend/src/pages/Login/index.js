@@ -24,6 +24,7 @@ export default function Login() {
                     await api.post('users/login', data, headers).then(function(response){
                         if(response.status === 200){
                             localStorage.setItem('auth', 'true');
+                            localStorage.setItem('userId', response.data.userId);
                             window.location.reload(false);
                         }
                     })
