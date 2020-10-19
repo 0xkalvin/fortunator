@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.fortunator.api.service.exceptions.EmailExistsException;
+import com.fortunator.api.service.exceptions.ResourceNotFoundException;
 import com.fortunator.api.service.exceptions.UserNotFoundException;
 
 
@@ -35,7 +36,21 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<StandardError> resourceNotFound(UserNotFoundException e, HttpServletRequest request) {
+		HttpStatus status;
+		if("User not found".equals(e.getMessage())){
+			status = HttpStatus.NOT_FOUND;			
+		} else {
+			status = HttpStatus.FORBIDDEN;
+		}
+		
 		String error = "User not found";
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+		String error = "Resource not found";
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
 				request.getRequestURI());

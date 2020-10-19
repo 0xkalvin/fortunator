@@ -1,6 +1,7 @@
 package com.fortunator.api.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,9 @@ public class TransactionCategoryService {
 
 		return defaultCategories;
 
+	}
+	
+	public Optional<TransactionCategory> findById(Long transactionCategoryId){
+		return transactionCategoryRepository.findById(transactionCategoryId);
 	}
 }

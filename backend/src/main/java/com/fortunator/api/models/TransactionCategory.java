@@ -9,6 +9,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 @Table(name = "transaction_categories")
 public class TransactionCategory {
@@ -24,6 +27,7 @@ public class TransactionCategory {
 	@Size(max = 255)
 	private String description;
 
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne
 	private User user;
 
@@ -71,7 +75,7 @@ public class TransactionCategory {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	public User getUser() {
 		return user;
 	}
