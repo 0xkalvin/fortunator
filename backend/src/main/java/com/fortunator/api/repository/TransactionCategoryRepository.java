@@ -11,4 +11,5 @@ import com.fortunator.api.models.TransactionCategory;
 public interface TransactionCategoryRepository extends JpaRepository<TransactionCategory, Long>{
 
 	List<TransactionCategory> findByUserId(Long userId);
+	List<TransactionCategory> findByIsDefault(Boolean isDefault);
 }

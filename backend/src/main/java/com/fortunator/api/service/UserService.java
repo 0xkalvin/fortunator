@@ -1,5 +1,6 @@
 package com.fortunator.api.service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.security.auth.login.LoginException;
@@ -7,6 +8,7 @@ import javax.security.auth.login.LoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fortunator.api.models.Balance;
 import com.fortunator.api.models.User;
 import com.fortunator.api.repository.UserRepository;
 import com.fortunator.api.service.exceptions.EmailExistsException;
@@ -23,6 +25,10 @@ public class UserService {
 			throw new EmailExistsException("Email already registered, please enter another email and try again.");
 		}
 		user.setPassword(String.valueOf(user.getPassword().hashCode()));
+		Balance balance = new Balance();
+		balance.setUser(user);
+		balance.setAmount(new BigDecimal(0.0));
+		user.setBalance(balance);
 		return userRepository.save(user);
 	}
 	
@@ -39,5 +45,9 @@ public class UserService {
 			return user;
 		}
 		throw new LoginException("Password is incorrect.");
+	}
+	
+	public Optional<User> findUserById(Long id) {
+		return userRepository.findById(id);
 	}
 }

@@ -22,7 +22,7 @@
 		<swagger-models.version>1.5.21</swagger-models.version>
 	</properties>
 
-	<dependencies>		
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
