@@ -20,7 +20,7 @@ public class UserService {
 	
 	public User registerUser(User user) {
 		if(findByEmail(user.getEmail()).isPresent()) {
-			throw new EmailExistsException("Email alredy registered, please enter another email and try again.");
+			throw new EmailExistsException("Email already registered, please enter another email and try again.");
 		}
 		user.setPassword(String.valueOf(user.getPassword().hashCode()));
 		return userRepository.save(user);
