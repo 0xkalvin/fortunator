@@ -36,7 +36,6 @@ public class Transaction {
 	@NotNull
 	private TransactionTypeEnum type;
 	
-	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate date;
 	
 	public Transaction() {

@@ -42,7 +42,6 @@ public class TransactionService {
 
 		balanceService.updateBalance(transaction.getUser().getId(), transaction.getAmount(),
 				transaction.getType().toString());
-		transaction.setDate(LocalDate.now());
 		return transactionRepository.save(transaction);
 	}
 
