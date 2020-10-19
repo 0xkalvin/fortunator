@@ -9,7 +9,7 @@ export default function Home() {
     
         return (
         <div>
-             <Hamburguer/>
+            <Hamburguer/>
             <div className="div-logo">
                 <Logo />
                 <div className="div-logo-description">
