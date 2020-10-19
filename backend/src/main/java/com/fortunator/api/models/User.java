@@ -1,16 +1,15 @@
 package com.fortunator.api.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "users")
@@ -32,7 +31,10 @@ public class User {
 	@NotBlank
 	@Size(max = 32)
 	private String password;
-
+	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private Balance balance;
+	
 	public User() {
 	}
 
@@ -75,6 +77,14 @@ public class User {
 		this.password = password;
 	}
 
+	public Balance getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Balance balance) {
+		this.balance = balance;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -99,5 +109,5 @@ public class User {
 			return false;
 
 		return true;
-	}
+	}	
 }
