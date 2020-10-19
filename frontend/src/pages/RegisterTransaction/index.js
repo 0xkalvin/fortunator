@@ -26,15 +26,15 @@ export default function RegisterTransaction() {
                 alert("Selecione uma categoria para a transação. ");
             }else{
                 try{
-                    const data = {description:description, date:date, amount:amount, type:type, category:category}
+                    const data = {description:description, date:date, amount:amount, type:type, transactionCategory:{id:parseInt(category)}, user:{id:parseInt(localStorage.getItem('userId'))}}
                     const headers = {
                         "Content-Type": "application/json"
                     }
                     
                     console.log(data);
-                    await api.post('/register-transaction', data, headers).then(function(response){
+                    await api.post('/transactions', data, headers).then(function(response){
                         if(response.status === 200){
-                           
+                           alert("Transação cadastrada com sucesso!");
                         }
                     })
                 }catch(err){
@@ -67,7 +67,7 @@ export default function RegisterTransaction() {
             return (                  
                 <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>                                                  
                     {categoryOptions.map(category => (                                                      
-                        <option value={category.name}>{category.name}</option>       
+                        <option value={category.id}>{category.description}</option>       
                     ))}
                 </select>
             )
@@ -142,8 +142,8 @@ export default function RegisterTransaction() {
                         <label for="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>
                         <select description="Transaction" id="Transac" className="input-maior" onChange={e => {setType(e.target.value)}}>
                             <option value="Nenhum">Nenhum</option>
-                            <option value="Receita">Receita</option>
-                            <option value="Despesas">Despesa</option>
+                            <option value="INCOMING">Receita</option>
+                            <option value="EXPENSE">Despesa</option>
                         </select>
                     </div>       
                 </div>               
