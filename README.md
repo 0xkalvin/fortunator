@@ -36,6 +36,17 @@ Tecnologias usadas na construção da aplicação
 | email    | String |        True |
 | password | String |        True |
 
+
+### Transaction Categories
+
+| Campos | Tipo | Obrigatório | Descrição |
+| ------------- |:-------------:| -----:|-------:|
+| id   | Int   | True  | |
+| user_id  | Int  | True | |
+|  name | String | True | |
+| description | String | True | |
+
+
 ## Diagrama de infraestrutura
 
 <p align="center">
