@@ -27,6 +27,8 @@ public class TransactionCategory {
 	@ManyToOne
 	private User user;
 	
+	private boolean isDefault;
+	
 	public TransactionCategory() {
 	}
 
@@ -35,6 +37,15 @@ public class TransactionCategory {
 		this.name = name;
 		this.description = description;
 		this.user = user;
+		this.isDefault = false;
+	}
+
+	public TransactionCategory(Long id, String name, String description, User user, Boolean isDefault) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.user = user;
+		this.isDefault = isDefault;
 	}
 
 	public Long getId() {
@@ -67,5 +78,13 @@ public class TransactionCategory {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(Boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 }

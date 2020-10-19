@@ -2,6 +2,8 @@ package com.fortunator.api.service;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.mockito.InjectMocks;
@@ -65,13 +67,16 @@ public class TransactionCategoryTest {
 
     @Test
     public void shouldReturnCategoriesByUser() throws Exception {
-        long userId = 10;
+        Long userId = 10L;
         
         final User user = new User(userId, "roger", "roger@email.com", "senhadoroger");
-        final TransactionCategory category = new TransactionCategory(null, "delivery",
+        
+        final TransactionCategory category = new TransactionCategory(10L, "delivery",
                 "Aquelas comidinhas que peço de noite né", user);
 
-        doReturn(List.of(category)).when(transactionCategoryRepository).findByUserId(userId);
+
+        doReturn(new ArrayList<TransactionCategory>(List.of(category))).when(transactionCategoryRepository).findByUserId(userId);
+        doReturn(new ArrayList<TransactionCategory>(List.of(category))).when(transactionCategoryRepository).findByIsDefault(true);
 
         List<TransactionCategory> categories = transactionCategoryService.getCategoriesByUserId(userId);
 
