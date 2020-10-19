@@ -15,24 +15,24 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @Entity
 @Table(name = "users")
 public class User {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank
 	@Size(max = 60)
 	private String name;
-	
+
 	@NotBlank
 	@Email
 	@Size(max = 255)
 	private String email;
-	
+
 	@NotBlank
 	@Size(max = 32)
 	private String password;
-	
+
 	public User() {
 	}
 
