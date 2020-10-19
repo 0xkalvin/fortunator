@@ -24,7 +24,7 @@ import com.fortunator.api.service.exceptions.*;
 
 @ContextConfiguration(classes = { TransactionCategoryService.class })
 @ExtendWith(MockitoExtension.class)
-public class TransactionCategoryTest {
+public class TransactionCategoryServiceTest {
     @Mock
     private UserRepository userRepository;
 
