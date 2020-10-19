@@ -1,4 +1,4 @@
-.PHONY: default all build down test
+.PHONY: default all build down test backend database
 
 default: all
 
@@ -13,3 +13,9 @@ down:
 
 test:
 	@docker-compose up test-backend
+
+backend:
+	@docker-compose up backend
+
+database:
+	@docker-compose up -d postgres
