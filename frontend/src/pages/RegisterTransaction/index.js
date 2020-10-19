@@ -33,7 +33,7 @@ export default function RegisterTransaction() {
                     
                     console.log(data);
                     await api.post('/transactions', data, headers).then(function(response){
-                        if(response.status === 200){
+                        if(response.status === 201){
                            alert("Transação cadastrada com sucesso!");
                         }
                     })

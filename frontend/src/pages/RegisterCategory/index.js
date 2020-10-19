@@ -13,13 +13,13 @@ export default function RegisterCategory() {
 
         async function categoryRegister(){
             try{
-                const data = {name:name, description:description}
+                const data = {name:name, description:description, user:{id:parseInt(localStorage.getItem('userId'))}}
                 const headers = {
                     "Content-Type": "application/json"
                 }                    
                 console.log(data);
-                await api.post('/register-transaction', data, headers).then(function(response){
-                    if(response.status === 200){ 
+                await api.post('/transactions/categories', data, headers).then(function(response){
+                    if(response.status === 201){ 
                         alert("Categoria cadastrada com sucesso!")                          
                     }
                 })
@@ -51,14 +51,9 @@ export default function RegisterCategory() {
            <form>
                <input
                    placeholder="Nome"
-                   value={name}
-                   onChange={e => { setName(e.target.value) }}
-               />   
-               <input
-                   placeholder="Descrição"
                    value={description}
-                   onChange={e => { setDescription(e.target.value) }}
-               />         
+                   onChange={e => { setDescription(e.target.value); setName(e.target.value) }}
+               />          
                <button className="button-intern" type="button" onClick={categoryRegister}>Salvar</button>
            </form>
        </div>
