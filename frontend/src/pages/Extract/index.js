@@ -15,7 +15,7 @@ export default function Extract() {
         function HandleExtract(props){
             useEffect(()=>{
                 try {
-                    axios.get('https://api.github.com/users/KaiqueJuvencio/repos').then(res => {
+                    api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: '2020-10' } }).then(res => {
                         setExtract(res.data);
                     });
                 } catch (err) {
@@ -32,11 +32,11 @@ export default function Extract() {
                         <div className="container right">
                             <div className="content">
                                 <div className="div-date">
-                                    <h3>{extract.name}</h3>
-                                    <p>{extract.pushed_at}</p>
+                                    <h3>{extract.description}</h3>
+                                    <p>{extract.date}</p>
                                 </div>
-                                <p>{extract.language}</p>
-                                <p>R$ 700,00</p>
+                                <p></p>
+                                <p>R${extract.amount}</p>
                             </div>
                         </div>                          
                     ))}
@@ -59,13 +59,8 @@ export default function Extract() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
-            <input
-                className="input-maior"
-                id="date"
-                type="month"
-                value={date}
-                onChange={e => { setDate(e.target.value) }}
-            />
+            
+            
             <ExtractComponent/>
        </div>   
         )
