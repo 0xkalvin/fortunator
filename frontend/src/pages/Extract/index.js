@@ -28,18 +28,37 @@ export default function Extract() {
         const ExtractComponent = (note) => {
             return (                  
                 <div className="timeline">  
-                    {extract.map(extract => (                           
-                        <div className="container right">
+                    {extract.map(extract => { 
+                        if(extract.type === "EXPENSE"){
+                            return(
+                                <div className="container-expense right">
                             <div className="content">
                                 <div className="div-date">
                                     <h3>{extract.description}</h3>
+                                    <p>{extract.transactionCategory.description}</p>
                                     <p>{extract.date}</p>
                                 </div>
-                                <p></p>
-                                <p>R${extract.amount}</p>
+                                
+                                <p className="extract-amount-expense">- R$ {extract.amount}</p>
                             </div>
-                        </div>                          
-                    ))}
+                        </div>     
+                            )
+                        }else{
+                            return(
+                            <div className="container-incoming left">
+                            <div className="content">
+                                <div className="div-date">
+                                    <h3>{extract.description}</h3>
+                                    <p>{extract.transactionCategory.description}</p>
+                                    <p>{extract.date}</p>
+                                </div>
+                                
+                                <p className="extract-amount-incoming">+ R$ {extract.amount}</p>
+                            </div>
+                        </div>     
+                        )}                          
+                                             
+                    })}
                 </div>
             )              
         }
