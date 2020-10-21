@@ -6,66 +6,80 @@ import './styles.css'
 import api from '../../service/api';
 import extractGif from '../../assets/extract.gif'
 import Hamburguer from '../../components/Hamburguer'
-import axios from 'axios';
 
 export default function Extract() {
         const [extract, setExtract] = useState([]);
         const [date, setDate] = useState('');
 
-        function HandleExtract(props){
+        function HandleExtractFirstTime(props){
             useEffect(()=>{
                 try {
-                    api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: '2020-10' } }).then(res => {
-                        setExtract(res.data);
+                    var today = new Date();
+                    var currentDate;
+                    
+                    if(today.getMonth() >= 9){
+                        currentDate = today.getFullYear() + '-0' + today.getMonth();
+                    }else{
+                        currentDate = today.getFullYear() + '-' + today.getMonth();
+                    }         
+                    api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: currentDate} }).then(res => {
+                        setExtract(res.data);                        
                     });
                 } catch (err) {
                     alert(err);
                 }
             }, []) // <-- empty dependency array
             return <div></div>
-        }      
+        }   
+        
+        function HandleExtract(props){        
+                try {
+                    api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then(res => {
+                        setExtract(res.data);
+                    });
+                } catch (err) {
+                    alert(err);
+                }
+        }  
 
         const ExtractComponent = (note) => {
             return (                  
-                <div className="timeline">  
+                <div className="timeline">                 
                     {extract.map(extract => { 
                         if(extract.type === "EXPENSE"){
                             return(
-                                <div className="container-expense right">
-                            <div className="content">
-                                <div className="div-date">
-                                    <h3>{extract.description}</h3>
-                                    <p>{extract.transactionCategory.description}</p>
-                                    <p>{extract.date}</p>
+                            <div className="container-expense right">
+                                <div className="content">
+                                    <div className="div-date">
+                                        <h3>{extract.description}</h3>
+                                        <p>{extract.transactionCategory.description}</p>
+                                        <p>{extract.date}</p>
+                                    </div>              
+                                    <p className="extract-amount-expense">- R$ {extract.amount}</p>
                                 </div>
-                                
-                                <p className="extract-amount-expense">- R$ {extract.amount}</p>
-                            </div>
-                        </div>     
+                            </div>     
                             )
                         }else{
                             return(
                             <div className="container-incoming left">
-                            <div className="content">
-                                <div className="div-date">
-                                    <h3>{extract.description}</h3>
-                                    <p>{extract.transactionCategory.description}</p>
-                                    <p>{extract.date}</p>
+                                <div className="content">
+                                    <div className="div-date">
+                                        <h3>{extract.description}</h3>
+                                        <p>{extract.transactionCategory.description}</p>
+                                        <p>{extract.date}</p>
+                                    </div>      
+                                    <p className="extract-amount-incoming">+ R$ {extract.amount}</p>
                                 </div>
-                                
-                                <p className="extract-amount-incoming">+ R$ {extract.amount}</p>
-                            </div>
-                        </div>     
-                        )}                          
-                                             
-                    })}
+                            </div>     
+                        )}                                                                             
+                    })}                           
                 </div>
             )              
         }
 
         return ( 
         <div>  
-            {HandleExtract()}
+            {HandleExtractFirstTime()}
             <Hamburguer/>  
             <div className="div-gif">
                 <img className="extract-gif" src={extractGif} alt="wallet-gif" height="170px" />
@@ -79,8 +93,21 @@ export default function Extract() {
                     Voltar
             </Link>
             
-            
-            <ExtractComponent/>
+            <input
+                className="input-maior"
+                id="date"
+                type="month"
+                value={date}
+                onChange={e => { setDate(e.target.value) }}
+            />
+            <button className="button-intern" onClick={e => HandleExtract()}>Filtrar</button>
+            {(function () {
+                if(extract.length > 0){
+                    return(<ExtractComponent/>)
+                }else{
+                    return <div><h2>Nenhuma transação nesse mês</h2></div>
+                }       
+            })()}
        </div>   
         )
 }
