@@ -16,7 +16,7 @@ export default function RegisterTransaction() {
         const [amount, setAmount] = useState('');
         const [amountMasked, setAmountMasked] = useState('');
         const [type, setType] = useState('');
-        const [category, setCategory] = useState('');
+        const [category, setCategory] = useState('1');
         const [categoryOptions, setCategoryOptions] = useState([]);
 
         async function trasactionRegister(){
@@ -24,6 +24,12 @@ export default function RegisterTransaction() {
                 alert("Selecione um tipo para a transação. ");
             }if(categoryOptions==="" || categoryOptions==="Nenhum"){
                 alert("Selecione uma categoria para a transação. ");
+            }if(date==="" || date==="Nenhum"){
+                alert("Selecione a data da transação. ");
+            }if(amount===""){
+                alert("Insira o valor da transação. ");
+            }if(description===""){
+                alert("Insira o título da transação. ");
             }else{
                 try{
                     const data = {description:description, date:date, amount:amount, type:type, transactionCategory:{id:parseInt(category)}, user:{id:parseInt(localStorage.getItem('userId'))}}
@@ -61,27 +67,6 @@ export default function RegisterTransaction() {
             }, []) // <-- empty dependency array
             return <div></div>
         }      
-        
-        const CategoryComponent = (note) => {
-            if(categoryOptions.length != 0){
-            return (                  
-                <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>                                                  
-                    {categoryOptions.map(category => (                                                      
-                        <option value={category.id}>{category.description}</option>       
-                    ))}
-                </select>
-            )
-            }else{
-                return (                  
-                    <select description="Transaction" id="Transac" className="input-maior"  onChange={e => {setCategory(e.target.value)}}>                                                                                                                            
-                        <option value="Alimentacao">Alimentação</option>
-                        <option value="Educacao">Educação</option>
-                        <option value="Lazer">Lazer</option>              
-                        <option value="Saude">Saúde</option>              
-                    </select>
-                )
-            } 
-            }   
 
         const onChangeRealMask = ev => {         
             setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
@@ -103,7 +88,6 @@ export default function RegisterTransaction() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
-           <form>
            <div className="div-trasaction"> 
                     <div className="div-input-transacao-esquerda">
                         <label for="DateTransaction"><h2 className="h2-label">Valor</h2></label>
@@ -134,8 +118,24 @@ export default function RegisterTransaction() {
                />
                 <div className="div-trasaction">
                     <div className="div-input-transacao-esquerda">
-                        <label for="TypeTransaction"><h2 className="h2-label">Categoria</h2></label>
-                        <CategoryComponent/>
+                        <label for="CategoryTransaction"><h2 className="h2-label">Categoria</h2></label>
+                        {(function () {
+                            if(categoryOptions.length != 0){
+                                return(
+                                <select description="Transactionn" className="input-maior" onChange={e => {setCategory(e.target.value)}}>                                                  
+                                    {categoryOptions.map(categoryHook => (                                                      
+                                        <option key={categoryHook.id} value={categoryHook.id}>{categoryHook.description}</option>       
+                                    ))}
+                                </select>
+                                )
+                            }else{
+                                return(
+                                <select description="Transactionn" className="input-maior">                                                                                                       
+                                        <option>Nenhuma Opção Disponível</option>       
+                                </select>
+                                )
+                            }
+                        })()}
                         <a href="register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></a>
                     </div>
                     <div className="div-input-transacao-direita">
@@ -149,7 +149,6 @@ export default function RegisterTransaction() {
                 </div>               
 
                <button className="button-intern" type="button" onClick={trasactionRegister}>Salvar</button>
-           </form>
        </div>
         )
 }
