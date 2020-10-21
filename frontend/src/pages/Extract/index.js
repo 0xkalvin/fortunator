@@ -16,11 +16,13 @@ export default function Extract() {
                 try {
                     var today = new Date();
                     var currentDate;
-                    
+                    let currentMonth = today.getMonth()+1;
+                    let currentYear = today.getFullYear();
+
                     if(today.getMonth() >= 9){
-                        currentDate = today.getFullYear() + '-0' + today.getMonth();
+                        currentDate = currentYear + '-0' + currentMonth;
                     }else{
-                        currentDate = today.getFullYear() + '-' + today.getMonth();
+                        currentDate = currentYear + '-' + currentMonth;
                     }         
                     api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: currentDate} }).then(res => {
                         setExtract(res.data);                        
@@ -92,15 +94,14 @@ export default function Extract() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
-            
             <input
-                className="input-maior"
+                className="input-date"
                 id="date"
                 type="month"
                 value={date}
-                onChange={e => { setDate(e.target.value) }}
+                onChange={e => { setDate(e.target.value);}}
             />
-            <button className="button-intern" onClick={e => HandleExtract()}>Filtrar</button>
+            <button className="button-filter" onClick={e => HandleExtract()}>Filtrar</button>
             {(function () {
                 if(extract.length > 0){
                     return(<ExtractComponent/>)

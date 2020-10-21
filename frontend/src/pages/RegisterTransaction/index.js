@@ -116,7 +116,7 @@ export default function RegisterTransaction() {
                         />
                     </div>
                     <div className="div-input-transacao-direita">
-                        <label for="DateTransaction"><h2 className="h2-label">Data da Transação</h2></label>
+                        <label for="DateTransaction"><h2 className="h2-label">Data</h2></label>
                         <input
                             className="input-maior"
                             id="date"
