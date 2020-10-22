@@ -47,7 +47,7 @@ export default function Extract() {
                     {extract.map(extract => { 
                         if(extract.type === "EXPENSE"){
                             return(
-                            <div className="container-expense right">
+                            <div className="container-expense right" key={extract.id}>
                                 <div className="content">
                                     <div className="div-date">
                                         <h3>{extract.description}</h3>
@@ -60,7 +60,7 @@ export default function Extract() {
                             )
                         }else{
                             return(
-                            <div className="container-incoming left">
+                            <div className="container-incoming left"  key={extract.id}>
                                 <div className="content">
                                     <div className="div-date">
                                         <h3>{extract.description}</h3>

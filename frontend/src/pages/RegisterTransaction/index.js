@@ -8,7 +8,6 @@ import walletGif from '../../assets/wallet.gif'
 import Hamburguer from '../../components/Hamburguer'
 import { mask, unMask } from 'remask'
 import { BsPlusSquare } from 'react-icons/bs';
-import axios from 'axios';
 
 export default function RegisterTransaction() {
         const [description, setDescription] = useState('');
@@ -37,7 +36,6 @@ export default function RegisterTransaction() {
                         "Content-Type": "application/json"
                     }
                     
-                    console.log(data);
                     await api.post('/transactions', data, headers).then(function(response){
                         if(response.status === 201){
                            alert("Transação cadastrada com sucesso!");
@@ -90,7 +88,7 @@ export default function RegisterTransaction() {
             </Link>
            <div className="div-trasaction"> 
                     <div className="div-input-transacao-esquerda">
-                        <label for="DateTransaction"><h2 className="h2-label">Valor</h2></label>
+                        <label htmlFor="DateTransaction"><h2 className="h2-label">Valor</h2></label>
                         <input
                             type="text"                           
                             className="input-maior"
@@ -100,7 +98,7 @@ export default function RegisterTransaction() {
                         />
                     </div>
                     <div className="div-input-transacao-direita">
-                        <label for="DateTransaction"><h2 className="h2-label">Data</h2></label>
+                        <label htmlFor="DateTransaction"><h2 className="h2-label">Data</h2></label>
                         <input
                             className="input-maior"
                             id="date"
@@ -118,9 +116,9 @@ export default function RegisterTransaction() {
                />
                 <div className="div-trasaction">
                     <div className="div-input-transacao-esquerda">
-                        <label for="CategoryTransaction"><h2 className="h2-label">Categoria</h2></label>
+                        <label htmlFor="CategoryTransaction"><h2 className="h2-label">Categoria</h2></label>
                         {(function () {
-                            if(categoryOptions.length != 0){
+                            if(categoryOptions.length !== 0){
                                 return(
                                 <select description="Transactionn" className="input-maior" onChange={e => {setCategory(e.target.value)}}>                                                  
                                     {categoryOptions.map(categoryHook => (                                                      
@@ -136,10 +134,10 @@ export default function RegisterTransaction() {
                                 )
                             }
                         })()}
-                        <a href="register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></a>
+                        <Link to="/register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></Link>
                     </div>
                     <div className="div-input-transacao-direita">
-                        <label for="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>
+                        <label htmlFor="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>
                         <select description="Transaction" id="Transac" className="input-maior" onChange={e => {setType(e.target.value)}}>
                             <option value="Nenhum">Nenhum</option>
                             <option value="INCOMING">Receita</option>
