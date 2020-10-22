@@ -14,7 +14,7 @@ export default function RegisterTransaction() {
         const [date, setDate] = useState('');
         const [amount, setAmount] = useState('');
         const [amountMasked, setAmountMasked] = useState('');
-        const [type, setType] = useState('');
+        const [type, setType] = useState('INCOMING');
         const [category, setCategory] = useState('1');
         const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -139,7 +139,6 @@ export default function RegisterTransaction() {
                     <div className="div-input-transacao-direita">
                         <label htmlFor="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>
                         <select description="Transaction" id="Transac" className="input-maior" onChange={e => {setType(e.target.value)}}>
-                            <option value="Nenhum">Nenhum</option>
                             <option value="INCOMING">Receita</option>
                             <option value="EXPENSE">Despesa</option>
                         </select>
