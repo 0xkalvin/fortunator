@@ -19,11 +19,8 @@ export default function Extract() {
                     let currentMonth = today.getMonth()+1;
                     let currentYear = today.getFullYear();
 
-                    if(today.getMonth() >= 9){
-                        currentDate = currentYear + '-0' + currentMonth;
-                    }else{
-                        currentDate = currentYear + '-' + currentMonth;
-                    }         
+                    currentDate = currentYear + '-' + currentMonth;
+   
                     api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: currentDate} }).then(res => {
                         setExtract(res.data);                        
                     });
