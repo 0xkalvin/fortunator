@@ -37,7 +37,7 @@ export default function Extract() {
                         setExtract(res.data);
                     });
                 } catch (err) {
-                    alert(err);
+                    alert("Algo deu errado :(");
                 }
         }  
 

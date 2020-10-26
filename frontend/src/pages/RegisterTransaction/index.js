@@ -60,7 +60,7 @@ export default function RegisterTransaction() {
                         setCategoryOptions(res.data);
                     });
                 } catch (err) {
-                    alert(err);
+                    alert("Algo deu errado :(");
                 }
             }, []) // <-- empty dependency array
             return <div></div>
@@ -121,8 +121,8 @@ export default function RegisterTransaction() {
                             if(categoryOptions.length !== 0){
                                 return(
                                 <select description="Transactionn" className="input-maior" onChange={e => {setCategory(e.target.value)}}>                                                  
-                                    {categoryOptions.map(categoryHook => (                                                      
-                                        <option key={categoryHook.id} value={categoryHook.id}>{categoryHook.description}</option>       
+                                    {categoryOptions.map(categoryOptions => (                                                      
+                                        <option key={categoryOptions.id} value={categoryOptions.id}>{categoryOptions.description}</option>       
                                     ))}
                                 </select>
                                 )
