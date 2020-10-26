@@ -1,14 +1,40 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import '../../global.css';
 import './styles.css'
 import Logo from '../../components/Logo'
 import finger from '../../assets/finger.gif'
 import Hamburguer from '../../components/Hamburguer'
+import Chart from '../../components/Chart'
+import axios from 'axios'
 
-export default function Home() {
-    
+export default function Home() {  
+        const [chartType, setChartType] = useState('Pie');   
+        const [categoryNames, setTeste] = useState([]);
+        const [categorySpendAmount, setTeste1] = useState([]);
+        var spendAmountArray = [];
+        var nameArray = [];
+        HandleCategory()
+
+        function HandleCategory(props){
+            useEffect(()=>{
+                try {                  
+                     axios.get('https://api.github.com/users/KaiqueJuvencio/repos?page=1').then( res => {
+                        for(var i = 0; i <= res.data.length-1; i++){
+                            spendAmountArray.push(res.data[i].id);
+                            nameArray.push(res.data[i].name);
+                        }
+                        setTeste(nameArray);
+                        setTeste1(spendAmountArray);
+                    });
+                } catch (err) {
+                    alert(err);
+                }
+            }, []) // <-- empty dependency array
+            return <div></div>
+        }       
+        
         return (
-        <div>
+        <div className="home-container"> 
             <Hamburguer/>
             <div className="div-logo">
                 <Logo />
@@ -24,6 +50,19 @@ export default function Home() {
                      <p className="sub-title">Bem-Vindo ao Fortunator.</p>
                 </div>     
             </div>
+            <Chart chartType='Bar' chartDataLabels={['Janeiro', 'Feveireiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}  chartDataData={[617594,581045,453060,617594,581045,453060,617594,581045,453060,617594,581045,453060,617594,581045,453060]} chartDataColor={['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)']} legendPosition="bottom" textTitle='Gasto Mensal em 2020' />
+            <select description="Tipo do Gráfico" id="Transac" className="select-chart-type" onChange={e => {setChartType(e.target.value)}}>
+                            <option value="Pie">Pizza</option>
+                            <option value="Bar">Barra</option>
+                            <option value="Line">Linha</option>
+            </select>
+            {(function () {
+                if(categorySpendAmount.length !== 0){
+                    return(
+                        <Chart chartType={chartType} chartDataLabels={categoryNames}  chartDataData={categorySpendAmount} chartDataColor={['rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)']} legendPosition="bottom" textTitle='Gasto Mensal Por Categoria' />         
+                    )
+                }     
+            })()}
             </div>
         )
 
