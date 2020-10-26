@@ -13,7 +13,25 @@ export default function Home() {
         const [categorySpendAmount, setTeste1] = useState([]);
         var spendAmountArray = [];
         var nameArray = [];
+        var randomColorsArray = ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'];
         HandleCategory()
+
+        function getRandomColor(colorQuantities) {
+            var letters = '0123456789ABCDEF';
+            
+            for(var j = 0; j<colorQuantities-3; j++){
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];          
+                } 
+                randomColorsArray.push(color);   
+            }
+            
+              
+            return randomColorsArray;
+          }
+        
+          console.log(getRandomColor(3));
 
         function HandleCategory(props){
             useEffect(()=>{
@@ -58,8 +76,9 @@ export default function Home() {
             </select>
             {(function () {
                 if(categorySpendAmount.length !== 0){
-                    return(
-                        <Chart chartType={chartType} chartDataLabels={categoryNames}  chartDataData={categorySpendAmount} chartDataColor={['rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)']} legendPosition="bottom" textTitle='Gasto Mensal Por Categoria' />         
+                    console.log(getRandomColor(categorySpendAmount.length));
+                    return(    
+                        <Chart chartType={chartType} chartDataLabels={categoryNames}  chartDataData={categorySpendAmount} chartDataColor={getRandomColor(categorySpendAmount.length)} legendPosition="bottom" textTitle='Gasto Mensal Por Categoria' />         
                     )
                 }     
             })()}
