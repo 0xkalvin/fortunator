@@ -18,24 +18,21 @@ export default function Extract() {
                     var currentDate;
                     let currentMonth = today.getMonth()+1;
                     let currentYear = today.getFullYear();
-
                     currentDate = currentYear + '-' + currentMonth;
-   
                     api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: currentDate} }).then(res => {
                         setExtract(res.data);                        
                     });
                 } catch (err) {
-                    alert(err);
+                    alert("Algo deu errado :(");
                 }
             }, []) // <-- empty dependency array
             return <div></div>
         }   
         
-        function HandleExtract(props){        
+        async function HandleExtract(props){        
                 try {
-                    api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then(res => {
-                        setExtract(res.data);
-                    });
+                    const res = await api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: date } })
+                        setExtract(res.data);     
                 } catch (err) {
                     alert("Algo deu errado :(");
                 }

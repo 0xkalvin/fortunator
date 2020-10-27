@@ -35,12 +35,10 @@ export default function RegisterTransaction() {
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    
-                    await api.post('/transactions', data, headers).then(function(response){
+                    const response = await api.post('/transactions', data, headers)
                         if(response.status === 201){
                            alert("Transação cadastrada com sucesso!");
                         }
-                    })
                 }catch(err){
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
@@ -56,8 +54,8 @@ export default function RegisterTransaction() {
         function HandleCategory(props){
             useEffect(()=>{
                 try {
-                    api.get('/transactions/categories/' + localStorage.getItem('userId')).then(res => {
-                        setCategoryOptions(res.data);
+                    api.get('/transactions/categories/' + localStorage.getItem('userId')).then(response => {
+                        setCategoryOptions(response.data);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -121,8 +119,8 @@ export default function RegisterTransaction() {
                             if(categoryOptions.length !== 0){
                                 return(
                                 <select description="Transactionn" className="input-maior" onChange={e => {setCategory(e.target.value)}}>                                                  
-                                    {categoryOptions.map(categoryOptions => (                                                      
-                                        <option key={categoryOptions.id} value={categoryOptions.id}>{categoryOptions.description}</option>       
+                                    {categoryOptions.map(categoryOption => (                                                      
+                                        <option key={categoryOption.id} value={categoryOption.id}>{categoryOption.description}</option>       
                                     ))}
                                 </select>
                                 )

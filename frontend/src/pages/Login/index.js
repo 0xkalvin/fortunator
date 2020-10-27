@@ -21,13 +21,12 @@ export default function Login() {
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    await api.post('users/login', data, headers).then(function(response){
+                    const response = await api.post('users/login', data, headers)
                         if(response.status === 200){
                             localStorage.setItem('auth', 'true');
                             localStorage.setItem('userId', response.data.userId);
                             window.location.reload(false);
                         }
-                    })
                 }catch(err){
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
@@ -54,8 +53,7 @@ export default function Login() {
         }
         
         return (         
-        <div>
-           
+        <div>        
             <NoLoginHamburguer/>
             <div className="div-logo">
                 <Logo />

@@ -17,12 +17,10 @@ export default function RegisterCategory() {
                 const headers = {
                     "Content-Type": "application/json"
                 }                    
-                console.log(data);
-                await api.post('/transactions/categories', data, headers).then(function(response){
+                const response = await api.post('/transactions/categories', data, headers)
                     if(response.status === 201){ 
                         alert("Categoria cadastrada com sucesso!")                          
                     }
-                })
             }catch(err){
                 if(err.response === undefined){
                     alert("Algo deu errado :(");
