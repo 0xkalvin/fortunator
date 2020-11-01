@@ -37,12 +37,24 @@ Tecnologias usadas na construção da aplicação
 | password | String |        True |
 
 
+### Transactions
+
+| Campos | Tipo | Obrigatório | Descrição |
+| ------------- |:-------------:| -----:|-------:|
+| id | Int | True | |
+| user_id | Int |  True | FK |
+| transaction_category_id | Int |   False| FK |
+| type | String | True |  |
+| description | String | False |  |
+| amount | Float | True | |
+| date | Date | False | | 
+
 ### Transaction Categories
 
 | Campos | Tipo | Obrigatório | Descrição |
 | ------------- |:-------------:| -----:|-------:|
 | id   | Int   | True  | |
-| user_id  | Int  | True | |
+| user_id  | Int  | True | FK |
 |  name | String | True | |
 | description | String | True | |
 
