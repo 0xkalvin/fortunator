@@ -5,6 +5,9 @@ import UserRegister from './pages/UserRegister';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import RegisterSuccess from './pages/RegisterSuccess'
+import RegisterTransaction from './pages/RegisterTransaction'
+import RegisterCategory from './pages/RegisterCategory'
+import Extract from './pages/Extract'
 
 
 export default function Routes(){
@@ -38,7 +41,10 @@ export default function Routes(){
                 <LoginRoute path="/" exact component={Login}/>
                 <PrivateRoute path="/home" component={Home}/>
                 <Route path="/register" component={UserRegister}/>
-                <Route path="/register-success" component={RegisterSuccess}/>       
+                <Route path="/register-success" component={RegisterSuccess}/>
+                <Route path="/register-transaction" component={RegisterTransaction}/>      
+                <Route path="/register-category" component={RegisterCategory}/> 
+                <Route path="/extract" component={Extract}/>           
             </Switch>
         </BrowserRouter>
     )
