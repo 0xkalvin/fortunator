@@ -26,6 +26,52 @@ Tecnologias usadas na construção da aplicação
 - Heroku
 - Github actions
 
+## Local Setup
+
+### Sonar
+
+Para aplicar as análises do sonar, é preciso primeiramente iniciar o **server** do **sonarqube**. 
+
+Baixe a imagem docker do sonarqube
+```
+docker pull sonarqube
+```
+
+Inicie o servidor
+```
+docker run -d -p 9000:9000 sonarqube
+```
+
+Após o server ter sido inicializado, é possível acessá-lo em `http://localhost:9000`. Nele, será necessário adicionar os projetos `fortunator-backend` e `fortunator-frontend`. 
+
+Como o backend e o frontend do fortunator são aplicações distintas, é necessário rodar o sonar separadamente em cada pasta.
+
+#### Backend
+
+Nesse ponto, é necessário apenas substituir o token pelo token disponibilizado na criação do projeto no sonarqube. Como o backend é feito com o maven, a própria ferramenta já disponibiliza um comando para rodar o sonar scanner.
+```
+cd backend && mvn sonar:sonar \
+  -Dsonar.projectKey=fortunator-backend \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=inserir_token_do_backend_aqui
+```
+
+#### Frontend
+
+Nesse ponto, também é necessário substituir o token pelo token disponibilizado na criação do projeto no sonarqube. Além disso, para realizar a análise do projeto em react, é preciso usar a imagem do `sonar-scanner-cli`.
+
+```
+docker run \ 
+    --rm \
+    --net=host \
+    -e SONAR_HOST_URL="http://localhost:9000" \
+    -v "frontend:/usr/src" \
+    sonarsource/sonar-scanner-cli \
+    -Dsonar.login=inserir_token_do_frontend_aqui
+
+```
+
+
 ## Tabelas do banco de dados
 
 ### Users
