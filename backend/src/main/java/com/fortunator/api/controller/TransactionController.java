@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fortunator.api.dto.BankStatementByMonthDto;
 import com.fortunator.api.models.Transaction;
 import com.fortunator.api.service.TransactionService;
 

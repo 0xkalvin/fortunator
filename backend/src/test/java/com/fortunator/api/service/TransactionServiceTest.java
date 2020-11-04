@@ -21,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.fortunator.api.dto.BankStatementByMonthDto;
 import com.fortunator.api.models.Transaction;
 import com.fortunator.api.models.TransactionCategory;
 import com.fortunator.api.models.TransactionTypeEnum;

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fortunator.api.dto.BankStatementByMonthDto;
 import com.fortunator.api.models.Transaction;
 import com.fortunator.api.models.TransactionCategory;
 import com.fortunator.api.models.TransactionTypeEnum;
