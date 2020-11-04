@@ -1,13 +1,17 @@
 package com.fortunator.api.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -17,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
 
+import com.fortunator.api.dto.BankStatementByMonthDto;
 import com.fortunator.api.models.Transaction;
 import com.fortunator.api.models.TransactionCategory;
 import com.fortunator.api.models.TransactionTypeEnum;
@@ -45,6 +50,9 @@ public class TransactionServiceTest {
 	private Transaction transaction;
 	
 	@Mock
+	private Transaction expenseTransaction;
+	
+	@Mock
 	private TransactionCategory transactionCategory;
 	
 	@Mock
@@ -54,6 +62,7 @@ public class TransactionServiceTest {
 	private TransactionService transactionService;
 	
 	private TransactionCategory category = new TransactionCategory(1L, "comida", "comida", mockUser);
+	private List<Transaction> transactions = new ArrayList<>();
 	private User user  = new User(1L, "Zé", "ze@gmail.com", "senha");
 	private Optional<TransactionCategory> emptyTransactionCategory = Optional.empty();
 	private Optional<TransactionCategory> optionalTransactionCategory = Optional.of(category);
@@ -90,12 +99,33 @@ public class TransactionServiceTest {
 		when(transaction.getTransactionCategory()).thenReturn(category);
 		when(userSerice.findUserById(anyLong())).thenReturn(optionalUser);
 		when(transaction.getUser()).thenReturn(user);
-		when(transaction.getAmount()).thenReturn(new BigDecimal(2.0));
+		when(transaction.getAmount()).thenReturn(BigDecimal.valueOf(2.0));
 		when(transaction.getType()).thenReturn(TransactionTypeEnum.INCOMING);
-		doNothing().when(balanceService).updateBalance(1L, new BigDecimal(2.0), "INCOMING");
+		doNothing().when(balanceService).updateBalance(1L, BigDecimal.valueOf(2.0), "INCOMING");
 		
 		transactionService.createTransaction(transaction);
 		
 		verify(transactionRepository).save(transaction);		
+	}
+	
+	@Test
+	public void shouldThrowUserNotFoundExceptionWhenFetchTransaction() {
+		when(userSerice.findUserById(1L)).thenReturn(emptyUser);
+		
+		UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
+				() -> transactionService.findByMonthYearAndUser("", 1L));
+		assertTrue(thrown.getMessage().equals("User not found"));
+	}
+	
+	@Test
+	public void shouldReturnExtractByMonth() {
+		transactions.add(transaction);
+		transactions.add(expenseTransaction);
+		when(userSerice.findUserById(1L)).thenReturn(optionalUser);
+		doReturn(transactions).when(transactionRepository).findByMonthYearAndUser(2020, 10, 1L);
+		
+		List<Transaction> transactionsResult = transactionService.findByMonthYearAndUser("2020-10", 1L);
+		
+		assertEquals(transactions.size(), transactionsResult.size());
 	}
 }

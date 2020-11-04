@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fortunator.api.dto.LoginDTO;
+import com.fortunator.api.dto.LoginDto;
 import com.fortunator.api.models.User;
 import com.fortunator.api.service.UserService;
 
@@ -62,12 +62,10 @@ public class UserController {
 			@ApiResponse(code = SC_NOT_FOUND, message = "Email not found.") })
 	@CrossOrigin
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Long>> doLogin(@Valid @RequestBody LoginDTO login) {
+	public ResponseEntity<User> doLogin(@Valid @RequestBody LoginDto login) {
 		try {
 			User user = userService.doLogin(login.getEmail(), login.getPassword());
-			Map<String, Long> userId = new HashMap<>();
-			userId.put("userId", user.getId());
-			return new ResponseEntity<Map<String, Long>>(userId, HttpStatus.OK);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (LoginException e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
