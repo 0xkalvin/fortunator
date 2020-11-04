@@ -8,8 +8,8 @@ Fortunator é uma aplicação web de controle financeiro que permite o usuário 
 
 - Cadastro de usuários :heavy_check_mark:
 - Sistema de login :heavy_check_mark:
-- Criação de transações (Entrada e saída de dinheiro)]
-- Extrato de transações
+- Criação de transações (Entrada e saída de dinheiro)] :heavy_check_mark:
+- Extrato de transações :heavy_check_mark:
 - Criação de lembretes de contas na agenda pessoal
 - Distribuição de gastos por categoria
 - Criação de metas financeiras e gameficação de níveis
