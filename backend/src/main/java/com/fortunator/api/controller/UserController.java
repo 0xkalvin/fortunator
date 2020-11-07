@@ -1,8 +1,5 @@
 package com.fortunator.api.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.security.auth.login.LoginException;
 import javax.validation.Valid;
 
@@ -16,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fortunator.api.dto.LoginDto;
+import com.fortunator.api.controller.entity.Login;
 import com.fortunator.api.models.User;
 import com.fortunator.api.service.UserService;
 
@@ -57,7 +54,7 @@ public class UserController {
 			@ApiResponse(code = SC_NOT_FOUND, message = "Email not found.") })
 	@CrossOrigin
 	@PostMapping("/login")
-	public ResponseEntity<User> doLogin(@Valid @RequestBody LoginDto login) {
+	public ResponseEntity<User> doLogin(@Valid @RequestBody Login login) {
 		try {
 			User user = userService.doLogin(login.getEmail(), login.getPassword());
 			return new ResponseEntity<User>(user, HttpStatus.OK);

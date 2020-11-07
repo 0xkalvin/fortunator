@@ -1,4 +1,4 @@
-package com.fortunator.api.dto;
+package com.fortunator.api.controller.entity;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class LoginDto implements Serializable{
+public class Login implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -19,7 +19,7 @@ public class LoginDto implements Serializable{
 	@Size(max = 32)
 	private String password;
 	
-	public LoginDto(String email, String password) {
+	public Login(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}

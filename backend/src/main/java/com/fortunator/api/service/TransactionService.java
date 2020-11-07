@@ -57,6 +57,13 @@ public class TransactionService {
 				Integer.valueOf(yearAndMonthArray[1]), userId);
 	}
 	
+	public List<Transaction> findByYearAndUser(Integer year, Long userId){
+		if (!userService.findUserById(userId).isPresent()) {
+			throw new UserNotFoundException("User not found");
+		}
+		return transactionRepository.findByYearAndUser(year, userId);
+	}
+	
 	Map<String, BigDecimal> calculateTotalValuesByMonth(List<Transaction> transactions) {
 		BigDecimal totalIncoming = new BigDecimal(0);
 		BigDecimal totalExpense = new BigDecimal(0);
