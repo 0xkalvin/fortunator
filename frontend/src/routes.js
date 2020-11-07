@@ -40,8 +40,8 @@ export default function Routes(){
                 <LoginRoute path="/login" exact component={Login}/>
                 <LoginRoute path="/" exact component={Login}/>
                 <PrivateRoute path="/home" component={Home}/>
-                <PrivateRoute path="/register" component={UserRegister}/>
-                <PrivateRoute path="/register-success" component={RegisterSuccess}/>
+                <LoginRoute path="/register" component={UserRegister}/>
+                <LoginRoute path="/register-success" component={RegisterSuccess}/>
                 <PrivateRoute path="/register-transaction" component={RegisterTransaction}/>      
                 <PrivateRoute path="/register-category" component={RegisterCategory}/> 
                 <PrivateRoute path="/extract" component={Extract}/>           

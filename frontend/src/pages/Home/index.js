@@ -9,16 +9,35 @@ import axios from 'axios'
 
 export default function Home() {  
         const [chartType, setChartType] = useState('Pie');   
-        const [categoryNames, setTeste] = useState([]);
-        const [categorySpendAmount, setTeste1] = useState([]);
+        const [categoryNames, setCategoryNames] = useState([]);
+        const [categorySpendAmount, setCategorySpendAmount] = useState([]);
+        const [date, setDate] = useState('');
+        const [years, setYears] = useState([]);
         var spendAmountArray = [];
         var nameArray = [];
         var randomColorsArray = ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'];
+        
+        function GetAllYears(props){
+            useEffect(()=>{ 
+            var start = 1900;
+            var end = new Date().getFullYear();
+            var yearArray = [];
+
+            for(var year = end ; year >=start; year--){
+                yearArray.push(year);
+            }
+            console.log(yearArray);
+            setYears(yearArray);  
+            }, []) // <-- empty dependency array
+            return <div></div>
+        }
+
+        GetAllYears()
+        
         HandleCategory()
 
         function getRandomColor(colorQuantities) {
-            var letters = '0123456789ABCDEF';
-            
+            var letters = '0123456789ABCDEF';      
             for(var j = 0; j<colorQuantities-3; j++){
                 var color = '#';
                 for (var i = 0; i < 6; i++) {
@@ -28,26 +47,24 @@ export default function Home() {
             }        
             return randomColorsArray;
           }
-        
-          console.log(getRandomColor(3));
 
         function HandleCategory(props){
-            useEffect(()=>{
+            useEffect(()=>{                
                 try {                  
                      axios.get('https://api.github.com/users/KaiqueJuvencio/repos?page=1').then( res => {
                         for(var i = 0; i <= res.data.length-1; i++){
                             spendAmountArray.push(res.data[i].id);
                             nameArray.push(res.data[i].name);
                         }
-                        setTeste(nameArray);
-                        setTeste1(spendAmountArray);
+                        setCategoryNames(nameArray);
+                        setCategorySpendAmount(spendAmountArray);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
                 }
             }, []) // <-- empty dependency array
             return <div></div>
-        }       
+        }               
         
         return (
         <div className="home-container"> 
@@ -67,7 +84,14 @@ export default function Home() {
                         <p className="sub-title">Bem-Vindo ao Fortunator.</p>
                     </div>     
                 </div>
-                
+
+                <select description="Transactionn" className="input-maior">                                                  
+                    {years.map(categoryHook => (                                                      
+                        <option key={categoryHook} value={categoryHook}>{categoryHook}</option>       
+                    ))}
+                </select>
+  
+
                 <Chart chartType='Bar' chartDataLabels={['Janeiro', 'Feveireiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}  chartDataData={[617594,581045,453060,617594,581045,453060,617594,581045,453060,617594,581045,453060,617594,581045,453060]} chartDataColor={['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)']} legendPosition="bottom" textTitle='Gasto Mensal em 2020' />
                 <select description="Tipo do Gráfico" id="Transac" className="select-chart-type" onChange={e => {setChartType(e.target.value)}}>
                                 <option value="Pie">Pizza</option>
@@ -76,9 +100,17 @@ export default function Home() {
                 </select>
                 {(function () {
                     if(categorySpendAmount.length !== 0){
-                        console.log(getRandomColor(categorySpendAmount.length));
-                        return(    
-                            <Chart chartType={chartType} chartDataLabels={categoryNames}  chartDataData={categorySpendAmount} chartDataColor={getRandomColor(categorySpendAmount.length)} legendPosition="bottom" textTitle='Gasto Mensal Por Categoria' />         
+                        return(  
+                            <div>
+                               <input
+                                    className="input-date"
+                                    id="date"
+                                    type="month"
+                                    value={date}
+                                    onChange={e => { setDate(e.target.value);}}
+                                />
+                                <Chart chartType={chartType} chartDataLabels={categoryNames}  chartDataData={categorySpendAmount} chartDataColor={getRandomColor(categorySpendAmount.length)} legendPosition="bottom" textTitle='Gasto Mensal Por Categoria' />         
+                            </div>
                         )
                     }     
                 })()}
