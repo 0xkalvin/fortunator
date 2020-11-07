@@ -16,4 +16,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 			+ "and t.user.id = :userId order by t.date desc")
 	List<Transaction> findByMonthYearAndUser(@Param("year") Integer year, @Param("month") Integer month,
 			@Param("userId") Long userId);
+	
+	@Query("SELECT t from Transaction t where year(t.date) = :year and t.user.id = :userId order by t.date desc")
+	List<Transaction> findByYearAndUser(@Param("year") Integer year, @Param("userId") Long userId);
 }
