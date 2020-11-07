@@ -78,7 +78,7 @@ export default function Home() {
                 <div className="div-gif" style={{paddingBottom: "3%"}}>
                     <img src={finger} height="55px" alt="finger-gif" />
                     <div>
-                        <h1 className="title-gif">Olá</h1>
+                        <h1 className="title-gif">Olá, Kaique</h1>
                         <p className="sub-title">Bem-Vindo ao Fortunator.</p>
                     </div>     
                 </div>
