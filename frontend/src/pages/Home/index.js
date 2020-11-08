@@ -6,25 +6,26 @@ import Logo from '../../components/Logo'
 import finger from '../../assets/finger.gif'
 import Hamburguer from '../../components/Hamburguer'
 import Chart from '../../components/Chart'
-import axios from 'axios'
+import api from '../../service/api';
 
 export default function Home() {  
         var currentMonth = new Date().getMonth() + 1;
         var currentYear = new Date().getFullYear();
-
+        var spendAmountArray = [];
+        var categoryNameArray = [];
+        var spendAmountByMonthArray = [];
+        var randomColorsArray = ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'];
         const [chartType, setChartType] = useState('Pie');   
         const [categoryNames, setCategoryNames] = useState([]);
         const [categorySpendAmount, setCategorySpendAmount] = useState([]);
+        const [categorySpendAmountByMonth, setCategorySpendAmountByMonth] = useState([]);
         const [date, setDate] = useState(currentYear.toString() + "-" + currentMonth.toString());
         const [years, setYears] = useState([]);
         const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
         const [eye, setEye] = useState('close');
-
-        var spendAmountArray = [];
-        var nameArray = [];
-        var randomColorsArray = ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'];
+        
         GetAllYears()     
-        HandleCategoryByYear()
+        HandleCategoryByYearFirstTime()
         HandleCategoryByMonthFirstTime()
 
         function GetAllYears(props){
@@ -52,11 +53,14 @@ export default function Home() {
             return randomColorsArray;
           }
 
-        function HandleCategoryByYear(props){
+        function HandleCategoryByYearFirstTime(props){
             useEffect(()=>{                
                 try {                  
-                     axios.get('http://localhost:8080/financial-movements?user_id=1&year=2020').then( res => {
-                        console.log(res.data);
+                    api.get('/financial-movements', { params: { user_id: localStorage.getItem('userId'), year: yearSelected} }).then( res => {
+                        for(var i = 0; i < res.data.expenses.length; i++){
+                            spendAmountByMonthArray.push(res.data.expenses[i].total);    
+                        }
+                        setCategorySpendAmountByMonth(spendAmountByMonthArray);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -65,21 +69,30 @@ export default function Home() {
             return <div></div>
         } 
 
+        function HandleCategoryByYear(props){               
+                try {                  
+                     api.get('/financial-movements', { params: { user_id: localStorage.getItem('userId'), year: yearSelected} }).then( res => {
+                        for(var i = 0; i < res.data.expenses.length; i++){
+                            spendAmountByMonthArray.push(res.data.expenses[i].total);    
+                        }
+                        setCategorySpendAmountByMonth(spendAmountByMonthArray);
+                    });
+                } catch (err) {
+                    alert("Algo deu errado :(");
+                }
+            return <div></div>
+        } 
+
         function HandleCategoryByMonthFirstTime(props){
             useEffect(()=>{                
                 try {             
-                     axios.get('http://localhost:8080//financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
-                        console.log(res.data);
-                        console.log(res.data.length);
-                        console.log(res.data[0].category.name);
+                     api.get('/financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
                         for(var i = 0; i < res.data.length; i++){
-                            nameArray.push(res.data[i].category.name);
+                            categoryNameArray.push(res.data[i].category.name);
                             spendAmountArray.push(res.data[i].movementsPercentage);
                         }
-                        setCategoryNames(nameArray);
+                        setCategoryNames(categoryNameArray);
                         setCategorySpendAmount(spendAmountArray);
-                        
-                        console.log(categorySpendAmount);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -90,18 +103,13 @@ export default function Home() {
 
         function HandleCategoryByMonth(props){              
                 try {             
-                     axios.get('http://localhost:8080//financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
-                        console.log(res.data);
-                        console.log(res.data.length);
-                        console.log(res.data[0].category.name);
+                     api.get('/financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
                         for(var i = 0; i < res.data.length; i++){
-                            nameArray.push(res.data[i].category.name);
+                            categoryNameArray.push(res.data[i].category.name);
                             spendAmountArray.push(res.data[i].movementsPercentage);
                         }
-                        setCategoryNames(nameArray);
+                        setCategoryNames(categoryNameArray);
                         setCategorySpendAmount(spendAmountArray);
-                        
-                        console.log(categorySpendAmount);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -159,7 +167,8 @@ export default function Home() {
                         <option key={yearHook} value={yearHook}>{yearHook}</option>       
                     ))}
                 </select>
-                <Chart chartType='Bar' chartDataLabels={['Janeiro', 'Feveireiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}  chartDataData={[617594,581045,453060,617594,581045,453060,617594,581045,453060,617594,581045,453060,617594,581045,453060]} chartDataColor={['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)']} legendPosition="bottom" textTitle={'Gasto Mensal em ' + yearSelected} />   
+                <button className="button-filter" style={{width:"10%",  transform: "translateY(70%)"}} onClick={e => HandleCategoryByYear()}>Filtrar</button>
+                <Chart chartType='Bar' chartDataLabels={['Janeiro', 'Feveireiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}  chartDataData={[categorySpendAmountByMonth]} chartDataColor={['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)']} legendPosition="bottom" textTitle={'Gasto Mensal em ' + yearSelected} />   
                 <select description="Tipo do Gráfico" id="Transac" className="select-chart-type" onChange={e => {setChartType(e.target.value)}}>
                     <option value="Pie">Pizza</option>
                     <option value="Bar">Barra</option>
