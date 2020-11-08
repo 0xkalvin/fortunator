@@ -4,27 +4,27 @@ import java.util.List;
 
 public class FinancialMovement {
 
-	private List<MonthlyFinancialMovement> expenses;
-	private List<MonthlyFinancialMovement> incomings;
+	private List<MonthlyFinancialAmount> expenses;
+	private List<MonthlyFinancialAmount> incomings;
 	
-	public FinancialMovement(List<MonthlyFinancialMovement> expenses, List<MonthlyFinancialMovement> incomings) {
+	public FinancialMovement(List<MonthlyFinancialAmount> expenses, List<MonthlyFinancialAmount> incomings) {
 		this.expenses = expenses;
 		this.incomings = incomings;
 	}
 
-	public List<MonthlyFinancialMovement> getExpenses() {
+	public List<MonthlyFinancialAmount> getExpenses() {
 		return expenses;
 	}
 
-	public void setExpenses(List<MonthlyFinancialMovement> expenses) {
+	public void setExpenses(List<MonthlyFinancialAmount> expenses) {
 		this.expenses = expenses;
 	}
 
-	public List<MonthlyFinancialMovement> getIncomings() {
+	public List<MonthlyFinancialAmount> getIncomings() {
 		return incomings;
 	}
 
-	public void setIncomings(List<MonthlyFinancialMovement> incomings) {
+	public void setIncomings(List<MonthlyFinancialAmount> incomings) {
 		this.incomings = incomings;
 	}	
 }
