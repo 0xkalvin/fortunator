@@ -8,15 +8,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fortunator.api.schemas.GoalSchema;
+import com.fortunator.api.schemas.CreateGoalSchema;
+import com.fortunator.api.schemas.UpdateGoalSchema;
 import com.fortunator.api.models.Goal;
-
 import com.fortunator.api.service.GoalService;
 
 import io.swagger.annotations.ApiOperation;
@@ -40,10 +42,22 @@ public class GoalController {
 			@ApiResponse(code = SC_BAD_REQUEST, message = "One or more fields were filled in incorrectly") })
 	@CrossOrigin
 	@PostMapping
-	public ResponseEntity<Goal> createGoal(@Valid @RequestBody GoalSchema goal) {
+	public ResponseEntity<Goal> createGoal(@Valid @RequestBody CreateGoalSchema goal) {
 		Goal createdGoal = goalService.createGoal(goal);
 
 		return new ResponseEntity<Goal>(createdGoal, HttpStatus.CREATED);
+	}
+
+
+	@ApiOperation(value = "Update existing goal with a new status")
+	@ApiResponses(value = {
+			@ApiResponse(code = SC_BAD_REQUEST, message = "One or more fields were filled in incorrectly") })
+	@CrossOrigin
+	@PutMapping("/{id}")
+	public ResponseEntity<Goal> updateGoal(@PathVariable long id, @Valid @RequestBody UpdateGoalSchema payload) {
+		Goal updatedGoal = goalService.updateGoal(id, payload);
+
+		return new ResponseEntity<Goal>(updatedGoal, HttpStatus.OK);
 	}
 
 	@CrossOrigin

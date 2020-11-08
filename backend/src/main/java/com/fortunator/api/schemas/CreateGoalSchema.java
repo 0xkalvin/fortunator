@@ -7,7 +7,7 @@ import javax.validation.constraints.*;
 
 import com.fortunator.api.models.GoalTypeEnum;
 
-public class GoalSchema {
+public class CreateGoalSchema {
 
     @NotNull
     private Long amount;
@@ -26,7 +26,7 @@ public class GoalSchema {
     @Valid
     private UserSchema user;
 
-    public GoalSchema() {
+    public CreateGoalSchema() {
     }
 
     public Long getAmout() {

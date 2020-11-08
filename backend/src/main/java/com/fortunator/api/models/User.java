@@ -34,14 +34,14 @@ public class User {
 	@NotBlank
 	@Size(max = 32)
 	private String password;
-	
+
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Balance balance;
 
 	private BigDecimal score;
 
 	private String level;
-	
+
 	public User() {
 	}
 
@@ -118,6 +118,10 @@ public class User {
 		this.score = score;
 	}
 
+	public void addToScore(BigDecimal toAdd) {
+		this.score = this.score.add(toAdd);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -142,5 +146,5 @@ public class User {
 			return false;
 
 		return true;
-	}	
+	}
 }

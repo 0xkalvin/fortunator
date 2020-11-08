@@ -70,6 +70,34 @@ Response
 }
 ```
 
+##### PUT /goals/:id
+
+Request
+
+```bash
+curl -XPUT "http://localhost:8080/goals/2" --header "Content-Type: application/json"  --data '{
+
+	"status": "DONE",
+	"user": {
+		"id": 1
+	}
+}'
+```
+
+Response
+
+```json
+{
+  "amount": 30000.0,
+  "date": "2020-11-07",
+  "description": "Comprar um carro",
+  "id": 2,
+  "status": "DONE",
+  "score": 3000.0,
+  "type": "BUDGET"
+}
+```
+
 ### Sonar
 
 Para aplicar as análises do sonar, é preciso primeiramente iniciar o **server** do **sonarqube**.

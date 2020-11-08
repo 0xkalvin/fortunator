@@ -33,7 +33,7 @@ public class DevConfig implements CommandLineRunner {
 	private TransactionCategoryRepository transactionCategoryRepository;
 
 	@Autowired
-	private TransactionRepository transacitionRepository;
+	private TransactionRepository transactionRepository;
 
 	@Autowired
 	private BalanceRepository balanceRepository;
@@ -89,8 +89,8 @@ public class DevConfig implements CommandLineRunner {
 		transactionFastFood.setDescription("Dinner");
 		transactionFastFood.setDate(LocalDate.of(2020, 1, 2));
 
-		transacitionRepository.save(transactionSalary);
-		transacitionRepository.save(transactionFastFood);
+		transactionRepository.save(transactionSalary);
+		transactionRepository.save(transactionFastFood);
 
 		Goal goal = new Goal();
 		goal.setAmount(new BigDecimal(30000.0));

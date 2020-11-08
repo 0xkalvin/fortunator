@@ -53,4 +53,14 @@ public class GoalControllerTest {
 
     }
 
+    @Test
+    public void shouldUpdateGoalStatusSuccessfully() throws Exception {
+
+        String body = "{\"status\":\"DONE\",\"user\":{\"id\":1}}";
+
+        MockHttpServletRequestBuilder request = put("/goals/1").contentType(MediaType.APPLICATION_JSON).content(body)
+                .accept(MediaType.APPLICATION_JSON);
+
+        this.mockMvc.perform(request).andExpect(status().isOk());
+    }
 }
