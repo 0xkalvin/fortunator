@@ -1,6 +1,7 @@
 package com.fortunator.api.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fortunator.api.controller.entity.FinancialMovement;
-import com.fortunator.api.controller.entity.MonthlyFinancialMovement;
+import com.fortunator.api.controller.entity.MonthlyFinancialAmount;
 import com.fortunator.api.controller.entity.MovementByCategory;
 import com.fortunator.api.models.Transaction;
 import com.fortunator.api.models.TransactionCategory;
@@ -26,40 +27,65 @@ public class FinancialMovementsService {
 	@Autowired
 	private TransactionCategoryService transactionCategoryService;
 
-	public FinancialMovement movementsByCategory(Integer year, Long userId) {
+	public FinancialMovement calculateMonthlyAmountByTransactionType(Integer year, Long userId) {
 		List<Transaction> transactions = transactionService.findByYearAndUser(year, userId);
 
 		List<Transaction> expensesTransactions = filterExpensesTransactions(transactions);
 		List<Transaction> incomingTrasanctions = filterIncomingTransactions(transactions);
-		
-		List<MonthlyFinancialMovement> expenses = generateMonths(expensesTransactions, year, userId);
-		List<MonthlyFinancialMovement> incomings = generateMonths(incomingTrasanctions, year, userId);
-		
+
+		List<MonthlyFinancialAmount> expenses = calculateTotalByMonthOfTheYear(expensesTransactions, year, userId);
+		List<MonthlyFinancialAmount> incomings = calculateTotalByMonthOfTheYear(incomingTrasanctions, year, userId);
+
 		return new FinancialMovement(expenses, incomings);
 	}
 
-	List<MonthlyFinancialMovement> generateMonths(List<Transaction> transactions, Integer year, Long userId) {
-		List<MonthlyFinancialMovement> months = new ArrayList<>();
-		List<TransactionCategory> categories = transactionCategoryService.getCategoriesByUserId(userId);
+	public List<MovementByCategory> calculateExpensesByCategory(String yearMonth, Long userId) {
+		List<Transaction> transactions = transactionService.findByMonthYearAndUser(yearMonth, userId);
 
+		List<Transaction> expensesTransactions = filterExpensesTransactions(transactions);
+
+		return calculate(expensesTransactions, userId);
+
+	}
+	
+	List<MonthlyFinancialAmount> calculateTotalByMonthOfTheYear(List<Transaction> transactions, Integer year, Long userId) {
+		List<MonthlyFinancialAmount> amountByMonth = new ArrayList<>();
 		for (int monthOfYear = 1; monthOfYear <= TOTAL_MONTHS; monthOfYear++) {
 			List<Transaction> transactionsByMonth = filterByMonth(transactions, monthOfYear);
-			List<MovementByCategory> movementsByCategory = new ArrayList<>();
 			BigDecimal totalByMonth = calculateTotalByMonth(transactionsByMonth);
-			for (TransactionCategory category : categories) {
-				movementsByCategory.add(new MovementByCategory(category));
-			}
-			MonthlyFinancialMovement financialMovement = new MonthlyFinancialMovement(totalByMonth,
-					YearMonth.of(year, monthOfYear), movementsByCategory);
 
-			calculateTotalByCategoryAndMonth(transactionsByMonth, financialMovement.getMovementsByCategory());
-			months.add(financialMovement);
+			MonthlyFinancialAmount financialMovement = new MonthlyFinancialAmount(totalByMonth,
+					YearMonth.of(year, monthOfYear));
+			amountByMonth.add(financialMovement);
 		}
-		calculatePercentageByMonth(months);
-		return months;
+		return amountByMonth;
+	}
+	
+	BigDecimal calculateTotalByMonth(List<Transaction> transactionsByMonth) {
+		BigDecimal totalByMonth = BigDecimal.valueOf(0);
+
+		for (Transaction transaction : transactionsByMonth) {
+			totalByMonth = totalByMonth.add(transaction.getAmount());
+		}
+		return totalByMonth;
 	}
 
-	void calculateTotalByCategoryAndMonth(List<Transaction> transactionsByMonth,
+	
+	
+	List<MovementByCategory> calculate(List<Transaction> transactions, Long userId) {
+		List<MovementByCategory> movementsByCategory = new ArrayList<>();
+		List<TransactionCategory> categories = transactionCategoryService.getCategoriesByUserId(userId);
+
+		for (TransactionCategory category : categories) {
+			movementsByCategory.add(new MovementByCategory(category));
+		}
+
+		calculateTotalExpenseInMonthByCategory(transactions, movementsByCategory);
+		calculateExpensesPercentageInMonthByCategory(movementsByCategory);
+		return movementsByCategory;
+	}
+
+	void calculateTotalExpenseInMonthByCategory(List<Transaction> transactionsByMonth,
 			List<MovementByCategory> movementsByCategory) {
 
 		for (MovementByCategory movementByCategory : movementsByCategory) {
@@ -72,28 +98,27 @@ public class FinancialMovementsService {
 			movementByCategory.setTotal(totalByCategory);
 		}
 	}
-	
-	void calculatePercentageByMonth(List<MonthlyFinancialMovement> financialMovements) {
-		for(MonthlyFinancialMovement financialMovement : financialMovements) {
-			BigDecimal totalByMonth = financialMovement.getTotal();
-			for(MovementByCategory movementByCategory : financialMovement.getMovementsByCategory()) {
-				if(!movementByCategory.getTotal().equals(BigDecimal.valueOf(0))) {
-					BigDecimal movementsPercentage = movementByCategory.getTotal().multiply(BigDecimal.valueOf(100)).divide(totalByMonth);
-					movementByCategory.setMovementsPercentage(movementsPercentage);	
-				} else {
-					movementByCategory.setMovementsPercentage(BigDecimal.valueOf(0));
-				}
+
+	void calculateExpensesPercentageInMonthByCategory(List<MovementByCategory> movementsByCategory) {
+		BigDecimal totalExpensesByMonth = calculateTotalExpenses(movementsByCategory);
+		for (MovementByCategory movementByCategory : movementsByCategory) {
+			if (!movementByCategory.getTotal().equals(BigDecimal.valueOf(0))
+					&& !totalExpensesByMonth.equals(BigDecimal.valueOf(0))) {
+				BigDecimal movementsPercentage = movementByCategory.getTotal().multiply(BigDecimal.valueOf(100))
+						.divide(totalExpensesByMonth, 2, RoundingMode.HALF_UP);
+				movementByCategory.setMovementsPercentage(movementsPercentage);
+			} else {
+				movementByCategory.setMovementsPercentage(BigDecimal.valueOf(0));
 			}
 		}
 	}
 
-	BigDecimal calculateTotalByMonth(List<Transaction> transactionsByMonth) {
-		BigDecimal totalByMonth = BigDecimal.valueOf(0);
-
-		for (Transaction transaction : transactionsByMonth) {
-			totalByMonth = totalByMonth.add(transaction.getAmount());
+	BigDecimal calculateTotalExpenses(List<MovementByCategory> movementsByCategory) {
+		BigDecimal total = BigDecimal.valueOf(0);
+		for (MovementByCategory movementByCategory : movementsByCategory) {
+			total = total.add(movementByCategory.getTotal());
 		}
-		return totalByMonth;
+		return total;
 	}
 
 	private List<Transaction> filterByCategory(List<Transaction> transactionsByMonth, TransactionCategory category) {
@@ -114,5 +139,4 @@ public class FinancialMovementsService {
 		return transactions.stream().filter(t -> t.getType().toString().equals("INCOMING"))
 				.collect(Collectors.toList());
 	}
-
 }
