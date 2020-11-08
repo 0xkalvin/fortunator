@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai';
 import '../../global.css';
 import './styles.css'
 import Logo from '../../components/Logo'
@@ -14,6 +15,7 @@ export default function Home() {
         const [date, setDate] = useState('');
         const [years, setYears] = useState([]);
         const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
+        const [eye, setEye] = useState('close');
 
         var spendAmountArray = [];
         var nameArray = [];
@@ -49,20 +51,23 @@ export default function Home() {
         function HandleCategory(props){
             useEffect(()=>{                
                 try {                  
-                     axios.get('https://api.github.com/users/KaiqueJuvencio/repos?page=1').then( res => {
-                        for(var i = 0; i <= res.data.length-1; i++){
-                            spendAmountArray.push(res.data[i].id);
-                            nameArray.push(res.data[i].name);
-                        }
-                        setCategoryNames(nameArray);
-                        setCategorySpendAmount(spendAmountArray);
+                     axios.get('http://localhost:8080/financial-movements?user_id=1&year=2020').then( res => {
+                        console.log(res.data);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
                 }
             }, []) // <-- empty dependency array
             return <div></div>
-        }      
+        } 
+        
+        function closeEye(){
+            setEye("close");
+        }
+
+        function openEye(){
+            setEye("open");
+        }
         
         return (
         <div className="home-container"> 
@@ -75,13 +80,32 @@ export default function Home() {
                 </div>
             </div>
             <div className="body-home">
-                <div className="div-gif" style={{paddingBottom: "3%"}}>
-                    <img src={finger} height="55px" alt="finger-gif" />
-                    <div>
-                        <h1 className="title-gif">Olá, Kaique</h1>
-                        <p className="sub-title">Bem-Vindo ao Fortunator.</p>
-                    </div>     
-                </div>
+                    <div className="div-gif" style={{paddingBottom: "3%"}}>
+                        <img src={finger} height="55px" alt="finger-gif" />
+                        <div>
+                            <h1 className="title-gif">Olá, Kaique</h1>
+                            <p className="sub-title">Bem-Vindo ao Fortunator.</p>
+                        </div>
+                         
+                        {(function () {
+                                if(eye === "open"){
+                                    return(
+                                        <div className="div-patrimonio">
+                                            <h2 style={{paddingLeft: "150%", fontSize: "25px"}}>Patrimônio: R$ 1500,00</h2> 
+                                            <button type="button" className="invisible-button" style={{paddingLeft:"8%"}} onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
+                                        </div>
+                                    )
+                                }if(eye === "close"){
+                                    return(
+                                        <div className="div-patrimonio">
+                                            <h2 style={{paddingLeft: "150%", fontSize: "25px"}}>Patrimônio: R$ ********</h2> 
+                                            <button type="button" className="invisible-button" style={{paddingLeft:"8%"}} onClick={openEye}><AiOutlineEyeInvisible size={22} color="#00a8a0" /></button>
+                                        </div>
+                                    )
+                                } 
+                        })()}  
+                    </div>
+                 
                 <select description="YearFilter" className="input-maior" style={{width:"10%",  transform: "translateY(80%)"}} onChange={e => {setYearSelected(e.target.value)}}>                                                  
                     {years.map(yearHook => (                                                      
                         <option key={yearHook} value={yearHook}>{yearHook}</option>       

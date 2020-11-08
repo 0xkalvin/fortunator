@@ -159,3 +159,7 @@
 .body-home {
   transform: translateX(-12%);
 }
+
+.div-patrimonio {
+  display: flex;
+}
