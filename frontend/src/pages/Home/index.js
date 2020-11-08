@@ -9,10 +9,13 @@ import Chart from '../../components/Chart'
 import axios from 'axios'
 
 export default function Home() {  
+        var currentMonth = new Date().getMonth() + 1;
+        var currentYear = new Date().getFullYear();
+
         const [chartType, setChartType] = useState('Pie');   
         const [categoryNames, setCategoryNames] = useState([]);
         const [categorySpendAmount, setCategorySpendAmount] = useState([]);
-        const [date, setDate] = useState('');
+        const [date, setDate] = useState(currentYear.toString() + "-" + currentMonth.toString());
         const [years, setYears] = useState([]);
         const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
         const [eye, setEye] = useState('close');
@@ -21,7 +24,8 @@ export default function Home() {
         var nameArray = [];
         var randomColorsArray = ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'];
         GetAllYears()     
-        HandleCategory()
+        HandleCategoryByYear()
+        HandleCategoryByMonthFirstTime()
 
         function GetAllYears(props){
             useEffect(()=>{ 
@@ -48,7 +52,7 @@ export default function Home() {
             return randomColorsArray;
           }
 
-        function HandleCategory(props){
+        function HandleCategoryByYear(props){
             useEffect(()=>{                
                 try {                  
                      axios.get('http://localhost:8080/financial-movements?user_id=1&year=2020').then( res => {
@@ -60,6 +64,50 @@ export default function Home() {
             }, []) // <-- empty dependency array
             return <div></div>
         } 
+
+        function HandleCategoryByMonthFirstTime(props){
+            useEffect(()=>{                
+                try {             
+                     axios.get('http://localhost:8080//financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
+                        console.log(res.data);
+                        console.log(res.data.length);
+                        console.log(res.data[0].category.name);
+                        for(var i = 0; i < res.data.length; i++){
+                            nameArray.push(res.data[i].category.name);
+                            spendAmountArray.push(res.data[i].movementsPercentage);
+                        }
+                        setCategoryNames(nameArray);
+                        setCategorySpendAmount(spendAmountArray);
+                        
+                        console.log(categorySpendAmount);
+                    });
+                } catch (err) {
+                    alert("Algo deu errado :(");
+                }
+            }, []) // <-- empty dependency array
+            return <div></div>
+        }
+
+        function HandleCategoryByMonth(props){              
+                try {             
+                     axios.get('http://localhost:8080//financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
+                        console.log(res.data);
+                        console.log(res.data.length);
+                        console.log(res.data[0].category.name);
+                        for(var i = 0; i < res.data.length; i++){
+                            nameArray.push(res.data[i].category.name);
+                            spendAmountArray.push(res.data[i].movementsPercentage);
+                        }
+                        setCategoryNames(nameArray);
+                        setCategorySpendAmount(spendAmountArray);
+                        
+                        console.log(categorySpendAmount);
+                    });
+                } catch (err) {
+                    alert("Algo deu errado :(");
+                }
+            return <div></div>
+        }
         
         function closeEye(){
             setEye("close");
@@ -83,7 +131,7 @@ export default function Home() {
                     <div className="div-gif" style={{paddingBottom: "3%"}}>
                         <img src={finger} height="55px" alt="finger-gif" />
                         <div>
-                            <h1 className="title-gif">Olá, Kaique</h1>
+                            <h1 className="title-gif">Olá, {localStorage.getItem('userName')}</h1>
                             <p className="sub-title">Bem-Vindo ao Fortunator.</p>
                         </div>
                          
@@ -129,6 +177,7 @@ export default function Home() {
                                     onChange={e => { setDate(e.target.value);}}
                                     style={{width: "25%", transform: "translateY(80%)"}}
                                 />
+                                <button className="button-filter" style={{width:"10%",  transform: "translateY(84%)"}} onClick={e => HandleCategoryByMonth()}>Filtrar</button>
                                 <Chart chartType={chartType} chartDataLabels={categoryNames} chartDataData={categorySpendAmount} chartDataColor={getRandomColor(categorySpendAmount.length)} legendPosition="bottom" textTitle='Gasto Mensal Por Categoria' />         
                             </div>
                         )

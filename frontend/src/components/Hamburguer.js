@@ -30,7 +30,7 @@ const Hamburguer=()=> {
                         <span></span> 
                         
                         <ul id="menu">
-                            <li style={{color: "#FFE500"}}><FaUserCircle size={30} color="#FFE500" /> Kaique</li>
+                            <li style={{color: "#FFE500"}}><FaUserCircle size={30} color="#FFE500" /> {localStorage.getItem('userName')}</li>
                             <Link to="/home"><li><BsHouseDoor size={22} color="#f0f0f5" /> Home</li></Link>
                             <Link to="/register-transaction"><li><RiCoinsLine size={22} color="#f0f0f5" /> Transações</li></Link>
                             <Link to="/extract"><li><IoMdPaper size={22} color="#f0f0f5" /> Extrato</li></Link>
