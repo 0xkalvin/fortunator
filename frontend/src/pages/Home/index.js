@@ -23,7 +23,7 @@ export default function Home() {
         const [years, setYears] = useState([]);
         const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
         const [eye, setEye] = useState('close');
-        
+
         GetAllYears()     
         HandleCategoryByYearFirstTime()
         HandleCategoryByMonthFirstTime()
@@ -56,11 +56,12 @@ export default function Home() {
         function HandleCategoryByYearFirstTime(props){
             useEffect(()=>{                
                 try {                  
-                    api.get('/financial-movements', { params: { user_id: localStorage.getItem('userId'), year: yearSelected} }).then( res => {
+                    api.get('/financial-movements', { params: { user_id: localStorage.getItem('userId'), year: currentYear} }).then( res => {
                         for(var i = 0; i < res.data.expenses.length; i++){
                             spendAmountByMonthArray.push(res.data.expenses[i].total);    
                         }
                         setCategorySpendAmountByMonth(spendAmountByMonthArray);
+                        console.log("Teste",categorySpendAmountByMonth);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -75,7 +76,9 @@ export default function Home() {
                         for(var i = 0; i < res.data.expenses.length; i++){
                             spendAmountByMonthArray.push(res.data.expenses[i].total);    
                         }
+                        console.log(res.data);
                         setCategorySpendAmountByMonth(spendAmountByMonthArray);
+                        console.log(categorySpendAmountByMonth);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -110,6 +113,8 @@ export default function Home() {
                         }
                         setCategoryNames(categoryNameArray);
                         setCategorySpendAmount(spendAmountArray);
+                        console.log(categoryNames);
+                        console.log(categorySpendAmount);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -147,7 +152,7 @@ export default function Home() {
                                 if(eye === "open"){
                                     return(
                                         <div className="div-patrimonio">
-                                            <h2 style={{paddingLeft: "150%", fontSize: "25px"}}>Patrimônio: R$ 1500,00</h2> 
+                                            <h2 style={{paddingLeft: "150%", fontSize: "25px"}}>Patrimônio: R$ {localStorage.getItem('userBalance')}</h2> 
                                             <button type="button" className="invisible-button" style={{paddingLeft:"8%"}} onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
                                         </div>
                                     )
@@ -168,7 +173,7 @@ export default function Home() {
                     ))}
                 </select>
                 <button className="button-filter" style={{width:"10%",  transform: "translateY(70%)"}} onClick={e => HandleCategoryByYear()}>Filtrar</button>
-                <Chart chartType='Bar' chartDataLabels={['Janeiro', 'Feveireiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}  chartDataData={[categorySpendAmountByMonth]} chartDataColor={['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)']} legendPosition="bottom" textTitle={'Gasto Mensal em ' + yearSelected} />   
+                <Chart chartType='Bar' chartDataLabels={['Janeiro', 'Feveireiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}  chartDataData={categorySpendAmountByMonth} chartDataColor={['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)','rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)']} legendPosition="bottom" textTitle={'Gasto Mensal em ' + yearSelected} />   
                 <select description="Tipo do Gráfico" id="Transac" className="select-chart-type" onChange={e => {setChartType(e.target.value)}}>
                     <option value="Pie">Pizza</option>
                     <option value="Bar">Barra</option>

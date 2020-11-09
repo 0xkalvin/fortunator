@@ -1,23 +1,7 @@
-import React, {Component} from 'react'
+import React, {useState, Component} from 'react'
 import {Bar, Line, Pie} from 'react-chartjs-2';
 
 class Chart extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            chartData:{
-                labels: props.chartDataLabels,
-                datasets:[
-                    {
-                        label: 'Population',
-                        data: props.chartDataData,
-                        backgroundColor: props.chartDataColor
-                    }
-                ]
-            }
-        }
-
-    }
 
     static defaultProps = {
         displayTitle:true,
@@ -28,7 +12,20 @@ class Chart extends Component{
     }
 
     render(){
-        if(this.props.chartType === 'Bar'){
+        this.state = {
+            chartData:{
+                labels: this.props.chartDataLabels,
+                datasets:[
+                    {
+                        label: 'Gastos',
+                        data: this.props.chartDataData,
+                        backgroundColor: this.props.chartDataColor
+                    }
+                ]
+            }
+        }
+
+        if(this.props.chartType === 'Bar'){    
         return(
             <div className="chart">
                 <Bar
@@ -45,7 +42,7 @@ class Chart extends Component{
                             display:this.props.displayLegend,
                             position: this.props.legendPosition
                         }
-                    }}
+                    }}       
                 />
             </div>
         )
@@ -60,7 +57,6 @@ class Chart extends Component{
                             display:this.props.displayTitle,
                             text: this.props.textTitle,
                             fontSize: 25
-
                         },
                         legend:{
                             display:this.props.displayLegend,
@@ -80,7 +76,6 @@ class Chart extends Component{
                             display:this.props.displayTitle,
                             text: this.props.textTitle,
                             fontSize: 25
-
                         },
                         legend:{
                             display:this.props.displayLegend,
