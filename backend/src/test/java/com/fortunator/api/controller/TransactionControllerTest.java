@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -47,8 +46,8 @@ public class TransactionControllerTest {
 	}
 
 	@Test
-	public void shouldTransaction() throws Exception {
-		transactions.add(crateTransaction());
+	public void shouldReturnTransactionsByMonth() throws Exception {
+		transactions.add(createTransaction());
 		when(transactionService.findByMonthYearAndUser(YEAR_MONTH, USER_ID)).thenReturn(transactions);
 
 		this.mockMvc.perform(get("/transactions?user_id=1&year_month=2020-11")).andExpect(status().isOk())
@@ -58,7 +57,7 @@ public class TransactionControllerTest {
 				.andExpect(jsonPath("$[0].type", is("INCOMING")));
 	}
 
-	private Transaction crateTransaction() {
+	private Transaction createTransaction() {
 		Transaction transaction = new Transaction();
 		transaction.setType(TransactionTypeEnum.INCOMING);
 		transaction.setTransactionCategory(createTransactionCategory());

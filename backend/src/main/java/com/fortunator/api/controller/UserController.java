@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +35,7 @@ public class UserController {
 	private static final int SC_CONFLICT = 409;
 	private static final int SC_UNAUTHORIZED = 401;
 	private static final int SC_NOT_FOUND = 404;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -48,7 +50,9 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "Do login")
-	@ApiResponses(value = { @ApiResponse(code = SC_OK, message = "ok", examples = @Example(value = {@ExampleProperty(mediaType = "application/json", value="{'userId': 0")})),
+	@ApiResponses(value = {
+			@ApiResponse(code = SC_OK, message = "ok", examples = @Example(value = {
+					@ExampleProperty(mediaType = "application/json", value = "{'userId': 0") })),
 			@ApiResponse(code = SC_UNAUTHORIZED, message = "Password is incorrect."),
 			@ApiResponse(code = SC_BAD_REQUEST, message = "One or more fields were filled in incorrectly"),
 			@ApiResponse(code = SC_NOT_FOUND, message = "Email not found.") })
@@ -61,5 +65,15 @@ public class UserController {
 		} catch (LoginException e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
+	}
+
+	@ApiOperation(value = "Get an user by id")
+	@CrossOrigin
+	@GetMapping("/{id}")
+	public ResponseEntity<User> getUser(@PathVariable long id) {
+
+		User user = userService.getOne(id);
+
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

@@ -10,6 +10,9 @@ public class MovementByCategory {
 	private BigDecimal total;
 	private BigDecimal movementsPercentage;
 	
+	public	MovementByCategory() {
+	}
+	
 	public MovementByCategory(TransactionCategory category) {
 		this.category = category;
 	}

@@ -15,7 +15,7 @@ import com.fortunator.api.service.FinancialMovementsService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/financial-movements")
+@RequestMapping(value = "/financial_movements")
 public class FinancialMovementsController {
 
 	@Autowired
@@ -30,7 +30,6 @@ public class FinancialMovementsController {
 
 	@CrossOrigin
 	@GetMapping("/category")
-
 	public List<MovementByCategory> calculateExpensesByCategory(@RequestParam("user_id") Long userId,
 			@RequestParam("year_month") String yearMonth) {
 		return financialMovementsService.calculateExpensesByCategory(yearMonth, userId);

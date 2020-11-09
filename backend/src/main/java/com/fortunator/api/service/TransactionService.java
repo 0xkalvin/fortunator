@@ -63,21 +63,4 @@ public class TransactionService {
 		}
 		return transactionRepository.findByYearAndUser(year, userId);
 	}
-	
-	Map<String, BigDecimal> calculateTotalValuesByMonth(List<Transaction> transactions) {
-		BigDecimal totalIncoming = new BigDecimal(0);
-		BigDecimal totalExpense = new BigDecimal(0);
-		
-		for(Transaction transaction : transactions) {
-			if(transaction.getType().equals(TransactionTypeEnum.INCOMING)) {
-				totalIncoming = totalIncoming.add(transaction.getAmount());
-			} else {
-				totalExpense = totalExpense.add(transaction.getAmount());
-			}
-		}
-		Map<String, BigDecimal> totalValues = new HashMap<>();
-		totalValues.put("incoming", totalIncoming);
-		totalValues.put("expense", totalExpense);
-		return totalValues;
-	}
 }
