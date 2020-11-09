@@ -13,7 +13,7 @@ import com.fortunator.api.controller.entity.MovementByCategory;
 import com.fortunator.api.service.FinancialMovementsService;
 
 @RestController
-@RequestMapping(value = "/financial-movements")
+@RequestMapping(value = "/financial_movements")
 public class FinancialMovementsController {
 
 	@Autowired
