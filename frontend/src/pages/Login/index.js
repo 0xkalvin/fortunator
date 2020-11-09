@@ -23,6 +23,8 @@ export default function Login() {
                     }
                     const response = await api.post('users/login', data, headers)
                         if(response.status === 200){
+                            console.log(response.data);
+                            alert("Teste");
                             localStorage.setItem('auth', 'true');
                             localStorage.setItem('userId', response.data.id);
                             localStorage.setItem('userName', response.data.name);
@@ -35,16 +37,17 @@ export default function Login() {
                     }else{
                         if(err.response.status === 401 || err.response.status === 404){
                             setUnauthorized(true);
-                        }if(err.response.status === 400){
-                            alert("Verifique se os campos foram preenchidos corretamente.");
-                        }
-                        if(err.response.status >= 500){
+                        }if(err.response.status === 400 || 403){
+                            alert("Verifique se os campos foram preenchidos corretamente e se o usuário existe.");
+                        }if(err.response.status >= 500){
                             alert("Serviço indisponível.");
+                        }else{
+                            alert("Algo deu errado :(");
                         }
                     }  
                 }  
         }
-       
+
         function closeEye(){
             setEye("close");
             document.getElementById("senha").type = "password";
