@@ -16,12 +16,12 @@ import com.fortunator.api.service.exceptions.UserNotFoundException;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
-	private UserRepository userRepository;	
-	
+	private UserRepository userRepository;
+
 	public User registerUser(User user) {
-		if(findByEmail(user.getEmail()).isPresent()) {
+		if (findByEmail(user.getEmail()).isPresent()) {
 			throw new EmailExistsException("Email already registered, please enter another email and try again.");
 		}
 		user.setPassword(String.valueOf(user.getPassword().hashCode()));
@@ -29,25 +29,33 @@ public class UserService {
 		balance.setUser(user);
 		balance.setAmount(new BigDecimal(0.0));
 		user.setBalance(balance);
+
 		return userRepository.save(user);
 	}
-	
-	public Optional<User> findByEmail(String email){
+
+	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-	
+
 	public User doLogin(String email, String password) throws LoginException {
 		User user = findByEmail(email)
-				.orElseThrow(() -> new UserNotFoundException("Email not registered for any user")
-		);
-		
-		if(user.getPassword().equals(String.valueOf(password.hashCode()))){
+				.orElseThrow(() -> new UserNotFoundException("Email not registered for any user"));
+
+		if (user.getPassword().equals(String.valueOf(password.hashCode()))) {
 			return user;
 		}
+
 		throw new LoginException("Password is incorrect.");
 	}
-	
+
 	public Optional<User> findUserById(Long id) {
 		return userRepository.findById(id);
+	}
+
+	public User getOne(Long id) {
+
+		User user = this.findUserById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+		return user;
 	}
 }
