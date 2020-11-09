@@ -14,6 +14,7 @@ export default function Home() {
         var spendAmountArray = [];
         var categoryNameArray = [];
         var spendAmountByMonthArray = [];
+        var userId = localStorage.getItem('userId');
         var randomColorsArray = ['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'];
         const [chartType, setChartType] = useState('Pie');   
         const [categoryNames, setCategoryNames] = useState([]);
@@ -23,10 +24,25 @@ export default function Home() {
         const [years, setYears] = useState([]);
         const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
         const [eye, setEye] = useState('close');
+        const [userBalance, setUserBalance] = useState('');
 
         GetAllYears()     
         HandleCategoryByYearFirstTime()
         HandleCategoryByMonthFirstTime()
+        HandleUser()
+        
+        function HandleUser(props){    
+            useEffect(()=>{          
+                try {                  
+                    api.get('/users/' + userId).then( res => { 
+                        setUserBalance(res.data.balance.amount); 
+                    });
+                } catch (err) {
+                    alert("Algo deu errado :(");
+                }
+            }, []) // <-- empty dependency array
+            return <div></div>
+        }
 
         function GetAllYears(props){
             useEffect(()=>{ 
@@ -56,12 +72,11 @@ export default function Home() {
         function HandleCategoryByYearFirstTime(props){
             useEffect(()=>{                
                 try {                  
-                    api.get('/financial-movements', { params: { user_id: localStorage.getItem('userId'), year: currentYear} }).then( res => {
+                    api.get('/financial_movements', { params: { user_id: localStorage.getItem('userId'), year: currentYear} }).then( res => {
                         for(var i = 0; i < res.data.expenses.length; i++){
                             spendAmountByMonthArray.push(res.data.expenses[i].total);    
                         }
                         setCategorySpendAmountByMonth(spendAmountByMonthArray);
-                        console.log("Teste",categorySpendAmountByMonth);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -72,13 +87,11 @@ export default function Home() {
 
         function HandleCategoryByYear(props){               
                 try {                  
-                     api.get('/financial-movements', { params: { user_id: localStorage.getItem('userId'), year: yearSelected} }).then( res => {
+                     api.get('/financial_movements', { params: { user_id: localStorage.getItem('userId'), year: yearSelected} }).then( res => {
                         for(var i = 0; i < res.data.expenses.length; i++){
                             spendAmountByMonthArray.push(res.data.expenses[i].total);    
                         }
-                        console.log(res.data);
                         setCategorySpendAmountByMonth(spendAmountByMonthArray);
-                        console.log(categorySpendAmountByMonth);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -89,7 +102,7 @@ export default function Home() {
         function HandleCategoryByMonthFirstTime(props){
             useEffect(()=>{                
                 try {             
-                     api.get('/financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
+                     api.get('/financial_movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
                         for(var i = 0; i < res.data.length; i++){
                             categoryNameArray.push(res.data[i].category.name);
                             spendAmountArray.push(res.data[i].movementsPercentage);
@@ -106,15 +119,13 @@ export default function Home() {
 
         function HandleCategoryByMonth(props){              
                 try {             
-                     api.get('/financial-movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
+                     api.get('/financial_movements/category', { params: { user_id: localStorage.getItem('userId'), year_month: date } }).then( res => {
                         for(var i = 0; i < res.data.length; i++){
                             categoryNameArray.push(res.data[i].category.name);
                             spendAmountArray.push(res.data[i].movementsPercentage);
                         }
                         setCategoryNames(categoryNameArray);
                         setCategorySpendAmount(spendAmountArray);
-                        console.log(categoryNames);
-                        console.log(categorySpendAmount);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -152,7 +163,7 @@ export default function Home() {
                                 if(eye === "open"){
                                     return(
                                         <div className="div-patrimonio">
-                                            <h2 style={{paddingLeft: "150%", fontSize: "25px"}}>Patrimônio: R$ {localStorage.getItem('userBalance')}</h2> 
+                                            <h2 style={{paddingLeft: "150%", fontSize: "25px"}}>Patrimônio: R$ {userBalance}</h2> 
                                             <button type="button" className="invisible-button" style={{paddingLeft:"8%"}} onClick={closeEye}><AiOutlineEye size={22} color="#00a8a0" /></button>   
                                         </div>
                                     )
