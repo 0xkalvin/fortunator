@@ -28,27 +28,100 @@ Tecnologias usadas na construção da aplicação
 
 ## Local Setup
 
+Para iniciar a aplicação local, apenas rode da raíz do repositório o comando
+
+```bash
+make
+```
+
+Isso irá subir 3 containers: um container para banco de dados postgres, um container para o backend (String Boot API) e outro para o front (React)
+
+### API
+
+#### Endpoints
+
+##### POST /goals
+
+Request
+
+```bash
+curl -XPOST "http://localhost:8080/goals" --header "Content-Type: application/json"  --data '{
+	"description": "Comprar um carro",
+	"amount": "30000",
+	"date": "2020-11-07T18:39:11.003Z",
+	"type": "BUDGET",
+	"user": {
+		"id": 1
+	}
+}'
+```
+
+Response
+
+```json
+{
+  "amount": 30000,
+  "date": "2020-11-07",
+  "description": "Comprar um carro",
+  "id": 2,
+  "status": "IN_PROGRESS",
+  "score": 3000,
+  "type": "BUDGET"
+}
+```
+
+##### PUT /goals/:id
+
+Request
+
+```bash
+curl -XPUT "http://localhost:8080/goals/2" --header "Content-Type: application/json"  --data '{
+
+	"status": "DONE",
+	"user": {
+		"id": 1
+	}
+}'
+```
+
+Response
+
+```json
+{
+  "amount": 30000.0,
+  "date": "2020-11-07",
+  "description": "Comprar um carro",
+  "id": 2,
+  "status": "DONE",
+  "score": 3000.0,
+  "type": "BUDGET"
+}
+```
+
 ### Sonar
 
-Para aplicar as análises do sonar, é preciso primeiramente iniciar o **server** do **sonarqube**. 
+Para aplicar as análises do sonar, é preciso primeiramente iniciar o **server** do **sonarqube**.
 
 Baixe a imagem docker do sonarqube
+
 ```
 docker pull sonarqube
 ```
 
 Inicie o servidor
+
 ```
 docker run -d -p 9000:9000 sonarqube
 ```
 
-Após o server ter sido inicializado, é possível acessá-lo em `http://localhost:9000`. Nele, será necessário adicionar os projetos `fortunator-backend` e `fortunator-frontend`. 
+Após o server ter sido inicializado, é possível acessá-lo em `http://localhost:9000`. Nele, será necessário adicionar os projetos `fortunator-backend` e `fortunator-frontend`.
 
 Como o backend e o frontend do fortunator são aplicações distintas, é necessário rodar o sonar separadamente em cada pasta.
 
 #### Backend
 
 Nesse ponto, é necessário apenas substituir o token pelo token disponibilizado na criação do projeto no sonarqube. Como o backend é feito com o maven, a própria ferramenta já disponibiliza um comando para rodar o sonar scanner.
+
 ```
 cd backend && mvn sonar:sonar \
   -Dsonar.projectKey=fortunator-backend \
@@ -61,7 +134,7 @@ cd backend && mvn sonar:sonar \
 Nesse ponto, também é necessário substituir o token pelo token disponibilizado na criação do projeto no sonarqube. Além disso, para realizar a análise do projeto em react, é preciso usar a imagem do `sonar-scanner-cli`.
 
 ```
-docker run \ 
+docker run \
     --rm \
     --net=host \
     -e SONAR_HOST_URL="http://localhost:9000" \
@@ -70,7 +143,6 @@ docker run \
     -Dsonar.login=inserir_token_do_frontend_aqui
 
 ```
-
 
 ## Tabelas do banco de dados
 
@@ -82,28 +154,39 @@ docker run \
 | email    | String |        True |
 | password | String |        True |
 
-
 ### Transactions
 
-| Campos | Tipo | Obrigatório | Descrição |
-| ------------- |:-------------:| -----:|-------:|
-| id | Int | True | |
-| user_id | Int |  True | FK |
-| transaction_category_id | Int |   False| FK |
-| type | String | True |  |
-| description | String | False |  |
-| amount | Float | True | |
-| date | Date | False | | 
+| Campos                  |  Tipo  | Obrigatório | Descrição |
+| ----------------------- | :----: | ----------: | --------: |
+| id                      |  Int   |        True |           |
+| user_id                 |  Int   |        True |        FK |
+| transaction_category_id |  Int   |       False |        FK |
+| type                    | String |        True |           |
+| description             | String |       False |           |
+| amount                  | Float  |        True |           |
+| date                    |  Date  |       False |           |
 
 ### Transaction Categories
 
-| Campos | Tipo | Obrigatório | Descrição |
-| ------------- |:-------------:| -----:|-------:|
-| id   | Int   | True  | |
-| user_id  | Int  | True | FK |
-|  name | String | True | |
-| description | String | True | |
+| Campos      |  Tipo  | Obrigatório | Descrição |
+| ----------- | :----: | ----------: | --------: |
+| id          |  Int   |        True |           |
+| user_id     |  Int   |        True |        FK |
+| name        | String |        True |           |
+| description | String |        True |           |
 
+### Goals
+
+| Campos      |  Tipo  | Obrigatório | Descrição |
+| ----------- | :----: | ----------: | --------: |
+| amount      | Double |       False |           |
+| date        |  Date  |        True |           |
+| description | String |        True |           |
+| id          |  Int   |        True |        PK |
+| status      | String |        True |           |
+| score       | Double |        True |           |
+| user_id     |  Int   |        True |        FK |
+| type        | String |        True |           |
 
 ## Diagrama de infraestrutura
 

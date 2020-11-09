@@ -1,5 +1,7 @@
 package com.fortunator.api.models;
 
+import java.math.BigDecimal;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -31,10 +34,14 @@ public class User {
 	@NotBlank
 	@Size(max = 32)
 	private String password;
-	
+
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Balance balance;
-	
+
+	private BigDecimal score;
+
+	private String level;
+
 	public User() {
 	}
 
@@ -43,6 +50,16 @@ public class User {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.score = new BigDecimal(0);
+	}
+
+	public User(Long id, String name, String email, String password, String level) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.score = new BigDecimal(0);
+		this.level = level;
 	}
 
 	public Long getId() {
@@ -85,6 +102,26 @@ public class User {
 		this.balance = balance;
 	}
 
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public BigDecimal getScore() {
+		return score;
+	}
+
+	public void setScore(BigDecimal score) {
+		this.score = score;
+	}
+
+	public void addToScore(BigDecimal toAdd) {
+		this.score = this.score.add(toAdd);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -109,5 +146,5 @@ public class User {
 			return false;
 
 		return true;
-	}	
+	}
 }
