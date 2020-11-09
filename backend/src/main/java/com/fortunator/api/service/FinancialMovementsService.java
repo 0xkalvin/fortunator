@@ -44,8 +44,7 @@ public class FinancialMovementsService {
 
 		List<Transaction> expensesTransactions = filterExpensesTransactions(transactions);
 
-		return calculate(expensesTransactions, userId);
-
+		return calculateAmountPerCategory(expensesTransactions, userId);
 	}
 	
 	List<MonthlyFinancialAmount> calculateTotalByMonthOfTheYear(List<Transaction> transactions, Integer year, Long userId) {
@@ -70,9 +69,7 @@ public class FinancialMovementsService {
 		return totalByMonth;
 	}
 
-	
-	
-	List<MovementByCategory> calculate(List<Transaction> transactions, Long userId) {
+	List<MovementByCategory> calculateAmountPerCategory(List<Transaction> transactions, Long userId) {
 		List<MovementByCategory> movementsByCategory = new ArrayList<>();
 		List<TransactionCategory> categories = transactionCategoryService.getCategoriesByUserId(userId);
 

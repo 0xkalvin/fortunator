@@ -7,6 +7,9 @@ public class MonthlyFinancialAmount {
 
 	private BigDecimal total;
 	private YearMonth yearMonth;
+	
+	public MonthlyFinancialAmount() {
+	}
 
 	public MonthlyFinancialAmount(BigDecimal total, YearMonth yearMonth) {
 		this.total = total;
