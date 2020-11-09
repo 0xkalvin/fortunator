@@ -13,7 +13,7 @@ import com.fortunator.api.models.Transaction;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
 	@Query("SELECT t from Transaction t where year(t.date) = :year " + "and month(t.date) = :month "
-			+ "and t.user.id = :userId")
+			+ "and t.user.id = :userId order by t.date desc")
 	List<Transaction> findByMonthYearAndUser(@Param("year") Integer year, @Param("month") Integer month,
 			@Param("userId") Long userId);
 }

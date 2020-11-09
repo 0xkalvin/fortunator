@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class LoginDTO implements Serializable{
+public class LoginDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -19,7 +19,7 @@ public class LoginDTO implements Serializable{
 	@Size(max = 32)
 	private String password;
 	
-	public LoginDTO(String email, String password) {
+	public LoginDto(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
