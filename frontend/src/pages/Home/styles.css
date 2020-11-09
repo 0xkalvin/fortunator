@@ -143,3 +143,23 @@
 {
   transform: none;
 }
+
+.select-chart-type{
+    border: 1.2px solid #00a8a0;
+    border-radius: 7px;
+    width: 13%;
+    transform: translate(638%,238%);
+    padding: 12px 20px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+
+}
+
+.body-home {
+  transform: translateX(-12%);
+}
+
+.div-patrimonio {
+  display: flex;
+}

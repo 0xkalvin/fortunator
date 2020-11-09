@@ -24,7 +24,9 @@ export default function Login() {
                     const response = await api.post('users/login', data, headers)
                         if(response.status === 200){
                             localStorage.setItem('auth', 'true');
-                            localStorage.setItem('userId', response.data.userId);
+                            localStorage.setItem('userId', response.data.id);
+                            localStorage.setItem('userName', response.data.name);
+                            localStorage.setItem('userBalance', response.data.balance.amount);
                             window.location.reload(false);
                         }
                 }catch(err){

@@ -1,6 +1,9 @@
 package com.fortunator.api.service;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fortunator.api.models.Transaction;
 import com.fortunator.api.models.TransactionCategory;
+import com.fortunator.api.models.TransactionTypeEnum;
 import com.fortunator.api.models.User;
 import com.fortunator.api.repository.TransactionRepository;
 import com.fortunator.api.service.exceptions.ResourceNotFoundException;
