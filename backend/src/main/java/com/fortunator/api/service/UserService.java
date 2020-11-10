@@ -24,11 +24,15 @@ public class UserService {
 		if (findByEmail(user.getEmail()).isPresent()) {
 			throw new EmailExistsException("Email already registered, please enter another email and try again.");
 		}
-		user.setPassword(String.valueOf(user.getPassword().hashCode()));
+
 		Balance balance = new Balance();
 		balance.setUser(user);
 		balance.setAmount(new BigDecimal(0.0));
+
+		user.setPassword(String.valueOf(user.getPassword().hashCode()));
 		user.setBalance(balance);
+		user.setScore(new BigDecimal(0.0));
+		user.setLevel("Iniciante");
 
 		return userRepository.save(user);
 	}
