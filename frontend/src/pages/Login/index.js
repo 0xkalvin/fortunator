@@ -23,8 +23,6 @@ export default function Login() {
                     }
                     const response = await api.post('users/login', data, headers)
                         if(response.status === 200){
-                            console.log(response.data);
-                            alert("Teste");
                             localStorage.setItem('auth', 'true');
                             localStorage.setItem('userId', response.data.id);
                             localStorage.setItem('userName', response.data.name);
