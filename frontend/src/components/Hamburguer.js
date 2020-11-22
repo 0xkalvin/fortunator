@@ -55,7 +55,7 @@ const Hamburguer=()=> {
                             <Link to="/register-transaction"><li><RiCoinsLine size={22} color="#f0f0f5" /> Transações</li></Link>
                             <Link to="/extract"><li><IoMdPaper size={22} color="#f0f0f5" /> Extrato</li></Link>
                             <Link to="#"><li><BsAlarm size={22} color="#f0f0f5" /> Lembretes</li></Link>
-                            <Link to="#"><li><FaTasks size={22} color="#f0f0f5" /> Metas</li></Link>
+                            <Link to="/goals"><li><FaTasks size={22} color="#f0f0f5" /> Metas</li></Link>
                             <Link to="#"><li><AiOutlineInfoCircle size={22} color="#f0f0f5" /> Sobre os devs</li></Link>
                             <Link to="#"><li><FiPhone size={22} color="#f0f0f5" /> Contato</li></Link>
                             <Link to="#" onClick={e => { logout()}}><li><AiOutlinePoweroff size={22} color="#f0f0f5" /> Sair</li></Link>

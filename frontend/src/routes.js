@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import RegisterSuccess from './pages/RegisterSuccess'
 import RegisterTransaction from './pages/RegisterTransaction'
 import RegisterCategory from './pages/RegisterCategory'
+import RegisterGoal from './pages/RegisterGoal'
+import Goals from './pages/Goals'
 import Extract from './pages/Extract'
 
 
@@ -44,7 +46,9 @@ export default function Routes(){
                 <LoginRoute path="/register-success" component={RegisterSuccess}/>
                 <PrivateRoute path="/register-transaction" component={RegisterTransaction}/>      
                 <PrivateRoute path="/register-category" component={RegisterCategory}/> 
-                <PrivateRoute path="/extract" component={Extract}/>           
+                <PrivateRoute path="/extract" component={Extract}/>    
+                <PrivateRoute path="/register-goal" component={RegisterGoal}/>   
+                <PrivateRoute path="/goals" component={Goals}/>           
             </Switch>
         </BrowserRouter>
     )
