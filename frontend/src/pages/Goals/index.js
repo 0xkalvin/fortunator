@@ -121,7 +121,7 @@ export default function Goals() {
             <Hamburguer/>  
             <div className="div-gif">
                 <img className="extract-gif" src={goalGif} alt="wallet-gif" height="170px" />
-                <div className="user-register-description">
+                <div className="goal-description">
                     <h1 className="register-title-gif">Metas</h1>
                     <p className="sub-title">Lista de metas</p>
                 </div>

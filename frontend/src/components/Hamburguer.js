@@ -52,6 +52,7 @@ const Hamburguer=()=> {
                         <ul id="menu">
                             <li style={{color: "#FFE500"}}><FaUserCircle size={30} color="#FFE500" /><b style={{paddingLeft: "4%", fontSize: "28px"}}>{localStorage.getItem('userName')}</b><p style={{fontSize: "20px"}}>{userLevel}<br/>Score: {userScore}</p></li>
                             <Link to="/home"><li><BsHouseDoor size={22} color="#f0f0f5" /> Home</li></Link>
+                            <Link to="/profile"><li><FaUserCircle size={30} color="#f0f0f5" /> Perfil</li></Link>
                             <Link to="/register-transaction"><li><RiCoinsLine size={22} color="#f0f0f5" /> Transações</li></Link>
                             <Link to="/extract"><li><IoMdPaper size={22} color="#f0f0f5" /> Extrato</li></Link>
                             <Link to="#"><li><BsAlarm size={22} color="#f0f0f5" /> Lembretes</li></Link>
