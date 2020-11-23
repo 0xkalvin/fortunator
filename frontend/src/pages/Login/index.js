@@ -14,6 +14,7 @@ export default function Login() {
         const [password, setPassword] = useState('');
         const [eye, setEye] = useState('close');
         const [unauthorized, setUnauthorized] = useState('');
+        const [username, setUsername] = useState('');
 
         async function userLogin(){
                 try{
@@ -54,6 +55,31 @@ export default function Login() {
             setEye("open");
             document.getElementById("senha").type = "text";
         }
+
+        async function sendNewPassword(){
+            if(username===""){
+                alert("Insira um nome de usuário. ");
+            }else{
+                try{
+                    const data = {username}
+                    const headers = {
+                        "Content-Type": "application/json"
+                    }
+                    const response = await api.post('/goals', data, headers)
+                        if(response.status === 201){
+                           alert("Transação cadastrada com sucesso!");
+                        }
+                }catch(err){
+                    if(err.response === undefined){
+                        alert("Algo deu errado :(");
+                    }else{
+                        if(err.response.status >= 500){
+                            alert("Serviço indisponível.");
+                        }
+                    }                                            
+                }  
+            }
+        }
         
         return (         
         <div>        
@@ -92,6 +118,7 @@ export default function Login() {
                    value={password}
                    onChange={e => { setPassword(e.target.value) }}
                />
+               
 
                 {(function () {
                     if(eye === "open"){
@@ -104,9 +131,30 @@ export default function Login() {
                         )
                     } 
                })()}
-               <button className="button-intern" type="button" onClick={userLogin}>Entrar</button>
+               <button className="button-intern" type="button" onClick={userLogin} style={{marginBottom:"3%"}}>Entrar</button>
            </form>
-           <Link className="sign-up-link" to="/register">Ainda não é usuário? Inscrever-se</Link>
+           <div className="div-links-login">
+                <a className="refresh-password-link" href="#abrirModal" style={{paddingBottom:"1%"}}>Esqueceu a senha?</a>
+                <Link className="sign-up-link" to="/register">Ainda não é usuário? Inscrever-se</Link>
+           </div>
+
+           <div id="abrirModal" class="modal">
+                <div>
+                    <a href="#fechar" title="Fechar" class="fechar">x</a>
+                    <h2 style={{paddingBottom:"3%"}}>Recuperação de senha.</h2>
+                    <p style={{paddingBottom:"4%"}}>Digite seu nome de usuário e uma nova senha será enviada para o e-mail cadastrado.</p>  
+
+                    <input
+                        type="text"                           
+                        className="input-maior"
+                        placeholder="Usuário"
+                        onChange={e => { setUsername(e.target.value) }}
+                        value={username}
+                    />
+                    <button className="button-intern" type="button" onClick={sendNewPassword}>Enviar</button>
+                </div>
+            </div>  
+           
        </div>
         )
 

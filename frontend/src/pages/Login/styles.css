@@ -9,3 +9,8 @@
     padding-bottom: 0.5%;
     color: red;
 }
+
+.div-links-login{
+    display: flex;
+    flex-direction: column;
+}
