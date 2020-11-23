@@ -8,6 +8,7 @@ import walletGif from '../../assets/wallet.gif'
 import Hamburguer from '../../components/Hamburguer'
 import { mask, unMask } from 'remask'
 import { BsPlusSquare } from 'react-icons/bs';
+import { FiTrash2 } from 'react-icons/fi';
 
 export default function RegisterTransaction() {
         const [description, setDescription] = useState('');
@@ -69,8 +70,60 @@ export default function RegisterTransaction() {
             setAmount(unMask(amountMasked));
         } 
 
+        async function deleteCategory(){
+            if(amount===""){
+                alert("Insira o valor da meta. ");
+            }else{
+                try{
+                    const data = {amount:amount, user:{id:parseInt(localStorage.getItem('userId'))}}
+                    const headers = {
+                        "Content-Type": "application/json"
+                    }
+                    const response = await api.post('/goals', data, headers)
+                        if(response.status === 201){
+                           alert("Transação cadastrada com sucesso!");
+                        }
+                }catch(err){
+                    if(err.response === undefined){
+                        alert("Algo deu errado :(");
+                    }else{
+                        if(err.response.status >= 500){
+                            alert("Serviço indisponível.");
+                        }
+                    }                                            
+                }  
+            }
+        }
+
         return (
-        <div>  
+        <div> 
+            <div id="abrirModal" class="modal">
+                <div>
+                    <a href="#fechar" title="Fechar" class="fechar">x</a>
+                    <h2 style={{paddingBottom:"3%"}}>Exclusão de categoria</h2>
+                    <p style={{paddingBottom:"3%"}}>Escolha a categoria que deseja excluir.</p> 
+
+                    {(function () {
+                            if(categoryOptions.length !== 0){
+                                return(
+                                <select description="Transactionn" className="input-maior" onChange={e => {setCategory(e.target.value)}}>                                                  
+                                    {categoryOptions.map(categoryOption => (                                                      
+                                        <option key={categoryOption.id} value={categoryOption.id}>{categoryOption.description}</option>       
+                                    ))}
+                                </select>
+                                )
+                            }else{
+                                return(
+                                <select description="Transactionn" className="input-maior">                                                                                                       
+                                        <option>Nenhuma Opção Disponível</option>       
+                                </select>
+                                )
+                            }
+                        })()}
+                    <button className="button-intern" type="button" style={{marginLeft:"23%"}} onClick={deleteCategory}>Excluir</button>
+                </div>
+            </div>   
+
             {HandleCategory()}
             <Hamburguer/>  
             <div className="div-gif">
@@ -133,6 +186,8 @@ export default function RegisterTransaction() {
                             }
                         })()}
                         <Link to="/register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></Link>
+                        <a href="#abrirModal" className="tooltip" data-title="Excluir Categoria"><FiTrash2 size={22} color="#00A0A0"  /></a>
+                        
                     </div>
                     <div className="div-input-transacao-direita">
                         <label htmlFor="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>

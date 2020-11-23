@@ -113,7 +113,7 @@ export default function Goals() {
                         onChange={onChangeRealMask}
                         value={amountMasked}
                     />
-                    <button className="button-intern" type="button" onClick={refreshGoalAmount}>Salvar</button>
+                    <button className="button-intern" type="button" style={{marginLeft:"23%"}} onClick={refreshGoalAmount}>Salvar</button>
                 </div>
             </div>   
             

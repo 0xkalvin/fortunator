@@ -17,7 +17,6 @@ class Chart extends Component{
                 labels: this.props.chartDataLabels,
                 datasets:[
                     {
-                        label: 'Gastos',
                         data: this.props.chartDataData,
                         backgroundColor: this.props.chartDataColor
                     }
@@ -37,10 +36,6 @@ class Chart extends Component{
                             display:this.props.displayTitle,
                             text: this.props.textTitle,
                             fontSize: 25,
-                        },
-                        legend:{
-                            display:this.props.displayLegend,
-                            position: this.props.legendPosition
                         }
                     }}       
                 />
