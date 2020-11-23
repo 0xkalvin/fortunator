@@ -8,6 +8,7 @@ import javax.security.auth.login.LoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fortunator.api.controller.entity.UpdateUser;
 import com.fortunator.api.models.Balance;
 import com.fortunator.api.models.Level;
 import com.fortunator.api.models.LevelNameEnum;
@@ -30,10 +31,10 @@ public class UserService {
 		Balance balance = new Balance();
 		balance.setUser(user);
 		balance.setAmount(BigDecimal.valueOf(0.0));
-		
+
 		Level level = new Level(user, 1, LevelNameEnum.INICIANTE.getDescription(), BigDecimal.valueOf(0));
 		level.setMaxLevelScore();
-		
+
 		user.setPassword(String.valueOf(user.getPassword().hashCode()));
 		user.setBalance(balance);
 		user.setScore(BigDecimal.valueOf(0.0));
@@ -66,5 +67,20 @@ public class UserService {
 		User user = this.findUserById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
 		return user;
+	}
+
+	public User updateUser(UpdateUser userData) {
+		User user = userRepository.findById(userData.getUserId())
+				.orElseThrow(() -> new UserNotFoundException("User not found"));
+		if (findByEmail(userData.getEmail()).isPresent()) {
+			throw new EmailExistsException("Email already registered, please enter another email and try again.");
+		}
+
+		user.setName(userData.getName());
+		user.setEmail(userData.getEmail());
+		user.setPassword(String.valueOf(userData.getPassword().hashCode()));
+		user.getBalance().setAmount((userData.getBalance()));
+
+		return userRepository.save(user);
 	}
 }

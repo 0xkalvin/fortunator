@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fortunator.api.controller.entity.Login;
+import com.fortunator.api.controller.entity.UpdateUser;
 import com.fortunator.api.models.User;
 import com.fortunator.api.service.UserService;
 
@@ -74,6 +76,14 @@ public class UserController {
 
 		User user = userService.getOne(id);
 
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Update a user")
+	@CrossOrigin
+	@PutMapping
+	public ResponseEntity<User> updateUser(@RequestBody UpdateUser userData) {
+		User user = userService.updateUser(userData);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }
