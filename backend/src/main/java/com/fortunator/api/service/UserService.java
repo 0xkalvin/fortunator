@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fortunator.api.models.Balance;
+import com.fortunator.api.models.Level;
+import com.fortunator.api.models.LevelNameEnum;
 import com.fortunator.api.models.User;
 import com.fortunator.api.repository.UserRepository;
 import com.fortunator.api.service.exceptions.EmailExistsException;
@@ -27,12 +29,15 @@ public class UserService {
 
 		Balance balance = new Balance();
 		balance.setUser(user);
-		balance.setAmount(new BigDecimal(0.0));
-
+		balance.setAmount(BigDecimal.valueOf(0.0));
+		
+		Level level = new Level(user, 1, LevelNameEnum.INICIANTE.getDescription(), BigDecimal.valueOf(0));
+		level.setMaxLevelScore();
+		
 		user.setPassword(String.valueOf(user.getPassword().hashCode()));
 		user.setBalance(balance);
-		user.setScore(new BigDecimal(0.0));
-		user.setLevel("Iniciante");
+		user.setScore(BigDecimal.valueOf(0.0));
+		user.setLevel(level);
 
 		return userRepository.save(user);
 	}

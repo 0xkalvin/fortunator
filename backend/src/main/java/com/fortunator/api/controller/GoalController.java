@@ -1,25 +1,28 @@
 package com.fortunator.api.controller;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fortunator.api.models.Goal;
 import com.fortunator.api.schemas.CreateGoalSchema;
 import com.fortunator.api.schemas.UpdateGoalSchema;
-import com.fortunator.api.models.Goal;
 import com.fortunator.api.service.GoalService;
+import com.fortunator.api.service.exceptions.ResourceNotFoundException;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -49,14 +52,13 @@ public class GoalController {
 	}
 
 
-	@ApiOperation(value = "Update existing goal with a new status")
+	@ApiOperation(value = "Update existing goal progress")
 	@ApiResponses(value = {
 			@ApiResponse(code = SC_BAD_REQUEST, message = "One or more fields were filled in incorrectly") })
 	@CrossOrigin
-	@PutMapping("/{id}")
-	public ResponseEntity<Goal> updateGoal(@PathVariable long id, @Valid @RequestBody UpdateGoalSchema payload) {
-		Goal updatedGoal = goalService.updateGoal(id, payload);
-
+	@PutMapping
+	public ResponseEntity<Goal> updateGoal(@Valid @RequestBody UpdateGoalSchema payload) throws ResourceNotFoundException, InterruptedException, ExecutionException {
+		Goal updatedGoal = goalService.updateGoal(payload);
 		return new ResponseEntity<Goal>(updatedGoal, HttpStatus.OK);
 	}
 
@@ -73,5 +75,15 @@ public class GoalController {
 		}
 
 		return new ResponseEntity<List<Goal>>(goals, HttpStatus.OK);
+	}	
+	
+	@CrossOrigin
+	@ApiOperation(value = "Delete goal by id")
+	@ApiResponses(value = { @ApiResponse(code = SC_OK, message = "ok"),
+			@ApiResponse(code = NO_CONTENT, message = "When has no goal.") })
+	@DeleteMapping
+	public ResponseEntity<Void> deleteGoal(@RequestParam("goal_id") Long goalId) {
+		goalService.deleteGoal(goalId);
+		return ResponseEntity.ok().build();
 	}
 }
