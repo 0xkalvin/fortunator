@@ -32,6 +32,8 @@ public class TransactionCategory {
 	private User user;
 
 	private boolean isDefault;
+	
+	private boolean active;
 
 	public TransactionCategory() {
 	}
@@ -90,6 +92,14 @@ public class TransactionCategory {
 
 	public void setIsDefault(Boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+	
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override
