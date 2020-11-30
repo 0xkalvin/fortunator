@@ -18,50 +18,21 @@ export default function Profile() {
         var userId = localStorage.getItem('userId');
         const [userName, setUserName] = useState('');
         const [userEmail, setUserEmail] = useState('');
+        const [userNameFirstTime, setUserNameFirstTime] = useState('');
+        const [userEmailFirstTime, setUserEmailFirstTime] = useState('');
         const [userCurrentPassword, setUserCurrentPassword] = useState('');
         const [userNewPassword, setUserNewPassword] = useState('');
 
         HandleUser()
 
-        async function trasactionRegister(){
-            if(type==="" || type==="Nenhum"){
-                alert("Selecione um tipo para a transação. ");
-            }if(categoryOptions==="" || categoryOptions==="Nenhum"){
-                alert("Selecione uma categoria para a transação. ");
-            }if(date==="" || date==="Nenhum"){
-                alert("Selecione a data da transação. ");
-            }if(amount===""){
-                alert("Insira o valor da transação. ");
-            }if(description===""){
-                alert("Insira o título da transação. ");
-            }else{
-                try{
-                    const data = {description:description, date:date, amount:amount, type:type, transactionCategory:{id:parseInt(category)}, user:{id:parseInt(localStorage.getItem('userId'))}}
-                    const headers = {
-                        "Content-Type": "application/json"
-                    }
-                    const response = await api.post('/transactions', data, headers)
-                        if(response.status === 201){
-                           alert("Transação cadastrada com sucesso!");
-                        }
-                }catch(err){
-                    if(err.response === undefined){
-                        alert("Algo deu errado :(");
-                    }else{
-                        if(err.response.status >= 500){
-                            alert("Serviço indisponível.");
-                        }
-                    }                                            
-                }  
-            }
-        }
-    
         function HandleUser(props){    
             useEffect(()=>{          
                 try {                  
                     api.get('/users/' + userId).then( res => { 
                         setUserName(res.data.name);
                         setUserEmail(res.data.email);
+                        setUserNameFirstTime(res.data.name);
+                        setUserEmailFirstTime(res.data.email);
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -71,28 +42,39 @@ export default function Profile() {
         }
 
         async function refreshPassword(){
-            if(amount===""){
-                alert("Insira o valor da meta. ");
-            }else{
                 try{
-                    const data = {amount:amount, user:{id:parseInt(localStorage.getItem('userId'))}}
+                    var userNameData = null;
+                    var userEmailData = null;
+                    var userCurrentPasswordData = null;
+                    var userNewPasswordData = null;
+                    if(userName != userNameFirstTime){
+                        userNameData = userName;
+                    }if(userEmail != userEmailFirstTime){
+                        userEmailData = userEmail;
+                    }if(userCurrentPassword != ""){
+                        userCurrentPasswordData = userCurrentPassword;
+                    }if(userNewPassword != ""){
+                        userNewPasswordData = userNewPassword;
+                    }
+                    const data = {name:userNameData, email:userEmailData, newPassword:userNewPasswordData, oldPassword:userCurrentPasswordData, balance:0, userId:parseInt(localStorage.getItem('userId'))}
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    const response = await api.post('/goals', data, headers)
-                        if(response.status === 201){
-                           alert("Transação cadastrada com sucesso!");
+                    const response = await api.put('/users', data, headers)
+                        if(response.status === 200){
+                           alert("Perfil atualizado com sucesso!");
                         }
                 }catch(err){
                     if(err.response === undefined){
                         alert("Algo deu errado :(");
-                    }else{
+                    }if(err.response.status === 401){
+                        alert("Senha incorreta.");
+                     }else{
                         if(err.response.status >= 500){
                             alert("Serviço indisponível.");
                         }
                     }                                            
                 }  
-            }
         }
 
         return (
@@ -126,7 +108,7 @@ export default function Profile() {
                     />
                     <a className="refresh-password-link" href="#abrirModal">Atualizar senha.</a>
                 </div>
-               <button className="button-intern" type="button" onClick={trasactionRegister}>Salvar</button>
+               <button className="button-intern" type="button" onClick={refreshPassword}>Salvar</button>
 
                <div id="abrirModal" class="modal">
                 <div>
