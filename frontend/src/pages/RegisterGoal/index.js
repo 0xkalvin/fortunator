@@ -14,7 +14,7 @@ export default function RegisterGoal() {
         const [date, setDate] = useState('');
         const [amount, setAmount] = useState('');
         const [amountMasked, setAmountMasked] = useState('');
-        const [type, setType] = useState('INCOMING');
+        const [type, setType] = useState('BUDGET');
 
         async function goalRegister(){
             if(type==="" || type==="Nenhum"){
