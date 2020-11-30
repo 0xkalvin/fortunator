@@ -79,12 +79,14 @@ public class DevConfig implements CommandLineRunner {
 		transactionCategorySalary.setUser(user);
 		transactionCategorySalary.setName("salary");
 		transactionCategorySalary.setDescription("salary");
+		transactionCategorySalary.setActive(true);
 
 		TransactionCategory transactionCategoryFastFood = new TransactionCategory();
 		transactionCategoryFastFood.setUser(user);
 		transactionCategoryFastFood.setName("fast_food");
 		transactionCategoryFastFood.setDescription("Fast food");
-
+		transactionCategoryFastFood.setActive(true);
+		
 		transactionCategoryRepository.save(transactionCategorySalary);
 		transactionCategoryRepository.save(transactionCategoryFastFood);
 

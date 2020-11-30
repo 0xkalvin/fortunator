@@ -15,8 +15,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fortunator.api.models.TransactionCategory;
 import com.fortunator.api.service.*;
 
-	@WebMvcTest(TransactionCategoryController.class)
-public class TransactionCategoryTest {
+@WebMvcTest(TransactionCategoryController.class)
+public class TransactionCategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
