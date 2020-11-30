@@ -50,10 +50,12 @@ export default function Goals() {
                                         <p>{extract.status}</p>
                                         <p><b>META:</b> R$ {extract.amount}</p>
                                         
+                                        
                                     </div>      
                                     {/* <p className="extract-amount-incoming">+ R$ {extract.amount}</p> */}
                                     <p style={{paddingBottom:"3%"}}><b>Progresso:</b> R$ {extract.progressAmount} ( {extract.progressPercentage}% )</p>
-                                    <a href="#abrirModal" onClick={e=>setParameters(`${extract.description}`,`${extract.amount}`,`${extract.id}`,`${extract.progressAmount}`, `${extract.progressPercentage}`)}>Add progresso</a>
+                                    <p style={{color:"rgb(0, 187, 31)", paddingBottom:"3%"}}>+ {extract.score} xp</p>
+                                    <button className="button-intern-add-progress"  onClick={e=>setParameters(`${extract.description}`,`${extract.amount}`,`${extract.id}`,`${extract.progressAmount}`, `${extract.progressPercentage}`)}>Progresso</button>
                                 </div>            
                             </div>   
                         )                                                                               
@@ -63,6 +65,7 @@ export default function Goals() {
         }
 
         function setParameters(goalNameParam, goalCurrentAmountParam, goalIdParam, goalProgressAmountParam, goalProgressPercentageParam) {
+            window.location.href = "#abrirModal"
             setGoalName(goalNameParam);
             setGoalCurrentAmount(goalCurrentAmountParam);
             setGoalId(goalIdParam);
@@ -84,6 +87,7 @@ export default function Goals() {
                     const headers = {
                         "Content-Type": "application/json"
                     }
+                    console.log(amount);
                     const response = await api.put('/goals', data, headers)
                         if(response.status === 200){
                            alert("Progresso adicionado com sucesso!");
@@ -101,16 +105,6 @@ export default function Goals() {
                 }  
             }
         }
-
-        async function HandleExtract(props){
-                try {
-                    api.get('/goals', { params: { user_id: localStorage.getItem('userId')} }).then(res => {
-                        setExtract(res.data);                        
-                    });
-                } catch (err) {
-                    alert("Algo deu errado :(");
-                }
-        }   
 
         return ( 
         <div>  

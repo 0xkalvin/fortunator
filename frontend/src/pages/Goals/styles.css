@@ -307,3 +307,22 @@
 .goal-description{
   transform: translate(-71%,13%);
 }
+
+.button-intern-add-progress {
+  width: 22%;
+  height: 26px;
+  background: #00a8a0;
+  border: 0 solid rgb(0, 0, 0);
+  border-radius: 8px;
+  color: #FFF;
+  /* font-weight: 700; */
+  /* margin-top: 16px; */
+  margin-right: 2%;
+  /* margin-bottom: 5%; */
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  /* line-height: 60px; */
+  transition: filter 0.2s;
+}
