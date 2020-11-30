@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import '../../global.css';
 import './styles.css'
@@ -15,19 +15,17 @@ export default function Goals() {
         const [extract, setExtract] = useState([]);
         const [increaseAmount, setIncreaseAmount] = useState('');
         const [goalName, setGoalName] = useState('');
+        const [goalId, setGoalId] = useState('');
         const [amountMasked, setAmountMasked] = useState('');
         const [amount, setAmount] = useState('');
+        const [goalProgressAmount, setGoalProgressAmount] = useState('');
+        const [goalProgressPercentage, setGoalProgressPercentage] = useState('');
         const [goalCurrentAmount, setGoalCurrentAmount] = useState('');
 
         function HandleExtractFirstTime(props){
             useEffect(()=>{
                 try {
-                    var today = new Date();
-                    var currentDate;
-                    let currentMonth = today.getMonth()+1;
-                    let currentYear = today.getFullYear();
-                    currentDate = currentYear + '-' + currentMonth;
-                    api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: currentDate} }).then(res => {
+                    api.get('/goals', { params: { user_id: localStorage.getItem('userId')} }).then(res => {
                         setExtract(res.data);                        
                     });
                 } catch (err) {
@@ -48,12 +46,14 @@ export default function Goals() {
                                         {/* <h3>{extract.description}</h3>
                                         <p>{extract.transactionCategory.description}</p>
                                         <p>{extract.date}</p> */}
-                                        <h3>Comprar carro</h3>
-                                        <p>EM PROGRESSO</p>
-                                        <p>23%</p>
+                                        <h3>{extract.description}</h3>
+                                        <p>{extract.status}</p>
+                                        <p><b>META:</b> R$ {extract.amount}</p>
+                                        
                                     </div>      
                                     {/* <p className="extract-amount-incoming">+ R$ {extract.amount}</p> */}
-                                    <a href="#abrirModal" onClick={e=>setParameters(`${extract.description}`,`${extract.amount}`)}>Add progresso</a>
+                                    <p style={{paddingBottom:"3%"}}><b>Progresso:</b> R$ {extract.progressAmount} ( {extract.progressPercentage}% )</p>
+                                    <a href="#abrirModal" onClick={e=>setParameters(`${extract.description}`,`${extract.amount}`,`${extract.id}`,`${extract.progressAmount}`, `${extract.progressPercentage}`)}>Add progresso</a>
                                 </div>            
                             </div>   
                         )                                                                               
@@ -62,9 +62,12 @@ export default function Goals() {
             )              
         }
 
-        function setParameters(goalName, goalCurrentAmount) {
-            setGoalName(goalName);
-            setGoalCurrentAmount(goalCurrentAmount);
+        function setParameters(goalNameParam, goalCurrentAmountParam, goalIdParam, goalProgressAmountParam, goalProgressPercentageParam) {
+            setGoalName(goalNameParam);
+            setGoalCurrentAmount(goalCurrentAmountParam);
+            setGoalId(goalIdParam);
+            setGoalProgressAmount(goalProgressAmountParam);
+            setGoalProgressPercentage(goalProgressPercentageParam)
         }
         
         const onChangeRealMask = ev => {         
@@ -74,16 +77,18 @@ export default function Goals() {
 
         async function refreshGoalAmount(){
             if(amount===""){
-                alert("Insira o valor da meta. ");
+                alert("Insira o valor para adicionar progresso. ");
             }else{
                 try{
-                    const data = {amount:amount, user:{id:parseInt(localStorage.getItem('userId'))}}
+                    const data = {goalId:goalId, progressAmount:amount}
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    const response = await api.post('/goals', data, headers)
-                        if(response.status === 201){
-                           alert("Transação cadastrada com sucesso!");
+                    const response = await api.put('/goals', data, headers)
+                        if(response.status === 200){
+                           alert("Progresso adicionado com sucesso!");
+                           window.location.href = "#fechar"
+                           window.location.reload(false);
                         }
                 }catch(err){
                     if(err.response === undefined){
@@ -97,6 +102,16 @@ export default function Goals() {
             }
         }
 
+        async function HandleExtract(props){
+                try {
+                    api.get('/goals', { params: { user_id: localStorage.getItem('userId')} }).then(res => {
+                        setExtract(res.data);                        
+                    });
+                } catch (err) {
+                    alert("Algo deu errado :(");
+                }
+        }   
+
         return ( 
         <div>  
             <div id="abrirModal" class="modal">
@@ -104,7 +119,8 @@ export default function Goals() {
                     <a href="#fechar" title="Fechar" class="fechar">x</a>
                     <h2 style={{paddingBottom:"3%"}}>{goalName}</h2>
                     <p style={{paddingBottom:"3%"}}>Digite o valor que você juntou para adicionar progresso.</p> 
-                    <p style={{paddingBottom:"3%"}}>Valor atual: R${goalCurrentAmount}</p>  
+                    <p style={{paddingBottom:"3%"}}><b>Meta:</b> R$ {goalCurrentAmount}</p>  
+                    <p style={{paddingBottom:"3%"}}><b>Progresso:</b> R$ {goalProgressAmount} ( {goalProgressPercentage}% )</p>  
 
                     <input
                         type="text"                           
