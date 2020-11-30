@@ -2,7 +2,7 @@ package com.fortunator.api.models;
 
 public enum LevelNameEnum {
     INICIANTE ("Iniciante"),
-    INTERMEDIARIO ("Itermediário"),
+    INTERMEDIARIO ("Intermediário"),
     AVANCADO ("Avançado"),
     SUPER_AVANCADO ("Super Avançado");
 
