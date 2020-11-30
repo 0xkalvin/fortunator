@@ -20,6 +20,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.security.auth.login.LoginException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fortunator.api.controller.entity.UpdateUser;
@@ -33,9 +34,15 @@ import com.fortunator.api.service.exceptions.UserNotFoundException;
 
 @Service
 public class UserService {
+	
+	private static final String HOST = "smtp.gmail.com";
 
-	private static final String EMAIL_FROM = "suporte.fortunator@gmail.com";
-
+	@Value("${suport.email}")
+    private String suportEmail;
+	
+	@Value("${suport.email.password}")
+    private String suportPassword;
+	
 	@Autowired
 	private UserRepository userRepository;
 
@@ -80,23 +87,23 @@ public class UserService {
 		Properties prop = System.getProperties();
 		prop.put("mail.smtp.auth", true);
 		prop.put("mail.smtp.starttls.enable", "true");
-		prop.put("mail.smtp.host", "smtp.gmail.com");
+		prop.put("mail.smtp.host", HOST);
 		prop.put("mail.smtp.port", 587);
-		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		prop.put("mail.smtp.ssl.trust", HOST);
 
 		Session session = Session.getInstance(prop, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("suporte.fortunator@gmail.com", "fortunator123");
+				return new PasswordAuthentication(suportEmail, suportPassword);
 			}
 		});
 
 		Message message = new MimeMessage(session);
-		message.setFrom(new InternetAddress("suporte.fortunator@gmail.com"));
+		message.setFrom(new InternetAddress(suportEmail));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 		message.setSubject("Sua nova senha");
 
-		String msg = "Use esta nova senha para realizar o login " + newPass;
+		String msg = "Use esta senha para realizar o login no fortunator: " + newPass;
 
 		MimeBodyPart mimeBodyPart = new MimeBodyPart();
 		mimeBodyPart.setContent(msg, "text/html");
@@ -108,7 +115,7 @@ public class UserService {
 
 		Transport.send(message);
 	}
-
+	
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
