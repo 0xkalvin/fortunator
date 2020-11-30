@@ -1,35 +1,30 @@
 package com.fortunator.api.schemas;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
-import com.fortunator.api.models.GoalStatusEnum;
+import javax.validation.constraints.NotNull;
 
 public class UpdateGoalSchema {
 
+	@NotNull
+	private Long goalId;
+	
     @NotNull
-    private GoalStatusEnum status;
+    private BigDecimal progressAmount;
 
-    @NotNull
-    @Valid
-    private UserSchema user;
+	public Long getGoalId() {
+		return goalId;
+	}
 
-    public UpdateGoalSchema() {
-    }
+	public void setGoalId(Long goalId) {
+		this.goalId = goalId;
+	}
 
-    public GoalStatusEnum getStatus() {
-        return status;
-    }
+	public BigDecimal getProgressAmount() {
+		return progressAmount;
+	}
 
-    public void setStatus(GoalStatusEnum status) {
-        this.status = status;
-    }
-
-    public UserSchema getUser() {
-        return user;
-    }
-
-    public void setUser(UserSchema user) {
-        this.user = user;
-    }
+	public void setProgressAmount(BigDecimal progressAmount) {
+		this.progressAmount = progressAmount;
+	}
 }

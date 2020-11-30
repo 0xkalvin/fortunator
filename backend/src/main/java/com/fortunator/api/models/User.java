@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -40,7 +39,8 @@ public class User {
 
 	private BigDecimal score;
 
-	private String level;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private Level level;
 
 	public User() {
 	}
@@ -53,7 +53,7 @@ public class User {
 		this.score = new BigDecimal(0);
 	}
 
-	public User(Long id, String name, String email, String password, String level) {
+	public User(Long id, String name, String email, String password, Level level) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -102,11 +102,11 @@ public class User {
 		this.balance = balance;
 	}
 
-	public String getLevel() {
+	public Level getLevel() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel(Level level) {
 		this.level = level;
 	}
 
@@ -118,10 +118,26 @@ public class User {
 		this.score = score;
 	}
 
-	public void addToScore(BigDecimal toAdd) {
+	public Level addToScore(BigDecimal toAdd) {
 		this.score = this.score.add(toAdd);
+		return calculateLevel(toAdd);
 	}
-
+	
+	public Level calculateLevel(BigDecimal toAdd) {
+		boolean levelUp = false;
+		BigDecimal newLevelScore = level.getLevelScore().add(toAdd);
+		BigDecimal maxScoreActualUserLevel = level.getMaxLevelScore();
+		if(newLevelScore.compareTo(maxScoreActualUserLevel) > 0) {
+			level.calculateLevel(score);
+			levelUp = true;
+			level.calculateLevelScore(levelUp, toAdd);
+		} else {
+			level.calculateLevelScore(levelUp, toAdd);
+		}
+		level.verifyLevelName();
+		return level;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
