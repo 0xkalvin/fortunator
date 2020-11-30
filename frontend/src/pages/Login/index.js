@@ -61,13 +61,13 @@ export default function Login() {
                 alert("Insira um nome de usuário. ");
             }else{
                 try{
-                    const data = {username}
+                    const data = {email:username}
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    const response = await api.post('/goals', data, headers)
-                        if(response.status === 201){
-                           alert("Transação cadastrada com sucesso!");
+                    const response = await api.post('/users/password', data, headers)
+                        if(response.status === 200){
+                           alert("E-mail enviado com sucesso!");
                         }
                 }catch(err){
                     if(err.response === undefined){
