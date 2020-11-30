@@ -71,17 +71,16 @@ export default function RegisterTransaction() {
         } 
 
         async function deleteCategory(){
-            if(amount===""){
-                alert("Insira o valor da meta. ");
+            if(category===""){
+                alert("Selecione uma categoria. ");
             }else{
                 try{
-                    const data = {amount:amount, user:{id:parseInt(localStorage.getItem('userId'))}}
                     const headers = {
                         "Content-Type": "application/json"
                     }
-                    const response = await api.post('/goals', data, headers)
-                        if(response.status === 201){
-                           alert("Transação cadastrada com sucesso!");
+                    const response = await api.delete('/transactions/categories/' + category, headers)
+                        if(response.status === 200){
+                           alert("Categoria excluída com sucesso!");
                         }
                 }catch(err){
                     if(err.response === undefined){
