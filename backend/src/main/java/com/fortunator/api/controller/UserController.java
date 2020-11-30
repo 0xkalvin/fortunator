@@ -1,5 +1,7 @@
 package com.fortunator.api.controller;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.security.auth.login.LoginException;
 import javax.validation.Valid;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fortunator.api.controller.entity.EmailToResetPass;
 import com.fortunator.api.controller.entity.Login;
 import com.fortunator.api.controller.entity.UpdateUser;
 import com.fortunator.api.models.User;
@@ -85,5 +88,13 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody UpdateUser userData) {
 		User user = userService.updateUser(userData);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Reset pass")
+	@CrossOrigin
+	@PostMapping("/password")
+	public ResponseEntity<Void> resetPass(@Valid @RequestBody EmailToResetPass emailToResetPass) throws AddressException, MessagingException {
+		userService.resetPassword(emailToResetPass.getEmail());
+		return ResponseEntity.ok().build();
 	}
 }

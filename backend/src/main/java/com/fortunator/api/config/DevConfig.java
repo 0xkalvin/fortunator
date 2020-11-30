@@ -52,7 +52,7 @@ public class DevConfig implements CommandLineRunner {
 
 		User user = new User();
 		user.setName("Zé");
-		user.setEmail("ze@gmail.com");
+		user.setEmail("wendel_duarte@outlook.com");
 		user.setPassword(String.valueOf("senha".hashCode()));
 		
 		user.setScore(BigDecimal.valueOf(0));
