@@ -2,11 +2,12 @@ package com.fortunator.api.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -107,18 +108,54 @@ public class UserServiceTest {
 		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 		when(userRepository.findByEmail(eq(EMAIL))).thenReturn(Optional.empty());
 		when(userData.getEmail()).thenReturn(EMAIL);
-		when(userData.getPassword()).thenReturn(PASSWORD);
+		when(userData.getNewPassword()).thenReturn(PASSWORD);
+		when(userData.getOldPassword()).thenReturn(PASSWORD);
 		when(userData.getName()).thenReturn(NAME);
 		when(userData.getBalance()).thenReturn(BALANCE);
 		when(user.getBalance()).thenReturn(balance);
+		when(user.getPassword()).thenReturn(String.valueOf(PASSWORD.hashCode()));
 		
 		userService.updateUser(userData);
 		
 		verify(user).setName(anyString());
 		verify(user).setEmail(anyString());
 		verify(user).setPassword(anyString());
-		verify(user).getBalance();
 		verify(balance).setAmount(any(BigDecimal.class));
 	}
 	
+	@Test
+	public void shouldUpdateJustPassword() {
+		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+		when(userRepository.findByEmail(eq(null))).thenReturn(Optional.empty());
+		when(userData.getEmail()).thenReturn(null);
+		when(userData.getNewPassword()).thenReturn(PASSWORD);
+		when(userData.getOldPassword()).thenReturn(PASSWORD);
+		when(userData.getName()).thenReturn(null);
+		when(userData.getBalance()).thenReturn(null);
+		when(user.getPassword()).thenReturn(String.valueOf(PASSWORD.hashCode()));
+		
+		userService.updateUser(userData);
+		
+		verify(user, never()).setName(anyString());
+		verify(user, never()).setEmail(anyString());
+		verify(user).setPassword(anyString());
+		verify(balance, never()).setAmount(any(BigDecimal.class));
+	}
+	
+	@Test
+	public void shouldUpdateNameAndEmail() {
+		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+		when(userRepository.findByEmail(eq(EMAIL))).thenReturn(Optional.empty());
+		when(userData.getEmail()).thenReturn(EMAIL);
+		when(userData.getNewPassword()).thenReturn(null);
+		when(userData.getName()).thenReturn(NAME);
+		when(userData.getBalance()).thenReturn(null);
+		
+		userService.updateUser(userData);
+		
+		verify(user).setName(anyString());
+		verify(user).setEmail(anyString());
+		verify(user, never()).setPassword(anyString());
+		verify(balance, never()).setAmount(any(BigDecimal.class));
+	}
 }

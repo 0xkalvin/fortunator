@@ -30,6 +30,7 @@ import com.fortunator.api.models.LevelNameEnum;
 import com.fortunator.api.models.User;
 import com.fortunator.api.repository.UserRepository;
 import com.fortunator.api.service.exceptions.EmailExistsException;
+import com.fortunator.api.service.exceptions.InvalidPassword;
 import com.fortunator.api.service.exceptions.UserNotFoundException;
 
 @Service
@@ -149,10 +150,25 @@ public class UserService {
 			throw new EmailExistsException("Email already registered, please enter another email and try again.");
 		}
 
-		user.setName(userData.getName());
-		user.setEmail(userData.getEmail());
-		user.setPassword(String.valueOf(userData.getPassword().hashCode()));
-		user.getBalance().setAmount((userData.getBalance()));
+		if(userData.getName() != null) {
+			user.setName(userData.getName());
+		}
+		
+		if(userData.getEmail() != null) {
+			user.setEmail(userData.getEmail());			
+		}
+		
+		if(userData.getNewPassword() != null) {
+			if (user.getPassword().equals(String.valueOf(userData.getOldPassword().hashCode()))) {
+				user.setPassword(String.valueOf(userData.getNewPassword().hashCode()));			
+			} else {
+				throw new InvalidPassword("Password is incorrect");
+			}
+		}
+		
+		if(userData.getBalance() != null) {
+			user.getBalance().setAmount((userData.getBalance()));			
+		}
 
 		return userRepository.save(user);
 	}

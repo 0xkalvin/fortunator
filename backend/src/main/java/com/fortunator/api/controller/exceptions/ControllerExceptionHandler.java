@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.fortunator.api.service.exceptions.EmailExistsException;
+import com.fortunator.api.service.exceptions.InvalidPassword;
 import com.fortunator.api.service.exceptions.ResourceNotFoundException;
 import com.fortunator.api.service.exceptions.UserNotFoundException;
 
@@ -29,6 +30,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<StandardError> resourceNotFound(EmailExistsException e, HttpServletRequest request) {
 		String error = "Email alredy registered";
 		HttpStatus status = HttpStatus.CONFLICT;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(InvalidPassword.class)
+	public ResponseEntity<StandardError> invalidPassword(InvalidPassword e, HttpServletRequest request) {
+		String error = "Password is not correct";
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
 				request.getRequestURI());
 		return ResponseEntity.status(status).body(err);

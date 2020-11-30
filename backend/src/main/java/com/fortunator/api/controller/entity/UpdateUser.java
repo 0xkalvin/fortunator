@@ -2,33 +2,29 @@ package com.fortunator.api.controller.entity;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.NotBlank;
-
 public class UpdateUser {
 
-	@NotBlank
 	private Long userId;
 	
-	@NotBlank
 	private String name;
 	
-	@NotBlank
 	private String email;
 	
-	@NotBlank
-	private String password;
+	private String oldPassword;
 	
-	@NotBlank
+	private String newPassword;
+	
 	private BigDecimal balance;
 	
 	public UpdateUser() {
 	}
 	
-	public UpdateUser(Long userId, String name, String email, String password, BigDecimal balance) {
+	public UpdateUser(Long userId, String name, String email, String oldPassword, String newPassword, BigDecimal balance) {
 		this.userId = userId;
 		this.name = name;
 		this.email = email;
-		this.password = password;
+		this.oldPassword = oldPassword;
+		this.newPassword = newPassword;
 		this.balance = balance;
 	}
 
@@ -55,13 +51,21 @@ public class UpdateUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getPassword() {
-		return password;
+	
+	public String getOldPassword() {
+		return oldPassword;
+	}
+	
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
 	public BigDecimal getBalance() {
