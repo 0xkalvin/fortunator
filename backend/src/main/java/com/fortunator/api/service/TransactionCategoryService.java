@@ -18,6 +18,7 @@ import com.fortunator.api.service.exceptions.UserNotFoundException;
 public class TransactionCategoryService {
 	
 	private static final boolean DISABLE = false;
+	private static final boolean ACTIVE = true;
 
 	@Autowired
 	private TransactionCategoryRepository transactionCategoryRepository;
@@ -30,6 +31,7 @@ public class TransactionCategoryService {
 				.orElseThrow(() -> new UserNotFoundException("User does not exist"));
 
 		transactionCategory.setUser(user);
+		transactionCategory.setActive(ACTIVE);
 		transactionCategory.setName(transactionCategory.getName().replaceAll(" ", "_").toLowerCase());
 		return transactionCategoryRepository.save(transactionCategory);
 	}

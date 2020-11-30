@@ -1,10 +1,10 @@
 package com.fortunator.api.service.exceptions;
 
-public class InsufficientFundsException extends RuntimeException{
+public class InvalidPassword extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 	
-	public InsufficientFundsException(String message){
+	public InvalidPassword(String message){
 		super(message);
 	}
 }
