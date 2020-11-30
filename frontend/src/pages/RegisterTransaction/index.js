@@ -17,7 +17,8 @@ export default function RegisterTransaction() {
         const [amountMasked, setAmountMasked] = useState('');
         const [type, setType] = useState('INCOMING');
         const [category, setCategory] = useState('1');
-        const [categoryOptions, setCategoryOptions] = useState([]);
+        const [categoryOptions, setCategoryOptions] = useState([])
+        const [categoryOptionsCreated, setCategoryOptionsCreated] = useState([]); //Only categories created by the user
 
         async function trasactionRegister(){
             if(type==="" || type==="Nenhum"){
@@ -63,7 +64,20 @@ export default function RegisterTransaction() {
                 }
             }, []) // <-- empty dependency array
             return <div></div>
-        }      
+        }   
+        
+        function HandleCategoryCreated(props){
+            useEffect(()=>{
+                try {
+                    api.get('/transactions/categories/created/' + localStorage.getItem('userId')).then(response => {
+                        setCategoryOptionsCreated(response.data);
+                    });
+                } catch (err) {
+                    alert("Algo deu errado :(");
+                }
+            }, []) // <-- empty dependency array
+            return <div></div>
+        }  
 
         const onChangeRealMask = ev => {         
             setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
@@ -81,6 +95,7 @@ export default function RegisterTransaction() {
                     const response = await api.delete('/transactions/categories/' + category, headers)
                         if(response.status === 200){
                            alert("Categoria excluída com sucesso!");
+                           window.location.reload(false);
                         }
                 }catch(err){
                     if(err.response === undefined){
@@ -103,11 +118,11 @@ export default function RegisterTransaction() {
                     <p style={{paddingBottom:"3%"}}>Escolha a categoria que deseja excluir.</p> 
 
                     {(function () {
-                            if(categoryOptions.length !== 0){
+                            if(categoryOptionsCreated.length !== 0){
                                 return(
                                 <select description="Transactionn" className="input-maior" onChange={e => {setCategory(e.target.value)}}>                                                  
-                                    {categoryOptions.map(categoryOption => (                                                      
-                                        <option key={categoryOption.id} value={categoryOption.id}>{categoryOption.description}</option>       
+                                    {categoryOptionsCreated.map(categoryOptionsCreated => (                                                      
+                                        <option key={categoryOptionsCreated.id} value={categoryOptionsCreated.id}>{categoryOptionsCreated.description}</option>       
                                     ))}
                                 </select>
                                 )
@@ -124,6 +139,7 @@ export default function RegisterTransaction() {
             </div>   
 
             {HandleCategory()}
+            {HandleCategoryCreated()}
             <Hamburguer/>  
             <div className="div-gif">
                 <img className="wallet-gif" src={walletGif} alt="wallet-gif" height="170px" />
