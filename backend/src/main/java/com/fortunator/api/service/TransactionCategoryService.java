@@ -29,7 +29,8 @@ public class TransactionCategoryService {
 	public TransactionCategory createCategory(TransactionCategory transactionCategory) {
 		User user = userRepository.findById(transactionCategory.getUser().getId())
 				.orElseThrow(() -> new UserNotFoundException("User does not exist"));
-
+		
+		transactionCategory.setActive(true);
 		transactionCategory.setUser(user);
 		transactionCategory.setActive(ACTIVE);
 		transactionCategory.setName(transactionCategory.getName().replaceAll(" ", "_").toLowerCase());

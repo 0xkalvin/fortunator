@@ -8,6 +8,7 @@ import walletGif from '../../assets/wallet.gif'
 import Hamburguer from '../../components/Hamburguer'
 import { mask, unMask } from 'remask'
 import { BsPlusSquare } from 'react-icons/bs';
+import { FiTrash2 } from 'react-icons/fi';
 
 export default function RegisterTransaction() {
         const [description, setDescription] = useState('');
@@ -16,7 +17,8 @@ export default function RegisterTransaction() {
         const [amountMasked, setAmountMasked] = useState('');
         const [type, setType] = useState('INCOMING');
         const [category, setCategory] = useState('1');
-        const [categoryOptions, setCategoryOptions] = useState([]);
+        const [categoryOptions, setCategoryOptions] = useState([])
+        const [categoryOptionsCreated, setCategoryOptionsCreated] = useState([]); //Only categories created by the user
 
         async function trasactionRegister(){
             if(type==="" || type==="Nenhum"){
@@ -62,16 +64,82 @@ export default function RegisterTransaction() {
                 }
             }, []) // <-- empty dependency array
             return <div></div>
-        }      
+        }   
+        
+        function HandleCategoryCreated(props){
+            useEffect(()=>{
+                try {
+                    api.get('/transactions/categories/created/' + localStorage.getItem('userId')).then(response => {
+                        setCategoryOptionsCreated(response.data);
+                    });
+                } catch (err) {
+                    alert("Algo deu errado :(");
+                }
+            }, []) // <-- empty dependency array
+            return <div></div>
+        }  
 
         const onChangeRealMask = ev => {         
             setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
             setAmount(unMask(amountMasked));
         } 
 
+        async function deleteCategory(){
+            if(category===""){
+                alert("Selecione uma categoria. ");
+            }else{
+                try{
+                    const headers = {
+                        "Content-Type": "application/json"
+                    }
+                    const response = await api.delete('/transactions/categories/' + category, headers)
+                        if(response.status === 200){
+                           alert("Categoria excluída com sucesso!");
+                           window.location.reload(false);
+                        }
+                }catch(err){
+                    if(err.response === undefined){
+                        alert("Algo deu errado :(");
+                    }else{
+                        if(err.response.status >= 500){
+                            alert("Serviço indisponível.");
+                        }
+                    }                                            
+                }  
+            }
+        }
+
         return (
-        <div>  
+        <div> 
+            <div id="abrirModal" class="modal">
+                <div>
+                    <a href="#fechar" title="Fechar" class="fechar">x</a>
+                    <h2 style={{paddingBottom:"3%"}}>Exclusão de categoria</h2>
+                    <p style={{paddingBottom:"3%"}}>Escolha a categoria que deseja excluir.</p> 
+
+                    {(function () {
+                            if(categoryOptionsCreated.length !== 0){
+                                return(
+                                <select description="Transactionn" className="input-maior" onChange={e => {setCategory(e.target.value)}}>                                                  
+                                    {categoryOptionsCreated.map(categoryOptionsCreated => (                                                      
+                                        <option key={categoryOptionsCreated.id} value={categoryOptionsCreated.id}>{categoryOptionsCreated.description}</option>       
+                                    ))}
+                                </select>
+                                )
+                            }else{
+                                return(
+                                <select description="Transactionn" className="input-maior">                                                                                                       
+                                        <option>Nenhuma Opção Disponível</option>       
+                                </select>
+                                )
+                            }
+                        })()}
+                    <button className="button-intern" type="button" style={{marginLeft:"23%"}} onClick={deleteCategory}>Excluir</button>
+                </div>
+            </div>   
+
             {HandleCategory()}
+            {HandleCategoryCreated()}
             <Hamburguer/>  
             <div className="div-gif">
                 <img className="wallet-gif" src={walletGif} alt="wallet-gif" height="170px" />
@@ -133,6 +201,8 @@ export default function RegisterTransaction() {
                             }
                         })()}
                         <Link to="/register-category" className="tooltip" data-title="Criar Categoria"><BsPlusSquare size={22} color="#00A0A0"  /></Link>
+                        <a href="#abrirModal" className="tooltip" data-title="Excluir Categoria"><FiTrash2 size={22} color="#00A0A0"  /></a>
+                        
                     </div>
                     <div className="div-input-transacao-direita">
                         <label htmlFor="TypeTransaction"><h2 className="h2-label">Tipo</h2></label>

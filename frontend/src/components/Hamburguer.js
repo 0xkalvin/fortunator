@@ -12,6 +12,7 @@ import api from '../service/api';
 const Hamburguer=()=> {
     const [userLevel, setUserLevel] = useState('');
     const [userScore, setUserScore] = useState('');
+    const [userLevelName, setUserLevelName] = useState('');
     var userId = localStorage.getItem('userId');
     const [goLogout, setGoLogout] = useState(false);
 
@@ -26,8 +27,9 @@ const Hamburguer=()=> {
         useEffect(()=>{          
             try {                  
                 api.get('/users/' + userId).then( res => {  
-                    setUserLevel(res.data.level);
+                    setUserLevel(res.data.level.level);
                     setUserScore(res.data.score);
+                    setUserLevelName(res.data.level.levelName);
                 });
             } catch (err) {
                 alert("Algo deu errado :(");
@@ -50,12 +52,13 @@ const Hamburguer=()=> {
                         <span></span> 
                         
                         <ul id="menu">
-                            <li style={{color: "#FFE500"}}><FaUserCircle size={30} color="#FFE500" /><b style={{paddingLeft: "4%", fontSize: "28px"}}>{localStorage.getItem('userName')}</b><p style={{fontSize: "20px"}}>{userLevel}<br/>Score: {userScore}</p></li>
+                            <li style={{color: "#FFE500"}}><FaUserCircle size={30} color="#FFE500" /><b style={{paddingLeft: "4%", fontSize: "28px"}}>{localStorage.getItem('userName')}</b><p style={{fontSize: "20px", paddingTop:"3%"}}>LvL {userLevel} - {userLevelName}<br/>Score: {userScore}<br/></p></li>
                             <Link to="/home"><li><BsHouseDoor size={22} color="#f0f0f5" /> Home</li></Link>
+                            <Link to="/profile"><li><FaUserCircle size={30} color="#f0f0f5" /> Perfil</li></Link>
                             <Link to="/register-transaction"><li><RiCoinsLine size={22} color="#f0f0f5" /> Transações</li></Link>
                             <Link to="/extract"><li><IoMdPaper size={22} color="#f0f0f5" /> Extrato</li></Link>
                             <Link to="#"><li><BsAlarm size={22} color="#f0f0f5" /> Lembretes</li></Link>
-                            <Link to="#"><li><FaTasks size={22} color="#f0f0f5" /> Metas</li></Link>
+                            <Link to="/goals"><li><FaTasks size={22} color="#f0f0f5" /> Metas</li></Link>
                             <Link to="#"><li><AiOutlineInfoCircle size={22} color="#f0f0f5" /> Sobre os devs</li></Link>
                             <Link to="#"><li><FiPhone size={22} color="#f0f0f5" /> Contato</li></Link>
                             <Link to="#" onClick={e => { logout()}}><li><AiOutlinePoweroff size={22} color="#f0f0f5" /> Sair</li></Link>
