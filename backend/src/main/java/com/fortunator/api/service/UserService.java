@@ -2,7 +2,21 @@ package com.fortunator.api.service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.Properties;
+import java.util.UUID;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.security.auth.login.LoginException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +33,8 @@ import com.fortunator.api.service.exceptions.UserNotFoundException;
 
 @Service
 public class UserService {
+
+	private static final String EMAIL_FROM = "suporte.fortunator@gmail.com";
 
 	@Autowired
 	private UserRepository userRepository;
@@ -41,6 +57,56 @@ public class UserService {
 		user.setLevel(level);
 
 		return userRepository.save(user);
+	}
+
+	public void resetPassword(String email) throws AddressException, MessagingException {
+		User user = findByEmail(email)
+				.orElseThrow(() -> new UserNotFoundException("Email not registered for any user"));
+
+		String newPass = generateNewPass(user);
+		sendEmailWithPass(newPass, email);
+	}
+
+	private String generateNewPass(User user) {
+		String generatedString = UUID.randomUUID().toString();
+
+		user.setPassword(String.valueOf(generatedString.substring(0, 7).hashCode()));
+		userRepository.save(user);
+
+		return generatedString.substring(0, 7);
+	}
+
+	private void sendEmailWithPass(String newPass, String email) throws AddressException, MessagingException {
+		Properties prop = System.getProperties();
+		prop.put("mail.smtp.auth", true);
+		prop.put("mail.smtp.starttls.enable", "true");
+		prop.put("mail.smtp.host", "smtp.gmail.com");
+		prop.put("mail.smtp.port", 587);
+		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+		Session session = Session.getInstance(prop, new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("suporte.fortunator@gmail.com", "fortunator123");
+			}
+		});
+
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress("suporte.fortunator@gmail.com"));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+		message.setSubject("Sua nova senha");
+
+		String msg = "Use esta nova senha para realizar o login " + newPass;
+
+		MimeBodyPart mimeBodyPart = new MimeBodyPart();
+		mimeBodyPart.setContent(msg, "text/html");
+
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(mimeBodyPart);
+
+		message.setContent(multipart);
+
+		Transport.send(message);
 	}
 
 	public Optional<User> findByEmail(String email) {
