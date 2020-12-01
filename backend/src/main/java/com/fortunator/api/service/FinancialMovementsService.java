@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class FinancialMovementsService {
 	}
 
 	public List<MovementByCategory> calculateExpensesByCategory(String yearMonth, Long userId) {
-		List<Transaction> transactions = transactionService.findByMonthYearAndUser(yearMonth, userId);
+		List<Transaction> transactions = transactionService.findByMonthYearAndUser(yearMonth, userId, Optional.empty());
 
 		List<Transaction> expensesTransactions = filterExpensesTransactions(transactions);
 

@@ -104,7 +104,7 @@ public class DevConfig implements CommandLineRunner {
 		transactionFastFood.setUser(user);
 		transactionFastFood.setAmount(new BigDecimal(50.0));
 		transactionFastFood.setDescription("Dinner");
-		transactionFastFood.setDate(LocalDate.of(2020, 1, 2));
+		transactionFastFood.setDate(LocalDate.now());
 
 		transactionRepository.save(transactionSalary);
 		transactionRepository.save(transactionFastFood);

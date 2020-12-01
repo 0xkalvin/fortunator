@@ -112,7 +112,7 @@ public class TransactionServiceTest {
 		when(userSerice.findUserById(1L)).thenReturn(emptyUser);
 		
 		UserNotFoundException thrown = assertThrows(UserNotFoundException.class,
-				() -> transactionService.findByMonthYearAndUser("", 1L));
+				() -> transactionService.findByMonthYearAndUser("", 1L, Optional.empty()));
 		assertTrue(thrown.getMessage().equals("User not found"));
 	}
 	
@@ -123,7 +123,7 @@ public class TransactionServiceTest {
 		when(userSerice.findUserById(1L)).thenReturn(optionalUser);
 		doReturn(transactions).when(transactionRepository).findByMonthYearAndUser(2020, 10, 1L);
 		
-		List<Transaction> transactionsResult = transactionService.findByMonthYearAndUser("2020-10", 1L);
+		List<Transaction> transactionsResult = transactionService.findByMonthYearAndUser("2020-10", 1L, Optional.empty());
 		
 		assertEquals(transactions.size(), transactionsResult.size());
 	}
