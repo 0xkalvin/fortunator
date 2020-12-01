@@ -48,9 +48,7 @@ export default function Goals() {
                                         <p>{extract.date}</p> */}
                                         <h3>{extract.description}</h3>
                                         <p>{extract.status}</p>
-                                        <p><b>META:</b> R$ {extract.amount}</p>
-                                        
-                                        
+                                        <p><b>META:</b> R$ {extract.amount}</p>                                                       
                                     </div>      
                                     {/* <p className="extract-amount-incoming">+ R$ {extract.amount}</p> */}
                                     <p style={{paddingBottom:"3%"}}><b>Progresso:</b> R$ {extract.progressAmount} ( {extract.progressPercentage}% )</p>

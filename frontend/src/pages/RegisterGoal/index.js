@@ -33,7 +33,7 @@ export default function RegisterGoal() {
                     }
                     const response = await api.post('/goals', data, headers)
                         if(response.status === 201){
-                           alert("Transação cadastrada com sucesso!");
+                           alert("Meta cadastrada com sucesso!");
                         }
                 }catch(err){
                     if(err.response === undefined){
