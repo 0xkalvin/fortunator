@@ -10,6 +10,8 @@ import Hamburguer from '../../components/Hamburguer'
 export default function Extract() {
         const [extract, setExtract] = useState([]);
         const [date, setDate] = useState('');
+        const [category, setCategory] = useState([]);
+        const [categoryOptions, setCategoryOptions] = useState([]);
 
         function HandleExtractFirstTime(props){
             useEffect(()=>{
@@ -28,14 +30,38 @@ export default function Extract() {
             }, []) // <-- empty dependency array
             return <div></div>
         }   
+
+        function HandleCategory(props) {
+            useEffect(() => {
+              try {
+                api
+                  .get("/transactions/categories/" + localStorage.getItem("userId"))
+                  .then((response) => {
+                    setCategoryOptions(response.data);
+                  });
+              } catch (err) {
+                alert("Algo deu errado :(");
+              }
+            }, []); // <-- empty dependency array
+            return <div></div>;
+          }
         
-        async function HandleExtract(props){        
+        async function HandleExtract(props){       
+            console.log(category);
+            console.log(date);
+
+            if(category.length === 0 && date === "" ){
+                alert("Selecione uma data e/ou uma categoria para filtrar.")
+            }if(category.length != 0 && date === "" ){
+                alert("Selecione uma data para filtrar.")
+            }else{
                 try {
-                    const res = await api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: date } })
+                    const res = await api.get('/transactions', { params: { user_id: localStorage.getItem('userId'), year_month: date, category_id: category} })
                         setExtract(res.data);     
                 } catch (err) {
                     alert("Algo deu errado :(");
                 }
+            }
         }  
 
         const ExtractComponent = (note) => {
@@ -75,6 +101,7 @@ export default function Extract() {
 
         return ( 
         <div>  
+            {HandleCategory()}
             {HandleExtractFirstTime()}
             <Hamburguer/>  
             <div className="div-gif">
@@ -88,13 +115,44 @@ export default function Extract() {
                     <FiArrowLeft size={22} color="#00a8a0" />
                     Voltar
             </Link>
-            <input
-                className="input-date"
-                id="date"
-                type="month"
-                value={date}
-                onChange={e => { setDate(e.target.value);}}
-            />
+
+            <div style={{display:"flex"}}>
+                {(function () {
+                if (categoryOptions.length !== 0) {
+                return (
+                    <select
+                    style={{width:"70%"}}
+                    description="Transactionn"
+                    className="input-maior"
+                    onChange={(e) => {
+                        setCategory(e.target.value);
+                    }}
+                    >
+                    {categoryOptions.map((categoryOption) => (
+                        <option key={categoryOption.id} value={categoryOption.id}>
+                        {categoryOption.description}
+                        </option>
+                        
+                    ))}
+                        <option selected>Todas</option>
+                    </select>
+                );
+                } else {
+                return (
+                    <select description="Transactionn" className="input-maior">
+                    <option>Nenhuma Opção Disponível</option>
+                    </select>
+                );
+                }
+            })()}
+                <input
+                    className="input-date"
+                    id="date"
+                    type="month"
+                    value={date}
+                    onChange={e => { setDate(e.target.value);}}
+                />
+            </div>
             <button className="button-filter" onClick={e => HandleExtract()}>Filtrar</button>
             {(function () {
                 if(extract.length > 0){
