@@ -8,6 +8,7 @@ import goalGif from '../../assets/goal.gif'
 import Hamburguer from '../../components/Hamburguer'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import { BsPlusSquare } from 'react-icons/bs';
+import { BiCheck } from 'react-icons/bi';
 import { mask, unMask } from 'remask'
 import { Button, Progress } from 'semantic-ui-react'
 
@@ -44,7 +45,13 @@ export default function Goals() {
                                 <div className="content">
                                     <div className="div-date">
                                         <h3>{goal.description}</h3>
-                                        <p>{goal.status}</p>
+                                        {(function () {
+                                            if(goal.status === "IN_PROGRESS"){
+                                                return(<p>Em andamento</p>)
+                                            }if(goal.status === "DONE"){
+                                                return <p style={{color:"#00a8a0"}}><BiCheck size={20} color="#00A0A0"  />Concluída</p>
+                                            }       
+                                        })()}
                                         <p><b>META:</b> R$ {goal.amount}</p>                                                       
                                     </div>      
                                     <p style={{paddingBottom:"3%"}}><b>Progresso:</b> R$ {goal.progressAmount} ( {goal.progressPercentage}% )</p>
