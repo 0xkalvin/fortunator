@@ -88,6 +88,8 @@ export default function RegisterTransaction() {
           .get("/transactions/categories/" + localStorage.getItem("userId"))
           .then((response) => {
             setCategoryOptions(response.data);
+            var lenCategoryOptions = response.data.length - 1;
+            setCategory(response.data[lenCategoryOptions].id);
           });
       } catch (err) {
         alert("Algo deu errado :(");
@@ -282,9 +284,10 @@ export default function RegisterTransaction() {
                   }}
                 >
                   {categoryOptions.map((categoryOption) => (
-                    <option key={categoryOption.id} value={categoryOption.id}>
+                    <option selected key={categoryOption.id} value={categoryOption.id}>
                       {categoryOption.description}
                     </option>
+                    
                   ))}
                 </select>
               );
