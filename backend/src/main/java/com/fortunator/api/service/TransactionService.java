@@ -1,9 +1,8 @@
 package com.fortunator.api.service;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fortunator.api.models.Transaction;
 import com.fortunator.api.models.TransactionCategory;
-import com.fortunator.api.models.TransactionTypeEnum;
 import com.fortunator.api.models.User;
 import com.fortunator.api.repository.TransactionRepository;
 import com.fortunator.api.service.exceptions.ResourceNotFoundException;
@@ -48,13 +46,19 @@ public class TransactionService {
 		return transactionRepository.save(transaction);
 	}
 
-	public List<Transaction> findByMonthYearAndUser(String yearAndMonth, Long userId) {
+	public List<Transaction> findByMonthYearAndUser(String yearAndMonth, Long userId, Optional<Long> categoryOpt) {
 		if (!userService.findUserById(userId).isPresent()) {
 			throw new UserNotFoundException("User not found");
 		}
+
 		String[] yearAndMonthArray = yearAndMonth.split("-");
-		return transactionRepository.findByMonthYearAndUser(Integer.valueOf(yearAndMonthArray[0]),
+		List<Transaction> transactions = transactionRepository.findByMonthYearAndUser(Integer.valueOf(yearAndMonthArray[0]),
 				Integer.valueOf(yearAndMonthArray[1]), userId);
+		
+		if(categoryOpt.isPresent()) {
+			return transactions.stream().filter(transaction -> transaction.getTransactionCategory().getId().equals(categoryOpt.get())).collect(Collectors.toList());
+		}
+		return transactions;
 	}
 	
 	public List<Transaction> findByYearAndUser(Integer year, Long userId){

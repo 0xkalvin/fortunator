@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -89,7 +90,7 @@ public class FinancialMovementsServiceTest {
 		categories.add(busTransactionCategory);
 		categories.add(foodTransactionCategory);
 		
-		when(transactionService.findByMonthYearAndUser(YEAR_MONTH, USER_ID)).thenReturn(transactions);
+		when(transactionService.findByMonthYearAndUser(YEAR_MONTH, USER_ID, Optional.empty())).thenReturn(transactions);
 		when(expenseTransaction.getType()).thenReturn(TransactionTypeEnum.EXPENSE);
 		when(incomingTransaction.getType()).thenReturn(TransactionTypeEnum.INCOMING);
 		when(transactionCategoryService.getCategoriesByUserId(USER_ID)).thenReturn(categories);

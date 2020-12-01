@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class TransactionControllerTest {
 
 	@Test
 	public void shouldReturnNoContent() throws Exception {
-		MockHttpServletRequestBuilder requestResponse = get("/transactions?user_id=1&year_month=2020-11")
+		MockHttpServletRequestBuilder requestResponse = get("/transactions?user_id=1&year_month=2020-11&category_id=1")
 				.contentType(MediaType.APPLICATION_JSON);
 		this.mockMvc.perform(requestResponse).andExpect(status().isNoContent());
 	}
@@ -48,9 +49,9 @@ public class TransactionControllerTest {
 	@Test
 	public void shouldReturnTransactionsByMonth() throws Exception {
 		transactions.add(createTransaction());
-		when(transactionService.findByMonthYearAndUser(YEAR_MONTH, USER_ID)).thenReturn(transactions);
+		when(transactionService.findByMonthYearAndUser(YEAR_MONTH, USER_ID, Optional.empty())).thenReturn(transactions);
 
-		this.mockMvc.perform(get("/transactions?user_id=1&year_month=2020-11")).andExpect(status().isOk())
+		this.mockMvc.perform(get("/transactions?user_id=1&year_month=2020-11&category_id=")).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].amount", is(2000)))
 				.andExpect(jsonPath("$[0].transactionCategory.name", is("salary")))
 				.andExpect(jsonPath("$[0].description", is("Salary Incoming")))
