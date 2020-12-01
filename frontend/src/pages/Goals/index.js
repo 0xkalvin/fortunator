@@ -12,7 +12,7 @@ import { mask, unMask } from 'remask'
 import { Button, Progress } from 'semantic-ui-react'
 
 export default function Goals() {
-        const [extract, setExtract] = useState([]);
+        const [goal, setGoal] = useState([]);
         const [increaseAmount, setIncreaseAmount] = useState('');
         const [goalName, setGoalName] = useState('');
         const [goalId, setGoalId] = useState('');
@@ -26,7 +26,7 @@ export default function Goals() {
             useEffect(()=>{
                 try {
                     api.get('/goals', { params: { user_id: localStorage.getItem('userId')} }).then(res => {
-                        setExtract(res.data);                        
+                        setGoal(res.data);                        
                     });
                 } catch (err) {
                     alert("Algo deu errado :(");
@@ -38,22 +38,18 @@ export default function Goals() {
         const ExtractComponent = (note) => {
             return (                  
                 <div className="timeline">                 
-                    {extract.map(extract => { 
+                    {goal.map(goal => { 
                             return(
-                            <div className="container-incoming-goal left"  key={extract.id}>
+                            <div className="container-incoming-goal left"  key={goal.id}>
                                 <div className="content">
                                     <div className="div-date">
-                                        {/* <h3>{extract.description}</h3>
-                                        <p>{extract.transactionCategory.description}</p>
-                                        <p>{extract.date}</p> */}
-                                        <h3>{extract.description}</h3>
-                                        <p>{extract.status}</p>
-                                        <p><b>META:</b> R$ {extract.amount}</p>                                                       
+                                        <h3>{goal.description}</h3>
+                                        <p>{goal.status}</p>
+                                        <p><b>META:</b> R$ {goal.amount}</p>                                                       
                                     </div>      
-                                    {/* <p className="extract-amount-incoming">+ R$ {extract.amount}</p> */}
-                                    <p style={{paddingBottom:"3%"}}><b>Progresso:</b> R$ {extract.progressAmount} ( {extract.progressPercentage}% )</p>
-                                    <p style={{color:"rgb(0, 187, 31)", paddingBottom:"3%"}}>+ {extract.score} xp</p>
-                                    <button className="button-intern-add-progress"  onClick={e=>setParameters(`${extract.description}`,`${extract.amount}`,`${extract.id}`,`${extract.progressAmount}`, `${extract.progressPercentage}`)}>Progresso</button>
+                                    <p style={{paddingBottom:"3%"}}><b>Progresso:</b> R$ {goal.progressAmount} ( {goal.progressPercentage}% )</p>
+                                    <p style={{color:"rgb(0, 187, 31)", paddingBottom:"3%"}}>+ {goal.score} xp</p>
+                                    <button className="button-intern-add-progress"  onClick={e=>setParameters(`${goal.description}`,`${goal.amount}`,`${goal.id}`,`${goal.progressAmount}`, `${goal.progressPercentage}`)}>Progresso</button>
                                 </div>            
                             </div>   
                         )                                                                               
@@ -71,17 +67,39 @@ export default function Goals() {
             setGoalProgressPercentage(goalProgressPercentageParam)
         }
         
-        const onChangeRealMask = ev => {         
-            setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
-            setAmount(unMask(amountMasked));
-        } 
+        const onChangeRealMask = (ev) => {
+            const amountValue = unMask(ev.target.value);
+        
+            const brazilianPatterns = [
+              "9,99",
+              "99,99",
+              "999,99",
+              "9.999,99",
+              "99.999,99",
+              "999.999,99",
+            ];
+        
+            const maskedAmount = mask(amountValue, brazilianPatterns);
+        
+            setAmount(maskedAmount);
+          };
 
         async function refreshGoalAmount(){
             if(amount===""){
                 alert("Insira o valor para adicionar progresso. ");
             }else{
                 try{
-                    const data = {goalId:goalId, progressAmount:amount}
+                    const numberPatterns = [
+                        "9.99",
+                        "99.99",
+                        "999.99",
+                        "9,999.99",
+                        "99,999.99",
+                        "999,999.99",
+                      ];
+              
+                    const amountAsNumber = mask(unMask(amount), numberPatterns);
+                    const data = {goalId:goalId, progressAmount:amountAsNumber}
                     const headers = {
                         "Content-Type": "application/json"
                     }
@@ -119,7 +137,7 @@ export default function Goals() {
                         className="input-maior"
                         placeholder="R$ 0,00"
                         onChange={onChangeRealMask}
-                        value={amountMasked}
+                        value={amount}
                     />
                     <button className="button-intern" type="button" style={{marginLeft:"23%"}} onClick={refreshGoalAmount}>Salvar</button>
                 </div>
@@ -140,7 +158,7 @@ export default function Goals() {
             </Link>
             <Link to="/register-goal" className="tooltip" data-title="Nova meta" style={{marginLeft:"43.7%"}}><BsPlusSquare size={30} color="#00A0A0"  /></Link>
             {(function () {
-                if(extract.length > 0){
+                if(goal.length > 0){
                     return(<ExtractComponent/>)
                 }else{
                     return <div><h2>Nenhuma meta cadastrada</h2></div>

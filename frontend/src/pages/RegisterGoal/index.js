@@ -12,7 +12,7 @@ import { BsPlusSquare } from 'react-icons/bs';
 export default function RegisterGoal() {
         const [description, setDescription] = useState('');
         const [date, setDate] = useState('');
-        const [amount, setAmount] = useState('');
+        const [amount, setAmount] = useState("");
         const [amountMasked, setAmountMasked] = useState('');
         const [type, setType] = useState('BUDGET');
 
@@ -27,7 +27,17 @@ export default function RegisterGoal() {
                 alert("Insira o título da meta. ");
             }else{
                 try{
-                    const data = {description:description, date:date, amount:amount, type:type, user:{id:parseInt(localStorage.getItem('userId'))}}
+                    const numberPatterns = [
+                        "9.99",
+                        "99.99",
+                        "999.99",
+                        "9,999.99",
+                        "99,999.99",
+                        "999,999.99",
+                      ];
+              
+                    const amountAsNumber = parseInt(mask(unMask(amount), numberPatterns));
+                    const data = {description:description, date:date, amount:amountAsNumber, type:type, user:{id:parseInt(localStorage.getItem('userId'))}}
                     const headers = {
                         "Content-Type": "application/json"
                     }
@@ -47,10 +57,22 @@ export default function RegisterGoal() {
             }
         }
   
-        const onChangeRealMask = ev => {         
-            setAmountMasked(mask(ev.target.value, [ "9,99","99,99","999,99","9.999,99","99.999,99", "999.999,99"]));
-            setAmount(unMask(amountMasked));
-        } 
+        const onChangeRealMask = (ev) => {
+            const amountValue = unMask(ev.target.value);
+        
+            const brazilianPatterns = [
+              "9,99",
+              "99,99",
+              "999,99",
+              "9.999,99",
+              "99.999,99",
+              "999.999,99",
+            ];
+        
+            const maskedAmount = mask(amountValue, brazilianPatterns);
+        
+            setAmount(maskedAmount);
+          };
 
         return (
         <div>  
@@ -74,7 +96,7 @@ export default function RegisterGoal() {
                             className="input-maior"
                             placeholder="R$ 0,00"
                             onChange={onChangeRealMask}
-                            value={amountMasked}
+                            value={amount}
                         />
                     </div>
                     <div className="div-input-transacao-direita">
