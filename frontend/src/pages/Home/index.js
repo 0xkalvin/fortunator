@@ -156,7 +156,7 @@ export default function Home() {
                         <img src={finger} height="55px" alt="finger-gif" />
                         <div>
                             <h1 className="title-gif">Olá, {localStorage.getItem('userName')}</h1>
-                            <p className="sub-title">Bem-Vindo ao Fortunator.</p>
+                            <p className="sub-title">Você está utilizando o fortunator.</p>
                         </div>
                          
                         {(function () {
