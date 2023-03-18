@@ -7,3 +7,8 @@ FROM openjdk:11-jre-slim
 COPY --from=build /home/app/target/*.jar /usr/local/lib/*.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/*.jar"]
+
+FROM docker/compose:1.29.2
+WORKDIR /home/app
+COPY . /home/app
+CMD ["docker-compose", "up"]
